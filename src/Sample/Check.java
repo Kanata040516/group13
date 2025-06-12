@@ -7,6 +7,7 @@ public class Check {
 		
 		System.out.println("a");
 		System.out.println("b");
+		
 	}
 
 }

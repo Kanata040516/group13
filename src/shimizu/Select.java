@@ -4,12 +4,13 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+
+import yoshida.Text;
 
 public class Select {
-	String url = Text.url;
-	String user_name = Text.user_name;
-	String password = Text.password;
+	static String url = Text.url;
+	static String user_name = Text.user_name;
+	static String password = Text.password;
 	
 	
 	public static int selectReceipt(int menu, String what) {//注文履歴を表示するメソッド
@@ -55,14 +56,14 @@ public class Select {
 				int price =rs.getInt("price");//価格
 				String remark = ("remark");//備考
 				
-				System.out.printf("%s     %s\n  %s店\n取引内容：%s  %d円\n%s",id,date,customer,product,price,remark);
+				System.out.printf("%4s     %s\n  %s店\n取引内容：%s  %d円\n%s",id,date,customer,product,price,remark);
 				i++;//行数を数える
 			}//while
 			
 			}
 			
 			catch(Exception e){
-				System.out.println(Text.);
+				System.out.println(Text.tryCatch);
 			}
 		    
 		    finally {
@@ -114,14 +115,14 @@ public class Select {
 				String group = rs.getString("customer_group_name");//店舗形態
 				String name = rs.getString("customer_name");//顧客名
 				
-				System.out.printf("%s: [%s]  %s店",id,group,name);
+				System.out.printf("%4s: [%s]  %s店",id,group,name);
 				i++;//行数を数える
 			}//while
 			
 			}
 			
 			catch(Exception e){
-				System.out.println(Text.);
+				System.out.println(Text.tryCatch);
 			}
 		    
 		    finally {
@@ -182,7 +183,7 @@ public class Select {
 			}
 			
 			catch(Exception e){
-				System.out.println(Text.);
+				System.out.println(Text.tryCatch);
 			}
 		    
 		    finally {
@@ -216,7 +217,7 @@ public class Select {
 			}
 			
 			catch(Exception e){
-				System.out.println(Text.);
+				System.out.println(Text.tryCatch);
 			}
 		    
 		    finally {
@@ -250,7 +251,7 @@ public class Select {
 			}
 			
 			catch(Exception e){
-				System.out.println(Text.);
+				System.out.println(Text.tryCatch);
 			}
 		    
 		    finally {
@@ -293,7 +294,7 @@ public class Select {
 			}
 			
 			catch(Exception e){
-				System.out.println(Text.);
+				System.out.println(Text.tryCatch);
 			}
 		    
 		    finally {

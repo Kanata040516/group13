@@ -86,13 +86,13 @@ public class Receipt {
 				search = sc2.nextLine();
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 			}
-			
-			if (menu == 1 || menu == 2 || menu == 3 || menu == 4 || menu == 5  ) {
-
-//				Select.selectReceipt(); //Selectへ移動し、注文情報のSQLを実行する
-			}
 			sc1.close();
 			sc2.close();
+			selectReceipt();
 	}
+		public static void selectReceipt() {
+			   //Selectへ移動し、注文情報のSQLを実行する
+//				Select.selectReceipt(  ); 
+		}
 
 }

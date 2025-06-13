@@ -175,7 +175,7 @@ public class Select {
 				String name = rs.getString("product_detail_name");//商品名
 				int price = rs.getInt("price");//価格
 				
-				System.out.printf("%s: [%s]  %s  %d円",id,group,name,price);
+				System.out.printf("%4s: [%s]  %s  %d円",id,group,name,price);
 				i++;//行数を数える
 			}//while
 			
@@ -210,7 +210,7 @@ public class Select {
 				id = rs.getString("customer_group_id");//店舗形態ID
 				String name = rs.getString("customer_group_name");//店舗形態
 				
-				System.out.printf("%s:   %s\n",id,name);
+				System.out.printf("%4s:   %s\n",id,name);
 			}//while
 			
 			}
@@ -244,7 +244,7 @@ public class Select {
 				id = rs.getString("product_group_id");//分類ID
 				String name = rs.getString("product_group_name");//分類名
 				
-				System.out.printf("%s:   %s\n",id,name);
+				System.out.printf("%4s:   %s\n",id,name);
 			}//while
 			
 			}
@@ -260,10 +260,10 @@ public class Select {
 	}//selectItemGroup
 	
 	
-	public static String selectMember() {//従業員を表示するメソッド
+	public static int selectMember() {//従業員を表示するメソッド
 		
 		String sqlMember = "select * from member";
-		String id =null;
+		int i = 0;
 		
 		//ArrayList <String> members = new ArrayList<>();←全てのIDをJudge()に渡すためのアレイリスト、いらなそう
 		
@@ -277,16 +277,17 @@ public class Select {
 			
 			while(rs.next()) {
 				
-				id = rs.getString("member_no");//従業員の番号
+				String id = rs.getString("member_no");//従業員の番号
 				String name = rs.getString("eName");//従業員の名前
 				String eID = rs.getString("eID");//従業員のID(ユーザーネーム)
 				String ePass = rs.getString("ePass");//パスワード
 				
 				System.out.println("-------------------------------------------");
-				System.out.printf("%s:   %s\nID:%s   Pass:%s\n",id,name,eID,ePass);
+				System.out.printf("%4s:   %s\nID:%s   Pass:%s\n",id,name,eID,ePass);
 				
 				//members.add(eID);←IDを1行ずつリストに格納、繰り返されることで全てのIDが格納される、アレイリスト関連
 				
+				i++;
 			}//while
 			System.out.println("-------------------------------------------");
 			}
@@ -300,7 +301,7 @@ public class Select {
 		    }
 		
 		//return members;←アレイリスト関連
-		return id;
+		return i;
 	}//selectMember
 	
 }//Select

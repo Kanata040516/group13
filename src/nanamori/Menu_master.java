@@ -2,6 +2,16 @@ package nanamori;
 
 import java.util.Scanner;
 
+import yoshida.Main;
+
+import nakamori.EditReceipt;
+
+import nakamori.EditCustomer;
+
+import nakamori.EditItem;
+
+import nakamori.EditMember;
+
 public class Menu_master extends Menu_employee{
 
 	
@@ -28,27 +38,27 @@ public class Menu_master extends Menu_employee{
 		
 		if(mainmenu == 0) {//ホーム画面に移動する。
 			System.out.println("初期画面に移動します。");
-			//Main.home;
+			Main.home;
 		}
 		
 		if(mainmenu == 1) {//注文編集画面に移動する。
 			System.out.println("注文編集画面に移動します。");
-			//Editreceipt.???;//???の部分はどのメソッドを実行するか不明.
+			Editreceipt.???;//???の部分はどのメソッドを実行するか不明.
 		}
 		
 		if(mainmenu == 2) {//商品編集画面に移動する。
 			System.out.println("商品編集画面に移動します。");
-			//EditItem.???;//???の部分はどのメソッドを実行するか不明
+			EditItem.???;//???の部分はどのメソッドを実行するか不明
 		}
 		
 		if(mainmenu == 3) {//顧客編集画面に移動する。
 			System.out.println("顧客編集画面に移動します。");
-			//EditCustomer.???;//???の部分はどのメソッドを実行するか不明
+			EditCustomer.???;//???の部分はどのメソッドを実行するか不明
 		}
 		
 		if(mainmenu == 4) {//従業員編集画面に移動する。
 			System.out.println("従業員編集画面に移動します。");
-			//EditMember.???;//???の部分はどのメソッドを実行するか不明
+			EditMember.???;//???の部分はどのメソッドを実行するか不明
 		}
 		
 		if(mainmenu == 5) {//管理者閲覧画面に移動する。

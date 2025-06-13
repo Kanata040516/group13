@@ -47,9 +47,11 @@ public class Judge_pass_id {
                     System.out.println("ログイン成功！");
 
                     if (id.equals("0000")) {
-                        Menu_master.menu_master();
+                    	Menu_master master = new Menu_master();
+                    	master.menu_master();
                     } else {
-                        Menu_employee.menu_employee();
+                    	Menu_employee employee = new Menu_employee();
+                    	employee.menu_employee();
                     }
                 } else {
                     System.out.println("パスワードが違います。");

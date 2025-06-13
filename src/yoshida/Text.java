@@ -2,9 +2,9 @@ package yoshida;
 
 public class Text {
 	
-	static String url = "jdbc:mysql://localhost/lesson" ;
-	static String user_name = "testuser" ;
-	static String password = "testpass" ;
-	static String tryCatch = "トライキャッチで使います" ;
+	public static String url = "jdbc:mysql://localhost/lesson" ;
+	public static String user_name = "testuser" ;
+	public static String password = "testpass" ;
+	public static String tryCatch = "エラーが発生が発生しました" ;
 
 }

@@ -48,6 +48,9 @@ public class EditReceipt {
 		
 		System.out.println( "注文内容を入力してください。" );
 		
+		System.out.println( "注文ID" );
+		String receipt_id = sc.nextLine();
+		
 		System.out.println( "顧客名" );
 		String customer = sc.nextLine() ;
 		
@@ -63,7 +66,7 @@ public class EditReceipt {
 		System.out.println( "備考" );
 		String remark = sc.nextLine() ;
 		
-		String sql = "INSERT INTO receipt VALUES ( ?, ?, ?, ?, ? );" ;
+		String sql = "INSERT INTO receipt VALUES ( ?, ?, ?, ?, ?, ? );" ;
 		
 		try ( 
 			Connection con = DriverManager.getConnection( url , user_name , password ) ;
@@ -71,11 +74,12 @@ public class EditReceipt {
 			) {
 			
 			//入力値のセット(？マークの部分の差し替え)
-			ps.setString( 1, customer );
-			ps.setString( 2, item );
-			ps.setInt( 3, amount );
-			ps.setString( 4, date );
-			ps.setString( 5, remark );
+			ps.setString( 1, receipt_id );
+			ps.setString( 2, customer );
+			ps.setString( 3, item );
+			ps.setInt( 4, amount );
+			ps.setString( 5, date );
+			ps.setString( 6, remark );
 			
 			//SQL文の送信。
 			int result = ps.executeUpdate( );
@@ -205,7 +209,7 @@ public class EditReceipt {
 			int result = ps.executeUpdate( );
 				
 			if ( result == 1 ) {
-				System.out.println( "1件の書き込みが完了しました。" );
+				System.out.println( "削除しました。" );
 			}
 			else{
 				System.out.println( "書き込みに失敗しました。" );

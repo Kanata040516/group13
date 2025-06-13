@@ -46,6 +46,9 @@ public class EditMember {
   		
   		System.out.println( "従業員情報を入力してください。" );
   		
+  		System.out.println( "従業員番号" );
+  		String member_no = sc.nextLine() ;
+  		
   		System.out.println( "従業員名" );
   		String eName = sc.nextLine() ;
   		
@@ -55,7 +58,7 @@ public class EditMember {
   		System.out.println( "従業員パスワード" );
   		String ePass = sc.nextLine() ;
   		
-  		String sql = "INSERT INTO member VALUES ( ?, ?, ?);" ;
+  		String sql = "INSERT INTO member VALUES ( ?, ?, ?, ?);" ;
   		
   		try ( 
   			Connection con = DriverManager.getConnection( url , user_name , password ) ;
@@ -63,9 +66,10 @@ public class EditMember {
   			) {
   				
   			//入力値のセット(？マークの部分の差し替え)
-  			ps.setString( 1, eName );
-  			ps.setString( 2, eID );
-  			ps.setString( 3, ePass );
+  			ps.setString( 1, member_no );
+  			ps.setString( 2, eName );
+  			ps.setString( 3, eID );
+  			ps.setString( 4, ePass );
   				
   			//SQL文の送信。
   			int result = ps.executeUpdate( );
@@ -177,10 +181,10 @@ public class EditMember {
   			int result = ps.executeUpdate( );
   					
   			if ( result == 1 ) {
-  				System.out.println( "1件の書き込みが完了しました。" );
+  				System.out.println( "削除しました。" );
   			}
   			else{
-  				System.out.println( "書き込みに失敗しました。" );
+  				System.out.println( "失敗しました。" );
   			}
   		}
   		catch ( Exception e ) {

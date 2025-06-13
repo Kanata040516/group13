@@ -4,33 +4,35 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
-import java.util.ArrayList;
+
+import yoshida.Text;
 
 public class Select {
-	String url = Text.url;
-	String user_name = Text.user_name;
-	String password = Text.password;
+	static String url = Text.url;
+	static String user_name = Text.user_name;
+	static String password = Text.password;
 	
 	
-	public static String selectReceipt(int menu, String what) {//注文履歴を表示するメソッド
+	public static int selectReceipt(int menu, String what) {//注文履歴を表示するメソッド
 		String sqlReceipt = "select * from receipt join price_history "
 				+ "on receipt.price_history_id = price_history.price_history_id"
 				+ "join product_detail on price_history.product_detail_id = product_detail.product_detail_id"
 				+ "join product_group on product_detail.product_group_id = product_group.product_group_id"
-				+ "join product_type on product_group.product_type_id = product_type.product_type_id"
-				+ "where ? = ?";
+				+ "join product_type on product_group.product_type_id = product_type.product_type_id";;
 		
 		int m = menu;
 		String w  = what;
 		
-		String id = null;
+		int i = 0;
 		
 		try(
 				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
 				PreparedStatement ps = con.prepareStatement( sqlReceipt ) ;
 			)
 			{
-			
+			if(!(m == 5)) {
+				//一覧表示ではなく検索ならwhere句をSQL文に追加する
+				sqlReceipt += "where ? = ?";
 				switch(m) {
 				//メニュー選択で入力された値に基づき1つめの?にカラム名を代入
 				case 1:ps.setString(1, "receipt_id");break;//注文ID
@@ -41,45 +43,46 @@ public class Select {
 				
 				ps.setString(2, w);
 				//検索したい値を2つめの?に代入
-
+			}//if
 			
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				
-				id = rs.getString("receipt_id");//注文ID
+				String id = rs.getString("receipt_id");//注文ID
 				String date = rs.getString("order_date");//日付
 				String customer = rs.getString("customer_name");//顧客名
 				String product = rs.getString("product_name");//商品名
 				int price =rs.getInt("price");//価格
 				String remark = ("remark");//備考
 				
-				System.out.printf("%s     %s\n  %s店\n取引内容：%s  %d円\n%s",id,date,customer,product,price,remark);
+				System.out.printf("%4s     %s\n  %s店\n取引内容：%s  %d円\n%s",id,date,customer,product,price,remark);
+				i++;//行数を数える
 			}//while
 			
 			}
 			
 			catch(Exception e){
-				System.out.println(Text.);
+				System.out.println(Text.tryCatch);
 			}
 		    
 		    finally {
 		    	System.out.println("select〇");//debug
 		    }
 			
-		return id;
+		return i;
 		
 	}//selectReceipt
 	
 	
-	public static String selectCustomer(int menu, String what) {//顧客情報を表示するメソッド
+	public static int selectCustomer(int menu, String what) {//顧客情報を表示するメソッド
 		String sqlCustomer = "select * from customer join customer_group "
 				+ "on customer.customer_group_id = customer_group.customer_group_id ";
 		
 		int m = menu;
 		String w  = what;
 		
-		String id = null;
+		int i = 0;
 		
 		try(
 				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
@@ -108,28 +111,29 @@ public class Select {
 			
 			while(rs.next()) {
 				
-				id = rs.getString("customer_id");//顧客ID
+				String id = rs.getString("customer_id");//顧客ID
 				String group = rs.getString("customer_group_name");//店舗形態
 				String name = rs.getString("customer_name");//顧客名
 				
-				System.out.printf("%s: [%s]  %s店",id,group,name);
+				System.out.printf("%4s: [%s]  %s店",id,group,name);
+				i++;//行数を数える
 			}//while
 			
 			}
 			
 			catch(Exception e){
-				System.out.println(Text.);
+				System.out.println(Text.tryCatch);
 			}
 		    
 		    finally {
 		    	System.out.println("select〇");//debug
 		    }
 			
-			return id;
+			return i;
 	}//selectCustomer
 	
 	
-	public static String selectItem(int menu, String what) {//商品情報を表示するメソッド
+	public static int selectItem(int menu, String what) {//商品情報を表示するメソッド
 		String sqlItem = "select * from price_history join product_detail "
 				+ "on price_history.product_detail_id = product_detail.product_detail_id "
 				+ "join product_group on product_detail.product_group_id = product_group.product_group_id "
@@ -138,7 +142,7 @@ public class Select {
 		int m = menu;
 		String w  = what;
 		
-		String id = null;
+		int i = 0;;
 		
 		try(
 				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
@@ -167,25 +171,26 @@ public class Select {
 			
 			while(rs.next()) {
 				
-				id = rs.getString("product_detail_id");//商品ID
+				String id = rs.getString("product_detail_id");//商品ID
 				String group = rs.getString("product_group_name");//分類
 				String name = rs.getString("product_detail_name");//商品名
 				int price = rs.getInt("price");//価格
 				
-				System.out.printf("%s: [%s]  %s  %d円",id,group,name,price);
+				System.out.printf("%4s: [%s]  %s  %d円",id,group,name,price);
+				i++;//行数を数える
 			}//while
 			
 			}
 			
 			catch(Exception e){
-				System.out.println(Text.);
+				System.out.println(Text.tryCatch);
 			}
 		    
 		    finally {
 		    	System.out.println("select〇");//debug
 		    }
 		
-		return id;
+		return i;
 	}//selectItem
 	
 	
@@ -206,13 +211,13 @@ public class Select {
 				id = rs.getString("customer_group_id");//店舗形態ID
 				String name = rs.getString("customer_group_name");//店舗形態
 				
-				System.out.printf("%s:   %s\n",id,name);
+				System.out.printf("%4s:   %s\n",id,name);
 			}//while
 			
 			}
 			
 			catch(Exception e){
-				System.out.println(Text.);
+				System.out.println(Text.tryCatch);
 			}
 		    
 		    finally {
@@ -240,13 +245,13 @@ public class Select {
 				id = rs.getString("product_group_id");//分類ID
 				String name = rs.getString("product_group_name");//分類名
 				
-				System.out.printf("%s:   %s\n",id,name);
+				System.out.printf("%4s:   %s\n",id,name);
 			}//while
 			
 			}
 			
 			catch(Exception e){
-				System.out.println(Text.);
+				System.out.println(Text.tryCatch);
 			}
 		    
 		    finally {
@@ -256,10 +261,10 @@ public class Select {
 	}//selectItemGroup
 	
 	
-	public static String selectMember() {//従業員を表示するメソッド
+	public static int selectMember() {//従業員を表示するメソッド
 		
 		String sqlMember = "select * from member";
-		String id =null;
+		int i = 0;
 		
 		//ArrayList <String> members = new ArrayList<>();←全てのIDをJudge()に渡すためのアレイリスト、いらなそう
 		
@@ -273,22 +278,23 @@ public class Select {
 			
 			while(rs.next()) {
 				
-				id = rs.getString("member_no");//従業員の番号
+				String id = rs.getString("member_no");//従業員の番号
 				String name = rs.getString("eName");//従業員の名前
 				String eID = rs.getString("eID");//従業員のID(ユーザーネーム)
 				String ePass = rs.getString("ePass");//パスワード
 				
 				System.out.println("-------------------------------------------");
-				System.out.printf("%s:   %s\nID:%s   Pass:%s\n",id,name,eID,ePass);
+				System.out.printf("%4s:   %s\nID:%s   Pass:%s\n",id,name,eID,ePass);
 				
 				//members.add(eID);←IDを1行ずつリストに格納、繰り返されることで全てのIDが格納される、アレイリスト関連
 				
+				i++;
 			}//while
 			System.out.println("-------------------------------------------");
 			}
 			
 			catch(Exception e){
-				System.out.println(Text.);
+				System.out.println(Text.tryCatch);
 			}
 		    
 		    finally {
@@ -296,7 +302,7 @@ public class Select {
 		    }
 		
 		//return members;←アレイリスト関連
-		return id;
+		return i;
 	}//selectMember
 	
 }//Select

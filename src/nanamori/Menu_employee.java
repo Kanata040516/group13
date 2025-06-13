@@ -12,7 +12,7 @@ public class Menu_employee {
 		Scanner check = new Scanner(System.in);
 		
 		
-		mainmenu = check.nextInt();//入力した値をmainmenuに入れる
+		mainmenu = check.nextInt();//入力した値をmainmenuに入れる。
 		
 		
 		if(mainmenu == 0) {//ホームに戻る

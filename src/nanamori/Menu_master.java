@@ -18,7 +18,7 @@ public class Menu_master extends Menu_employee{
 		
 		if(mainmenu == 1) {//注文編集画面に移動する。
 			System.out.println("注文編集画面に移動します。");
-			//Editreceipt.???;//???の部分はどのメソッドを実行するか不明
+			//Editreceipt.???;//???の部分はどのメソッドを実行するか不明.
 		}
 		
 		if(mainmenu == 2) {//商品編集画面に移動する。

@@ -2,6 +2,8 @@ package miyakoshi;
 
 import java.util.Scanner;
 
+import com.sun.tools.javac.Main;
+
 public class Item {
 	
 		int menu = 0 ;  //0-6, 注文検索の項目
@@ -19,7 +21,7 @@ public class Item {
 						+ "操作したい番号をお選びください。\n");
 				System.out.println("");
 				System.out.println("0.ホーム画面\n" + "1. 商品ID \n" + "2.価格\n" + 
-				"3.商品名\n" + "4.商品分類\n" + "5.メニュー画面\n");
+				"3.商品名\n" + "4.商品分類\n" + "5.一覧表示\n" + "6.メニュー画面\n" +);
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 				
 				System.out.print("番号を入力 ： ");
@@ -49,7 +51,7 @@ public class Item {
 				search = sc2.nextLine();
 			}
 			
-			if (menu == 2) { 
+			else if (menu == 2) { 
 				System.out.println("\n【詳細検索】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("検索したい価格を入力してください。");
@@ -58,7 +60,7 @@ public class Item {
 				search = sc2.nextLine();
 			}
 			
-			if (menu == 3) { 
+			else if (menu == 3) { 
 				System.out.println("\n【詳細検索】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("検索したい商品名を入力してください。");
@@ -67,13 +69,16 @@ public class Item {
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 			}
 			
-			if (menu == 4) { 
+			else if (menu == 4) { 
 				System.out.println("\n【詳細検索】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("検索したい商品分類を入力してください。");
 				System.out.print("商品分類 ： ");
 				search = sc2.nextLine();
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
+			}
+			else if (menu == 5) { 
+				selectItem();//一覧表示なので詳細検索は無し
 			}
 			sc1.close();
 			sc2.close();
@@ -82,7 +87,28 @@ public class Item {
 		
 		public static void selectItem() {
 			   //Selectへ移動し、注文情報のSQLを実行する
-//				Select.selectReceipt(  ); 
+//			Select.selectReceipt(  ); 
+			
+			Scanner sc3 = new Scanner(System.in);  //検索終了後の画面移動
+			System.out.println("ーーーーーーーーーーーーーーーーーーーーーーーーーーー");
+			System.out.println("移動する画面を選択してください。\n");
+			System.out.println("0.ホーム画面\n" + "1.閲覧メニュー画面 \n");
+			System.out.println("ーーーーーーーーーーーーーーーーーーーーーーーーーーー\n");
+			
+			System.out.print("番号を入力 ： ");
+			sc3.nextInt();
+			
+			while(true) {
+				if ( menu == 0 ) {
+				Main.main() ; //ホーム画面へ
+				} else if (menu == 1) {
+//          	Menu_master();
+//				    Menu.employee();
+				} else {
+					System.out.println("\n【エラー：項目以外の内容の入力】");
+					System.out.println("0か1の番号を入力してください。\n");
+				}
+			}	
 		}
 
 }

@@ -7,6 +7,10 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import nanamori.Menu_employee;
+import nanamori.Menu_master;
+
+
 public class Judge_pass_id {
 ////テストでメイン作った
 //    public static void main(String[] args) {
@@ -16,13 +20,13 @@ public class Judge_pass_id {
     public static void judge() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("IDを入力してください：");
-        String inputId = scanner.nextLine();
+        String id = scanner.nextLine();
         System.out.println("パスワードを入力してください：");
-        String inputPass = scanner.nextLine();
+        String pass = scanner.nextLine();
 
         // DB接続情報
         String url = Text.url;
-        String user = Text.user_name;
+        String user_name = Text.user_name;
         String password = Text.password;
 
         Connection conn = null;
@@ -30,22 +34,22 @@ public class Judge_pass_id {
         ResultSet rs = null;
 
         try {
-            conn = DriverManager.getConnection(url, user, password);
+            conn = DriverManager.getConnection(url, user_name, password);
             String sql = "SELECT password FROM users WHERE id = ?";
             pstmt = conn.prepareStatement(sql);
-            pstmt.setString(1, inputId);
+            pstmt.setString(1, id);
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
                 String dbPass = rs.getString("password");
 
-                if (inputPass.equals(dbPass)) {
+                if (pass.equals(dbPass)) {
                     System.out.println("ログイン成功！");
 
-                    if (inputId.equals("0000")) {
-                        menu_master();
+                    if (id.equals("0000")) {
+                        Menu_master.menu_master();
                     } else {
-                        menu_employee();
+                        Menu_employee.menu_employee();
                     }
                 } else {
                     System.out.println("パスワードが違います。");

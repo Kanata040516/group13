@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.util.Scanner;
 
+import nanamori.Menu_employee;
 import nanamori.Menu_master;
 
 
@@ -48,7 +49,7 @@ public class Judge_pass_id {
                     if (id.equals("0000")) {
                         Menu_master.menu_master();
                     } else {
-                        menu_employee();
+                        Menu_employee.menu_employee();
                     }
                 } else {
                     System.out.println("パスワードが違います。");

@@ -4,7 +4,10 @@ import System.ID_Pass;
 
 public class EditReceipt {
 	
-	int menuEdit ;
+	public int menuEdit ; //どの処理を行うかを選択する変数
+	Scanner sc = new Scanner(System.in);
+	System.out.println();
+
 
 
 	

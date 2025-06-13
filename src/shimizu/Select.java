@@ -23,6 +23,8 @@ public class Select {
 		int m = menu;
 		String w  = what;
 		
+		String id = null;
+		
 		try(
 				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
 				PreparedStatement ps = con.prepareStatement( sqlReceipt ) ;
@@ -45,7 +47,7 @@ public class Select {
 			
 			while(rs.next()) {
 				
-				String id = rs.getString("receipt_id");//注文ID
+				id = rs.getString("receipt_id");//注文ID
 				String date = rs.getString("order_date");//日付
 				String customer = rs.getString("customer_name");//顧客名
 				String product = rs.getString("product_name");//商品名
@@ -65,7 +67,7 @@ public class Select {
 		    	System.out.println("select〇");//debug
 		    }
 			
-		
+		return id;
 		
 	}//selectReceipt
 	
@@ -76,6 +78,8 @@ public class Select {
 		
 		int m = menu;
 		String w  = what;
+		
+		String id = null;
 		
 		try(
 				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
@@ -104,7 +108,7 @@ public class Select {
 			
 			while(rs.next()) {
 				
-				String id = rs.getString("customer_id");//顧客ID
+				id = rs.getString("customer_id");//顧客ID
 				String group = rs.getString("customer_group_name");//店舗形態
 				String name = rs.getString("customer_name");//顧客名
 				
@@ -121,7 +125,7 @@ public class Select {
 		    	System.out.println("select〇");//debug
 		    }
 			
-			
+			return id;
 	}//selectCustomer
 	
 	
@@ -133,6 +137,8 @@ public class Select {
 		
 		int m = menu;
 		String w  = what;
+		
+		String id = null;
 		
 		try(
 				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
@@ -161,7 +167,7 @@ public class Select {
 			
 			while(rs.next()) {
 				
-				String id = rs.getString("product_detail_id");//商品ID
+				id = rs.getString("product_detail_id");//商品ID
 				String group = rs.getString("product_group_name");//分類
 				String name = rs.getString("product_detail_name");//商品名
 				int price = rs.getInt("price");//価格
@@ -178,11 +184,14 @@ public class Select {
 		    finally {
 		    	System.out.println("select〇");//debug
 		    }
+		
+		return id;
 	}//selectItem
 	
 	
 	public static String selectCustomerGroup() {//店舗形態を表示するメソッド
 		String sqlCustomerGroup = "select * from customer_group";
+		String id = null;
 		
 		try(
 				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
@@ -194,7 +203,7 @@ public class Select {
 			
 			while(rs.next()) {
 				
-				String id = rs.getString("customer_group_id");//店舗形態ID
+				id = rs.getString("customer_group_id");//店舗形態ID
 				String name = rs.getString("customer_group_name");//店舗形態
 				
 				System.out.printf("%s:   %s\n",id,name);
@@ -209,11 +218,14 @@ public class Select {
 		    finally {
 		    	System.out.println("select〇");//debug
 		    }
+		
+		return id;
 	}//selectCustomerGroup
 	
 	
 	public static String selectItemGroup() {//商品分類(食べ物なら「野菜」とか)を表示するメソッド
 		String sqlItemGroup = "select * from product_group";
+		String id = null;
 		
 		try(
 				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
@@ -225,7 +237,7 @@ public class Select {
 			
 			while(rs.next()) {
 				
-				String id = rs.getString("product_group_id");//分類ID
+				id = rs.getString("product_group_id");//分類ID
 				String name = rs.getString("product_group_name");//分類名
 				
 				System.out.printf("%s:   %s\n",id,name);
@@ -240,13 +252,16 @@ public class Select {
 		    finally {
 		    	System.out.println("select〇");//debug
 		    }
+		return id;
 	}//selectItemGroup
 	
 	
-	public static ArrayList<String> selectMember() {//従業員を表示するメソッド
-		String sqlMember = "select * from member";
+	public static String selectMember() {//従業員を表示するメソッド
 		
-		ArrayList <String> members = new ArrayList<>();//全てのIDをJudge()に渡すためのアレイリスト
+		String sqlMember = "select * from member";
+		String id =null;
+		
+		//ArrayList <String> members = new ArrayList<>();←全てのIDをJudge()に渡すためのアレイリスト、いらなそう
 		
 		try(
 				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
@@ -258,7 +273,7 @@ public class Select {
 			
 			while(rs.next()) {
 				
-				String id = rs.getString("member_no");//従業員の番号
+				id = rs.getString("member_no");//従業員の番号
 				String name = rs.getString("eName");//従業員の名前
 				String eID = rs.getString("eID");//従業員のID(ユーザーネーム)
 				String ePass = rs.getString("ePass");//パスワード
@@ -266,7 +281,7 @@ public class Select {
 				System.out.println("-------------------------------------------");
 				System.out.printf("%s:   %s\nID:%s   Pass:%s\n",id,name,eID,ePass);
 				
-				members.add(eID);//IDを1行ずつリストに格納、繰り返されることで全てのIDが格納される
+				//members.add(eID);←IDを1行ずつリストに格納、繰り返されることで全てのIDが格納される、アレイリスト関連
 				
 			}//while
 			System.out.println("-------------------------------------------");
@@ -280,7 +295,8 @@ public class Select {
 		    	System.out.println("select〇");//debug
 		    }
 		
-		return members;
+		//return members;←アレイリスト関連
+		return id;
 	}//selectMember
 	
 }//Select

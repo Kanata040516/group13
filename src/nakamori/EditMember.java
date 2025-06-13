@@ -131,13 +131,14 @@ public class EditMember {
 			System.out.println( "無効な番号です。" );
 		}
 			
-		String sql = "UPDATE receipt SET " + columnName + " = ? WHERE member_no = ?;" ;
+		String sql = "UPDATE member SET " + columnName + " = ? WHERE member_no = ?;" ;
 		
 		try ( 
 			Connection con = DriverManager.getConnection( url , user_name , password ) ;
 			PreparedStatement ps = con.prepareStatement( sql ) ;
 			) {
 			
+			ps.setString(1, newValue) ;
 			ps.setString(2, code) ;
 			
 			//SQL文の送信。
@@ -168,7 +169,7 @@ public class EditMember {
   		System.out.println( "削除する従業員番号を入力してください。" );
   		String code = sc.nextLine();
   		
-  		String sql = "DELETE FROM receipt WHERE member_no = ?;" ;
+  		String sql = "DELETE FROM member WHERE member_no = ?;" ;
   		
   		try ( 
   			Connection con = DriverManager.getConnection( url , user_name , password ) ;

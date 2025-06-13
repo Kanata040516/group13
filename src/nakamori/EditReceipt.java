@@ -14,8 +14,6 @@ public class EditReceipt {
 	String user_name = Text.user_name ;
 	String password = Text.password ;
 	
-
-	
 	public int menuEdit ; //どの処理を行うかを選択する変数
 	
 	Scanner sc = new Scanner(System.in);
@@ -50,6 +48,7 @@ public class EditReceipt {
 		
 		System.out.println( "注文内容を入力してください。" );
 		
+		editReceipt() ;
 		int gyousuu = Select.selectReceipt( 5, null )+1 ;
 		
 		System.out.println( "顧客名" );
@@ -213,7 +212,7 @@ public class EditReceipt {
 				System.out.println( "削除しました。" );
 			}
 			else{
-				System.out.println( "書き込みに失敗しました。" );
+				System.out.println( "失敗しました。" );
 			}
 		}
 		catch ( Exception e ) {

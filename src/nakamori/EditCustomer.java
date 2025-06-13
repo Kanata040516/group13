@@ -5,7 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.Scanner;
 import yoshida.Text;
-import shimizu;
+import shimizu.Select;
 
 public class EditCustomer {
 	
@@ -18,26 +18,29 @@ public class EditCustomer {
 		
 	Scanner sc = new Scanner(System.in);
 		
-	System.out.println( "編集メニューを選択してください" ) ;
-	System.out.println( "1: 追加" ) ;
-	System.out.println( "2: 更新" ) ;
-	System.out.println( "3: 削除" ) ;
-	System.out.println( "番号を入力" ) ;
-		
-	menuEdit = Integer.parseInt( sc.nextLine() ) ;
-	    
-	if ( menuEdit.equals( 1 ) ) {
-	    insert() ;
-	}
-	else if ( menuEdit.equals( 2 ) ) {
-	    update() ;
-	}
-	else if ( menuEdit.equals( 3 ) ) {
-	    delete() ;
-	} 
-	else {
-	    System.out.println( "無効なメニュー番号です。" );
-	}
+	public void startMenu( ) {
+	  	  System.out.println( "編集メニューを選択してください" ) ;
+	  	  System.out.println( "1: 追加" ) ;
+	  	  System.out.println( "2: 更新" ) ;
+	  	  System.out.println( "3: 削除" ) ;
+	  	  System.out.println( "番号を入力" ) ;
+	  	
+	        menuEdit = Integer.parseInt( sc.nextLine() ) ;
+	      
+	        if ( menuEdit == 1 ) {
+	      	  insert() ;
+	        }
+	        else if ( menuEdit == 2 ) {
+	      	  update() ;
+	        }
+	        else if ( menuEdit == 3 ) {
+	      	  delete() ;
+	        } 
+	        else {
+	      	  System.out.println( "無効なメニュー番号です。" );
+	        }
+	      
+	  	} 
 	
 	
 	//-------------------------------------------
@@ -48,7 +51,7 @@ public class EditCustomer {
   	
         System.out.println( "顧客情報を入力してください。" );
         
-        int gyousuu = Select.selectCustomer(  );
+        int gyousuu = Select.selectCustomer( 5, null ) +1 ;
   		
   		System.out.println( "店舗形態" );
   		String group = sc.nextLine() ;

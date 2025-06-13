@@ -4,13 +4,14 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.Scanner;
+
+import shimizu.Select;
 import yoshida.Text;
-import shimizu;
 
 public class EditReceipt {
 	
 	//SQLのデータベース接続
-	String url = Text.url ;
+    String url = Text.url ;
 	String user_name = Text.user_name ;
 	String password = Text.password ;
 	
@@ -18,28 +19,30 @@ public class EditReceipt {
 	
 	Scanner sc = new Scanner(System.in);
 	
-	System.out.println( "編集メニューを選択してください" ) ;
-	System.out.println( "1: 追加" ) ;
-	System.out.println( "2: 更新" ) ;
-	System.out.println( "3: 削除" ) ;
-	System.out.println( "番号を入力" ) ;
+	public void startMenu( ) {
+	  System.out.println( "編集メニューを選択してください" ) ;
+	  System.out.println( "1: 追加" ) ;
+	  System.out.println( "2: 更新" ) ;
+	  System.out.println( "3: 削除" ) ;
+	  System.out.println( "番号を入力" ) ;
 	
-    menuEdit = Integer.parseInt( sc.nextLine() ) ;
+      menuEdit = Integer.parseInt( sc.nextLine() ) ;
     
-    if ( menuEdit.equals( 1 ) ) {
-    	insert() ;
-    }
-    else if ( menuEdit.equals( 2 ) ) {
-    	update() ;
-    }
-    else if ( menuEdit.equals( 3 ) ) {
-    	delete() ;
-    } 
-    else {
-    	System.out.println( "無効なメニュー番号です。" );
-    }
+      if ( menuEdit == 1 ) {
+    	  insert() ;
+      }
+      else if ( menuEdit == 2 ) {
+    	  update() ;
+      }
+      else if ( menuEdit == 3 ) {
+    	  delete() ;
+      } 
+      else {
+    	  System.out.println( "無効なメニュー番号です。" );
+      }
     
-    
+	} 
+	
 	//-------------------------------------------
 	// 注文を追加するメソッド
 	public static void insert ( ) {
@@ -48,7 +51,6 @@ public class EditReceipt {
 		
 		System.out.println( "注文内容を入力してください。" );
 		
-		editReceipt() ;
 		int gyousuu = Select.selectReceipt( 5, null )+1 ;
 		
 		System.out.println( "顧客名" );
@@ -226,5 +228,5 @@ public class EditReceipt {
 	
   }
 
-}
+
 

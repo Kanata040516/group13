@@ -4,13 +4,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.Scanner;
+import yoshida.Text;
+import shimizu.SelectMember;
 
 public class EditMember {
 	
 	//SQLのデータベース接続
-	String url = ID_Pass.url ;
-	String user_name = ID_Pass.user_name ;
-	String password = ID_Pass.password ;
+	String url = Text.url ;
+	String user_name = Text.user_name ;
+	String password = Text.password ;
 		
 	public int menuEdit ; //どの処理を行うかを選択する変数
 	
@@ -46,8 +48,7 @@ public class EditMember {
   		
   		System.out.println( "従業員情報を入力してください。" );
   		
-  		System.out.println( "従業員番号" );
-  		String member_no = sc.nextLine() ;
+  		int gyousuu = Select.selectMember( 3, null )+1 ;
   		
   		System.out.println( "従業員名" );
   		String eName = sc.nextLine() ;
@@ -66,7 +67,7 @@ public class EditMember {
   			) {
   				
   			//入力値のセット(？マークの部分の差し替え)
-  			ps.setString( 1, member_no );
+  			ps.setInt( 1, gyousuu );
   			ps.setString( 2, eName );
   			ps.setString( 3, eID );
   			ps.setString( 4, ePass );

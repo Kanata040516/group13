@@ -4,15 +4,17 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.Scanner;
-
-import System.ID_Pass;
+import yoshida.Text;
+import shimizu;
 
 public class EditReceipt {
 	
 	//SQLのデータベース接続
-	String url = ID_Pass.url ;
-	String user_name = ID_Pass.user_name ;
-	String password = ID_Pass.password ;
+	String url = Text.url ;
+	String user_name = Text.user_name ;
+	String password = Text.password ;
+	
+
 	
 	public int menuEdit ; //どの処理を行うかを選択する変数
 	
@@ -48,8 +50,7 @@ public class EditReceipt {
 		
 		System.out.println( "注文内容を入力してください。" );
 		
-		System.out.println( "注文ID" );
-		String receipt_id = sc.nextLine();
+		int gyousuu = Select.selectReceipt( 5, null )+1 ;
 		
 		System.out.println( "顧客名" );
 		String customer = sc.nextLine() ;
@@ -74,7 +75,7 @@ public class EditReceipt {
 			) {
 			
 			//入力値のセット(？マークの部分の差し替え)
-			ps.setString( 1, receipt_id );
+			ps.setInt( 1, gyousuu );
 			ps.setString( 2, customer );
 			ps.setString( 3, item );
 			ps.setInt( 4, amount );

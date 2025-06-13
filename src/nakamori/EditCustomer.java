@@ -4,13 +4,15 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.Scanner;
+import yoshida.Text;
+import shimizu;
 
 public class EditCustomer {
 	
 	//SQLのデータベース接続
-	String url = ID_Pass.url ;
-	String user_name = ID_Pass.user_name ;
-	String password = ID_Pass.password ;
+	String url = Text.url ;
+	String user_name = Text.user_name ;
+	String password = Text.password ;
 			
 	public int menuEdit ; //どの処理を行うかを選択する変数
 		
@@ -45,6 +47,8 @@ public class EditCustomer {
   		Scanner sc = new Scanner(System.in) ;
   	
         System.out.println( "顧客情報を入力してください。" );
+        
+        int gyousuu = Select.selectCustomer(  );
   		
   		System.out.println( "店舗形態" );
   		String group = sc.nextLine() ;
@@ -61,6 +65,41 @@ public class EditCustomer {
   		System.out.println( "店舗の電話番号" );
   		String number = sc.nextLine() ;
   		
-  		String sql = "INSERT INTO member VALUES ( ?, ?, ?);" ;
+  		String sql = "INSERT INTO member VALUES ( ?, ?, ?, ?, ?, ?);" ;
+  		
+  		try ( 
+  	  		Connection con = DriverManager.getConnection( url , user_name , password ) ;
+  	  		PreparedStatement ps = con.prepareStatement( sql ) ;
+  	  		) {
+  	  				
+  	  		//入力値のセット(？マークの部分の差し替え)
+  	  		ps.setInt( 1, gyousuu );
+  	  		ps.setString( 2, group );
+  	  		ps.setString( 3, name );
+  	  		ps.setString( 4, mail );
+  	  	    ps.setString( 5, address );
+	  		ps.setString( 6, number );
+  	  				
+  	  		//SQL文の送信。
+  	  		int result = ps.executeUpdate( );
+  	  				
+  	  		if ( result == 1 ) {
+  	  			System.out.println( "1件の書き込みが完了しました。" );
+  	  		}
+  	  		else{
+  	  			System.out.println( "書き込みに失敗しました。" );
+  	  		}
+  	  				
+  	  	}
+  	  	catch ( Exception e ) {
+  	  		System.out.println( "エラーが発生しました。" );
+  	  	}
+  	  	finally {
+  	  		System.out.println( );
+  	  	}
+  		
+  	}
+  	
+  	
 
 }

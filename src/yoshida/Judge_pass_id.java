@@ -59,7 +59,7 @@ public class Judge_pass_id {
         } finally {
         }
     }
-////テスト用でメソッド作っといただけ
+////テスト用でメソッド作っといた
 //    public static void menu_master() {
 //        System.out.println("=== 店長メニュー ===");
 //        // 店長向け処理をここに

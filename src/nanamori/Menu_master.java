@@ -4,11 +4,26 @@ import java.util.Scanner;
 
 public class Menu_master extends Menu_employee{
 
+	
 
-	public static void menu_master() {//管理者画面での処理。
+	public  void menu_employee() {//マスター視点のmenu_select処理
+		super.menu_employee();
+		
+		
+		if(mainmenu == 6) {//管理者編集画面に移行する。
+			System.out.println("管理者編集画面に移動します。");
+			menu_master();
+		}
+	}
+	
+	
+	
+	public  void menu_master() {//管理者画面での処理。
 		
 		Scanner check = new Scanner(System.in);
 
+		
+		System.out.println("実行する操作を選んでください。\n0.ホーム画面へ戻る\n1.注文編集\n2.商品編集\n3.顧客編集\n4.従業員編集");
 		mainmenu = check.nextInt();//入力した値をmainmenuに入れる
 		
 		if(mainmenu == 0) {//ホーム画面に移動する。
@@ -38,18 +53,10 @@ public class Menu_master extends Menu_employee{
 		
 		if(mainmenu == 5) {//管理者閲覧画面に移動する。
 			System.out.println("管理者閲覧画面に移動します。");
-			menu_select();
+			menu_employee();
 		}
 		
 		
-	}
-	
-	public static void menu_select() {//マスター視点のmenu_select処理
-		
-		if(mainmenu == 6) {//管理者編集画面に移行する。
-			System.out.println("管理者編集画面に移動します。");
-			menu_master();
-		}
 	}
 	
 	

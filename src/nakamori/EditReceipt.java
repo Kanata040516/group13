@@ -63,7 +63,7 @@ public class EditReceipt {
 		System.out.println( "備考" );
 		String remark = sc.nextLine() ;
 		
-		String sql = "INSERT INTO receipt values ( ?, ?, ?, ?, ? );" ;
+		String sql = "INSERT INTO receipt VALUES ( ?, ?, ?, ?, ? );" ;
 		
 		try ( 
 			Connection con = DriverManager.getConnection( url , user_name , password ) ;
@@ -145,7 +145,7 @@ public class EditReceipt {
 			System.out.println( "無効な番号です。" );
 		}
 		
-		String sql = "UPDATE receipt SET " + columnName + " = ? WHERE " + code + " = ?;" ;
+		String sql = "UPDATE receipt SET " + columnName + " = ? WHERE main_id = ?;" ;
 		
 		try ( 
 			Connection con = DriverManager.getConnection( url , user_name , password ) ;
@@ -191,13 +191,16 @@ public class EditReceipt {
 		System.out.println( "削除するIDを入力してください。" );
 		String code = sc.nextLine();
 		
-		String sql = "DELETE FROM receipt WHERE" + code + "= ?;" ;
+		String sql = "DELETE FROM receipt WHERE main_id = ?;" ;
 		
 		try ( 
 			Connection con = DriverManager.getConnection( url , user_name , password ) ;
 			PreparedStatement ps = con.prepareStatement( sql ) ;
 			) {
-				
+			
+			//入力値のセット(？マークの部分の差し替え)
+			ps.setString( 1, code ) ;
+			
 			//SQL文の送信。
 			int result = ps.executeUpdate( );
 				

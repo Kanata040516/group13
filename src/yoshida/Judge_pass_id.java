@@ -8,10 +8,10 @@ import java.sql.SQLException;
 import java.util.Scanner;
 
 public class Judge_pass_id {
-
-    public static void main(String[] args) {
-        judge();
-    }
+////テストでメイン作った
+//    public static void main(String[] args) {
+//        judge();
+//    }
 
     public static void judge() {
         Scanner scanner = new Scanner(System.in);
@@ -59,14 +59,14 @@ public class Judge_pass_id {
         } finally {
         }
     }
-//テスト用でメソッド作っといただけ
-    public static void menu_master() {
-        System.out.println("=== 店長メニュー ===");
-        // 店長向け処理をここに
-    }
-
-    public static void menu_employee() {
-        System.out.println("=== 従業員メニュー ===");
-        // 従業員向け処理をここに
-    }
+////テスト用でメソッド作っといただけ
+//    public static void menu_master() {
+//        System.out.println("=== 店長メニュー ===");
+//        // 店長向け処理をここに
+//    }
+//
+//    public static void menu_employee() {
+//        System.out.println("=== 従業員メニュー ===");
+//        // 従業員向け処理をここに
+//    }
 }

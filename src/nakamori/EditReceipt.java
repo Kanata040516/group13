@@ -11,9 +11,9 @@ import yoshida.Text;
 public class EditReceipt {
 	
 	//SQLのデータベース接続
-    String url = Text.url ;
-	String user_name = Text.user_name ;
-	String password = Text.password ;
+    static String url = Text.url ;
+	static String user_name = Text.user_name ;
+	static String password = Text.password ;
 	
 	public int menuEdit ; //どの処理を行うかを選択する変数
 	

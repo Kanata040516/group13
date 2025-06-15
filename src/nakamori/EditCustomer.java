@@ -4,15 +4,16 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.Scanner;
-import yoshida.Text;
+
 import shimizu.Select;
+import yoshida.Text;
 
 public class EditCustomer {
 	
 	//SQLのデータベース接続
-	String url = Text.url ;
-	String user_name = Text.user_name ;
-	String password = Text.password ;
+	static String url = Text.url ;
+	static String user_name = Text.user_name ;
+	static String password = Text.password ;
 			
 	public int menuEdit ; //どの処理を行うかを選択する変数
 		
@@ -110,6 +111,8 @@ public class EditCustomer {
 		
 		Scanner sc = new Scanner(System.in) ;
 		
+		int gyousuu = Select.selectCustomer( 5, null ) +1 ;
+		
 		System.out.println( "更新する顧客番号を入力してください。" );
 		String code = sc.nextLine();
 		
@@ -200,7 +203,9 @@ public class EditCustomer {
   	// 顧客情報を削除するメソッド
   	public static void delete() {
 	Scanner sc = new Scanner(System.in) ;
-		
+	
+	int gyousuu = Select.selectCustomer( 5, null ) +1 ;
+	
 	System.out.println( "削除するIDを入力してください。" );
 	String code = sc.nextLine();
 		
@@ -235,4 +240,4 @@ public class EditCustomer {
   
   }
   	
-}
+

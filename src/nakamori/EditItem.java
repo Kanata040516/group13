@@ -11,9 +11,9 @@ import yoshida.Text;
 public class EditItem {
 	
 	//SQLのデータベース接続
-	String url = Text.url ;
-	String user_name = Text.user_name ;
-	String password = Text.password ;
+	static String url = Text.url ;
+	static String user_name = Text.user_name ;
+	static String password = Text.password ;
 				
 	public int menuEdit ; //どの処理を行うかを選択する変数
 			
@@ -52,7 +52,7 @@ public class EditItem {
 	
     System.out.println( "顧客情報を入力してください。" );
     
-    int gyousuu = Select.selectCustomer(  );
+    int gyousuu = Select.selectCustomer( 4, null ) +1 ;
 		
 		System.out.println( "店舗形態" );
 		String group = sc.nextLine() ;
@@ -110,6 +110,8 @@ public class EditItem {
 	public static void update() {
 	
 	Scanner sc = new Scanner(System.in) ;
+	
+	int gyousuu = Select.selectCustomer( 4, null ) +1 ;
 	
 	System.out.println( "更新する商品番号を入力してください。" );
 	String code = sc.nextLine();
@@ -191,6 +193,8 @@ public class EditItem {
 	public static void delete() {
     Scanner sc = new Scanner(System.in) ;
 	
+    int gyousuu = Select.selectCustomer( 4, null ) +1 ;
+    
     System.out.println( "削除するIDを入力してください。" );
     String code = sc.nextLine();
 	

@@ -26,7 +26,7 @@ public class Item {
 						+ "操作したい番号をお選びください。\n");
 				System.out.println("");
 				System.out.println("0.ホーム画面\n" + "1. 商品ID \n" + "2.価格\n" + 
-				"3.商品名\n" + "4.商品分類\n" + "5.一覧表示\n" + "6.メニュー画面\n" +);
+				"3.商品名\n" + "4.分類\n" + "5.一覧表示\n" + "6.メニュー画面\n" +);
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 				
 				System.out.print("番号を入力 ： ");

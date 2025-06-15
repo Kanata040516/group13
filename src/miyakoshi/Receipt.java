@@ -24,7 +24,7 @@ public class Receipt {
 				System.out.println("どの項目を検索しますか？\n "
 						+ "操作したい番号をお選びください。\n");
 				System.out.println("0.ホーム画面\n" + "1. 注文ID \n" + "2.日付\n" + 
-				"3.顧客名\n" + "4.商品名\n" + "5.商品分類\n" + "6.メニュー画面\n");
+				"3.顧客名\n" + "4.商品名\n" + "5.分類\n" + "6.メニュー画面\n");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 				
 				System.out.print("番号を入力 ： ");

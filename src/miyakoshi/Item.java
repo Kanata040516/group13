@@ -6,8 +6,13 @@ import com.sun.tools.javac.Main;
 
 public class Item {
 	
-		int menu = 0 ;  //0-6, 注文検索の項目
-		String search = null; //注文検索の内容
+	public static void main(String[] args) {
+		
+		static int menu = 0 ;  //0-6, 注文検索の項目
+		static String search = null; //注文検索の内容
+		
+		menuItem(menu, search);
+	}
 
 		public static void menuItem(int menu, String search) {
 			
@@ -21,7 +26,7 @@ public class Item {
 						+ "操作したい番号をお選びください。\n");
 				System.out.println("");
 				System.out.println("0.ホーム画面\n" + "1. 商品ID \n" + "2.価格\n" + 
-				"3.商品名\n" + "4.商品分類\n" + "5.一覧表示\n" + "6.メニュー画面\n" +);
+				"3.商品名\n" + "4.分類\n" + "5.一覧表示\n" + "6.メニュー画面\n" +);
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 				
 				System.out.print("番号を入力 ： ");
@@ -90,7 +95,7 @@ public class Item {
 //			Select.selectReceipt(  ); 
 			
 			Scanner sc3 = new Scanner(System.in);  //検索終了後の画面移動
-			System.out.println("ーーーーーーーーーーーーーーーーーーーーーーーーーーー");
+			System.out.println("\nーーーーーーーーーーーーーーーーーーーーーーーーーーー");
 			System.out.println("移動する画面を選択してください。\n");
 			System.out.println("0.ホーム画面\n" + "1.閲覧メニュー画面 \n");
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーーーーーーー\n");

@@ -6,8 +6,12 @@ import com.sun.tools.javac.Main;
 
 public class Receipt {
 	
-		int menu = 0 ;  //0-6, 注文検索の項目
-		String search = null; //注文検索の内容
+	public static void main(String[] args) {
+		
+		static int menu = 0 ;  //0-6, 注文検索の項目
+		static String search = null; //注文検索の内容
+		menuReceipt(menu, search);
+	}
 		
 		public static void menuReceipt(int menu, String search) {
 			
@@ -20,7 +24,7 @@ public class Receipt {
 				System.out.println("どの項目を検索しますか？\n "
 						+ "操作したい番号をお選びください。\n");
 				System.out.println("0.ホーム画面\n" + "1. 注文ID \n" + "2.日付\n" + 
-				"3.顧客名\n" + "4.商品名\n" + "5.商品分類\n" + "6.メニュー画面\n");
+				"3.顧客名\n" + "4.商品名\n" + "5.分類\n" + "6.メニュー画面\n");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 				
 				System.out.print("番号を入力 ： ");
@@ -91,9 +95,9 @@ public class Receipt {
 //			Select.selectReceipt(  ); 
 			
 			Scanner sc3 = new Scanner(System.in);  //検索終了後の画面移動
-			System.out.println("ーーーーーーーーーーーーーーーーーーーーーーーーーーー");
+			System.out.println("\nーーーーーーーーーーーーーーーーーーーーーーーーーーー");
 			System.out.println("移動する画面を選択してください。\n");
-			System.out.println("0.ホーム画面\n" + "1.閲覧メニュー画面 \n");
+			System.out.println("0.ホーム画面\n" + "[店長] 1.閲覧メニュー画面 \n" + "[従業員] 2. 閲覧メニュー画面");//ここ相談
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーーーーーーー\n");
 			
 			System.out.print("番号を入力 ： ");
@@ -104,7 +108,9 @@ public class Receipt {
 				Main.main() ; //ホーム画面へ
 				} else if (menu == 1) {
 //             	Menu_master();
+				else if(menu == 2) {
 //				    Menu.employee();
+				}
 				} else {
 					System.out.println("\n【エラー：項目以外の内容の入力】");
 					System.out.println("0か1の番号を入力してください。\n");

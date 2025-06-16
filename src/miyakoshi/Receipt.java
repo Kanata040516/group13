@@ -1,15 +1,15 @@
 package miyakoshi;
 
-import java.util.Scanner;
-
+import java.util.Scanner;s;
+import shimizu.select;
 import com.sun.tools.javac.Main;
 
 public class Receipt {
 		
-		static int menu = 0 ;  //0-6, 注文検索の項目
+		static int menu ;  //0-6, 注文検索の項目
 		static String  search ;//注文検索の内容
 		
-		public static void menuReceipt () {
+		public static void menuReceipt (int menu, String Receipt) {
 			
 			Scanner sc1 = new Scanner (System.in); //項目を選択
 			
@@ -84,7 +84,7 @@ public class Receipt {
 		
 			sc1.close();
 			sc2.close();
-			Select.selectReceipt(); 
+			Select.selectReceipt( menu, search ); 
 	}
 
 

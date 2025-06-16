@@ -1,18 +1,13 @@
 package miyakoshi;
 
 import java.util.Scanner;
-
+import shimizu.select;
 import com.sun.tools.javac.Main;
 
 public class Customer {
 	
-	public static void main(String[] args) {
-		
-		static int menu = 0 ;  //0-6, 注文検索の項目
-		static String search = null; //注文検索の内容
-		
-		menuCustomer(menu, search);
-	}
+	static int menu ;  //0-6, 注文検索の項目
+	static String  search ;//注文検索の内容
 
 		public static void menuCustomer(int menu, String search) {
 			
@@ -77,32 +72,8 @@ public class Customer {
 			}
 			sc1.close();
 			sc2.close();
-			selectCustomer();
+			Select.selectCustomer();
 	}
-		public static void selectCustomer() {
-			   //Selectへ移動し、注文情報のSQLを実行する
-//			Select.selectReceipt(  ); 
-			
-			Scanner sc3 = new Scanner(System.in);  //検索終了後の画面移動
-			System.out.println("\nーーーーーーーーーーーーーーーーーーーーーーーーーーー");
-			System.out.println("移動する画面を選択してください。\n");
-			System.out.println("0.ホーム画面\n" + "1.閲覧メニュー画面 \n");
-			System.out.println("ーーーーーーーーーーーーーーーーーーーーーーーーーーー\n");
-			
-			System.out.print("番号を入力 ： ");
-			sc3.nextInt();
-			
-			while(true) {
-				if ( menu == 0 ) {
-				Main.main() ; //ホーム画面へ
-				} else if (menu == 1) {
-//          	Menu_master();
-//				Menu.employee();
-				} else {
-					System.out.println("\n【エラー：項目以外の内容の入力】");
-					System.out.println("0か1の番号を入力してください。\n");
-				}
-			}	
-		}
+		
 
 }

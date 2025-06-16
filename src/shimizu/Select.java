@@ -21,7 +21,7 @@ public class Select {
 				+ "join product_group on product_detail.product_group_id = product_group.product_group_id"
 				+ "join product_type on product_group.product_type_id = product_type.product_type_id"
 				+ "where order_date between price_history.start_date and coalesc(price_history.last_date,current_date)";
-		//最後の行で注文の日付と価格履歴テーブルを照らし合わせて値段を取得しようとしている
+		//最後の行で注文の日付と価格履歴テーブルを照らし合わせて注文の日の値段を取得しようとしている
 		
 		int m = menu;
 		String w  = what;
@@ -335,4 +335,27 @@ public class Select {
 		return i;
 	}//selectMember
 	
+	public static int price_history() {
+		String sqlHistory = "select * from price_history";
+		int i = 0;
+		
+		try(
+				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
+				PreparedStatement ps = con.prepareStatement( sqlHistory ) ;
+			){
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				i++;
+			}
+		}
+		catch(Exception e) {
+			System.out.println(Text.tryCatch);
+		}
+		finally {
+			System.out.println("price_history〇");//debug
+		}
+		
+		return i;
+	}
 }//Select

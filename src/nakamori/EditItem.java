@@ -63,7 +63,7 @@ public class EditItem {
 		System.out.println( "商品の分類" );
 		String group = sc.nextLine() ;
 		
-		String sql = "INSERT INTO customer VALUES ( ?, ?, ?, ?);" ;
+		String sql = "INSERT INTO product_detail VALUES ( ?, ?, ?, ?);" ;
 		
 		try ( 
 	  		Connection con = DriverManager.getConnection( url , user_name , password ) ;

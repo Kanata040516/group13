@@ -6,6 +6,7 @@ import java.sql.PreparedStatement;
 import java.util.Scanner;
 
 import shimizu.Select;
+import yoshida.Judge_pass_id;
 import yoshida.Text;
 
 public class EditMember {
@@ -61,6 +62,8 @@ public class EditMember {
   		
   		System.out.println( "従業員パスワード" );
   		String ePass = sc.nextLine() ;
+  		
+  		Judge_pass_id.passrules( ePass );
   		
   		String sql = "INSERT INTO member VALUES ( ?, ?, ?, ?);" ;
   		
@@ -131,6 +134,7 @@ public class EditMember {
 			columnName = "ePass" ;
 			System.out.println( "新しい従業員パスワードを入力してください。" );
 			newValue = sc.nextLine();
+			Judge_pass_id.passrules( newValue );
 		}
 		else {
 			System.out.println( "無効な番号です。" );

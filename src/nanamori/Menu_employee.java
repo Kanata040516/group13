@@ -3,6 +3,12 @@ package nanamori;
 import java.util.InputMismatchException;
 import java.util.Scanner;
 
+import miyakoshi.Customer;
+import miyakoshi.Item;
+import miyakoshi.Receipt;
+import miyakoshi.Sales;
+import yoshida.Main;
+
 public class Menu_employee {
 
 	protected static int mainmenu  ;//メインメニューの番号を格納する変数
@@ -22,28 +28,28 @@ public class Menu_employee {
 			
 			if(mainmenu == 0) {//ホームに戻る
 				System.out.println("初期画面に移動します。");
-				//Main.main(null);
+				Main.main(null);
 				
 			}
 			
 			else if(mainmenu == 1) {//注文管理画面に移動
 				System.out.println("注文管理画面に移動します。");
-				//Receipt.menuReceipt();
+				Receipt.menuReceipt(0, null);
 			}
 			
 			else if(mainmenu == 2) {//顧客管理画面に移動
 				System.out.println("顧客管理画面に移動します。");
-				//Customer.menuCustomer(0,null);
+				Customer.menuCustomer(0,null);
 			}
 			
 			else if(mainmenu == 3) {//商品管理画面に移動。
 				System.out.println("商品管理画面に移動します。");
-				//Item.menuItem(0,null);
+				Item.menuItem(0,null);
 			}
 			
-			else if(mainmenu == 4) {//売上管理画面に移動。
+			else if(mainmenu == 4) {//売上管理画面に移動.
 				System.out.println("売上管理画面に移動します。");
-				//Sales.menuSales(0,null);
+				Sales.menuSales(null,0);
 			}
 			
 			else if(mainmenu == 5 && mastermove == true){//店長が操作している時＋mainmenuが5の時にもう一度処理を行う。

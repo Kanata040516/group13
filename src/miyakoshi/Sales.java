@@ -62,6 +62,7 @@ public class Sales {
 							System.out.println("\n【エラー：項目以外の内容の入力】");
 							System.out.println("0〜5の番号を入力してください。\n");
 							}
+			sc.close();
 			}
 		
 		//詳細画面へ
@@ -145,5 +146,5 @@ public class Sales {
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 		}
 	}
-
+	
 }

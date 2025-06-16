@@ -61,14 +61,14 @@ public class EditMember {
   		String eID = sc.nextLine() ;
   		
   		String ePass = null ;
-  		boolean passCheck = Judge_pass_id.passrules( ePass ) ;
-  		passCheck = false ;
+  		boolean passCheck = false ;
+  		
   		while( !passCheck ) {
   		
   		System.out.println( "従業員パスワード" );
   		ePass = sc.nextLine() ;
   		
-  		Judge_pass_id.passrules( ePass );
+  		passCheck = Judge_pass_id.passrules( ePass );
   		
   		}
   		
@@ -137,9 +137,13 @@ public class EditMember {
 		}
 		else if ( choice == 3 ) {
 			columnName = "ePass" ;
+			boolean passCheck = false ;
+			
+	  		while( !passCheck ) {
 			System.out.println( "新しい従業員パスワードを入力してください。" );
 			newValue = sc.nextLine();
-			Judge_pass_id.passrules( newValue );
+			passCheck = Judge_pass_id.passrules( newValue );
+	  		}
 		}
 		else {
 			System.out.println( "無効な番号です。" );

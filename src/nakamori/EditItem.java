@@ -111,8 +111,6 @@ public class EditItem {
 	
 	Scanner sc = new Scanner(System.in) ;
 	
-	int gyousuu = Select.selectCustomer( 4, null ) +1 ;
-	
 	System.out.println( "更新する商品番号を入力してください。" );
 	String code = sc.nextLine();
 	
@@ -192,8 +190,6 @@ public class EditItem {
 	// 商品情報を削除するメソッド
 	public static void delete() {
     Scanner sc = new Scanner(System.in) ;
-	
-    int gyousuu = Select.selectCustomer( 4, null ) +1 ;
     
     System.out.println( "削除するIDを入力してください。" );
     String code = sc.nextLine();

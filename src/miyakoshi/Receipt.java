@@ -11,7 +11,7 @@ public class Receipt {
 		
 		public static void menuReceipt() {
 			
-			Scanner sc1 = new Scanner(System.in); //項目を選択
+			Scanner sc1 = new Scanner (System.in); //項目を選択
 			
 			while(true) {
 				

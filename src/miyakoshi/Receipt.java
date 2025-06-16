@@ -7,11 +7,11 @@ import com.sun.tools.javac.Main;
 public class Receipt {
 		
 		static int menu = 0 ;  //0-6, 注文検索の項目
-		static String []  search = { null };//注文検索の内容
+		static String  search ;//注文検索の内容
 		
-		public static void menuReceipt() {
+		public static void menuReceipt () {
 			
-			Scanner sc1 = new Scanner(System.in); //項目を選択
+			Scanner sc1 = new Scanner (System.in); //項目を選択
 			
 			while(true) {
 				

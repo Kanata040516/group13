@@ -2,6 +2,12 @@ package nanamori;
 
 import java.util.Scanner;
 
+import miyakoshi.Customer;
+import miyakoshi.Item;
+import miyakoshi.Receipt;
+import miyakoshi.Sales;
+import yoshida.Main;
+
 public class Menu_employee {
 
 	protected static int mainmenu  ;//メインメニューの番号を格納する変数
@@ -17,28 +23,28 @@ public class Menu_employee {
 		
 		if(mainmenu == 0) {//ホームに戻る
 			System.out.println("初期画面に移動します。");
-			//Main.home();
+			Main.main(null);
 			
 		}
 		
 		else if(mainmenu == 1) {//注文管理画面に移動
 			System.out.println("注文管理画面に移動します。");
-			//Receipt.receipt();
+			Receipt.menuReceipt(0, null);
 		}
 		
 		else if(mainmenu == 2) {//顧客管理画面に移動
 			System.out.println("顧客管理画面に移動します。");
-			//Customer.customer();
+			Customer.menuCustomer(0,null);
 		}
 		
 		else if(mainmenu == 3) {//商品管理画面に移動。
 			System.out.println("商品管理画面に移動します。");
-			//Item.item();
+			Item.menuItem(0,null);
 		}
 		
 		else if(mainmenu == 4) {//売上管理画面に移動。
 			System.out.println("売上管理画面に移動します。");
-			//Sales.sales();
+			Sales.menuSales(0,null);
 		}
 				
 	}

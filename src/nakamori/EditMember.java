@@ -4,41 +4,45 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.Scanner;
+
+import shimizu.Select;
+import yoshida.Judge_pass_id;
 import yoshida.Text;
-import shimizu.SelectMember;
 
 public class EditMember {
 	
 	//SQLのデータベース接続
-	String url = Text.url ;
-	String user_name = Text.user_name ;
-	String password = Text.password ;
+	static String url = Text.url ;
+	static String user_name = Text.user_name ;
+	static String password = Text.password ;
 		
 	public int menuEdit ; //どの処理を行うかを選択する変数
 	
     Scanner sc = new Scanner(System.in);
 	
-	System.out.println( "編集メニューを選択してください" ) ;
-	System.out.println( "1: 追加" ) ;
-	System.out.println( "2: 更新" ) ;
-	System.out.println( "3: 削除" ) ;
-	System.out.println( "番号を入力" ) ;
-	
-    menuEdit = Integer.parseInt( sc.nextLine() ) ;
-    
-    if ( menuEdit.equals( 1 ) ) {
-    	insert() ;
-    }
-    else if ( menuEdit.equals( 2 ) ) {
-    	update() ;
-    }
-    else if ( menuEdit.equals( 3 ) ) {
-    	delete() ;
-    } 
-    else {
-    	System.out.println( "無効なメニュー番号です。" );
-    }
-    
+    public void startMenu( ) {
+  	  System.out.println( "編集メニューを選択してください" ) ;
+  	  System.out.println( "1: 追加" ) ;
+  	  System.out.println( "2: 更新" ) ;
+  	  System.out.println( "3: 削除" ) ;
+  	  System.out.println( "番号を入力" ) ;
+  	
+        menuEdit = Integer.parseInt( sc.nextLine() ) ;
+      
+        if ( menuEdit == 1 ) {
+      	  insert() ;
+        }
+        else if ( menuEdit == 2 ) {
+      	  update() ;
+        }
+        else if ( menuEdit == 3 ) {
+      	  delete() ;
+        } 
+        else {
+      	  System.out.println( "無効なメニュー番号です。" );
+        }
+      
+  	} 
     
     //-------------------------------------------
   	// 従業員を追加するメソッド
@@ -48,7 +52,7 @@ public class EditMember {
   		
   		System.out.println( "従業員情報を入力してください。" );
   		
-  		int gyousuu = Select.selectMember( 3, null )+1 ;
+  		int gyousuu = Select.selectMember( )+1 ;
   		
   		System.out.println( "従業員名" );
   		String eName = sc.nextLine() ;
@@ -58,6 +62,8 @@ public class EditMember {
   		
   		System.out.println( "従業員パスワード" );
   		String ePass = sc.nextLine() ;
+  		
+  		Judge_pass_id.passrules( ePass );
   		
   		String sql = "INSERT INTO member VALUES ( ?, ?, ?, ?);" ;
   		
@@ -98,6 +104,8 @@ public class EditMember {
 		
 		Scanner sc = new Scanner(System.in) ;
 		
+		int gyousuu = Select.selectMember( )+1 ;
+		
 		System.out.println( "更新する従業員番号を入力してください。" );
 		String code = sc.nextLine();
 		
@@ -126,18 +134,20 @@ public class EditMember {
 			columnName = "ePass" ;
 			System.out.println( "新しい従業員パスワードを入力してください。" );
 			newValue = sc.nextLine();
+			Judge_pass_id.passrules( newValue );
 		}
 		else {
 			System.out.println( "無効な番号です。" );
 		}
 			
-		String sql = "UPDATE receipt SET " + columnName + " = ? WHERE member_no = ?;" ;
+		String sql = "UPDATE member SET " + columnName + " = ? WHERE member_no = ?;" ;
 		
 		try ( 
 			Connection con = DriverManager.getConnection( url , user_name , password ) ;
 			PreparedStatement ps = con.prepareStatement( sql ) ;
 			) {
 			
+			ps.setString(1, newValue) ;
 			ps.setString(2, code) ;
 			
 			//SQL文の送信。
@@ -165,10 +175,12 @@ public class EditMember {
   	public static void delete() {
   		Scanner sc = new Scanner(System.in) ;
   		
+  		int gyousuu = Select.selectMember( )+1 ;
+  		
   		System.out.println( "削除する従業員番号を入力してください。" );
   		String code = sc.nextLine();
   		
-  		String sql = "DELETE FROM receipt WHERE member_no = ?;" ;
+  		String sql = "DELETE FROM member WHERE member_no = ?;" ;
   		
   		try ( 
   			Connection con = DriverManager.getConnection( url , user_name , password ) ;
@@ -199,4 +211,4 @@ public class EditMember {
   	
   }
   
-}
+

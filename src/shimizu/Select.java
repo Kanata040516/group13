@@ -18,7 +18,7 @@ public class Select {
 				+ "on receipt.price_history_id = price_history.price_history_id"
 				+ "join product_detail on price_history.product_detail_id = product_detail.product_detail_id"
 				+ "join product_group on product_detail.product_group_id = product_group.product_group_id"
-				+ "join product_type on product_group.product_type_id = product_type.product_type_id";;
+				+ "join product_type on product_group.product_type_id = product_type.product_type_id";
 		
 		int m = menu;
 		String w  = what;
@@ -30,7 +30,7 @@ public class Select {
 				PreparedStatement ps = con.prepareStatement( sqlReceipt ) ;
 			)
 			{
-			if(!(m == 5)) {
+			if(!(m == 6)) {
 				//一覧表示ではなく検索ならwhere句をSQL文に追加する
 				sqlReceipt += "where ? = ?";
 				switch(m) {
@@ -39,6 +39,7 @@ public class Select {
 				case 2:ps.setString(1, "order_date");break;//日付
 				case 3:ps.setString(1, "customer_name");break;//顧客名
 				case 4:ps.setString(1, "product_detail_name");break;//商品名
+				case 5:ps.setString(1, "product_group_name");break;//商品分類
 				}//switch
 				
 				ps.setString(2, w);

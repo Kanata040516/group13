@@ -47,7 +47,7 @@ public class Menu_employee {
 				Item.menuItem(0,null);
 			}
 			
-			else if(mainmenu == 4) {//売上管理画面に移動。
+			else if(mainmenu == 4) {//売上管理画面に移動.
 				System.out.println("売上管理画面に移動します。");
 				Sales.menuSales(null,0);
 			}

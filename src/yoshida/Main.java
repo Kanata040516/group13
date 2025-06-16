@@ -4,7 +4,6 @@ import java.util.Scanner;
 
 public class Main {
 
-	
 	public static void main(String[] args) {
 		// TODO 自動生成されたメソッド・スタブ
 		
@@ -21,7 +20,7 @@ public class Main {
 		
 		
 		if(start==1) {
-//			Judge_pass_id.judge();
+			Judge_pass_id.judge();
 			
 		}else if(start==0) {
 			System.out.println("終了します");

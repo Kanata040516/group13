@@ -17,18 +17,21 @@ public class Judge_pass_id {
 //        judge();
 //    }
 
-    public static void judge() {
+    public static int judge() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("IDを入力してください：");
         String id = scanner.nextLine();
         System.out.println("パスワードを入力してください：");
         String pass = scanner.nextLine();
+        
+        int i = 0;
 
         // DB接続情報
         String url = Text.url;
         String user_name = Text.user_name;
         String password = Text.password;
 
+        
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -42,6 +45,18 @@ public class Judge_pass_id {
 
             if (rs.next()) {
                 String dbPass = rs.getString("password");
+                
+                while (true) {
+                    System.out.print("パスワードを入力してください：");
+                    pass = scanner.nextLine();
+
+                    if (passrules(pass)) {
+                        System.out.println("パスワードがルールを満たしています。");
+                        break; // 入力ループ終了
+                    } else {
+                        System.out.println("パスワードが条件を満たしていません。再入力してください。");
+                    }
+                }
 
                 if (pass.equals(dbPass)) {
                     System.out.println("ログイン成功！");
@@ -49,9 +64,14 @@ public class Judge_pass_id {
                     if (id.equals("0000")) {
                     	Menu_master master = new Menu_master();
                     	master.menu_master();
+//                    	店長だったら0を返す
+                    	i = 1;
+                    	
                     } else {
                     	Menu_employee employee = new Menu_employee();
                     	employee.menu_employee();
+//                    	従業員だったら0を返す
+                    	i = 2;
                     }
                 } else {
                     System.out.println("パスワードが違います。");
@@ -64,6 +84,7 @@ public class Judge_pass_id {
             System.out.println("DBエラー: " + e.getMessage());
         } finally {
         }
+		return i;
     }
 ////テスト用でメソッド作っといた
 //    public static void menu_master() {
@@ -82,6 +103,33 @@ public class Judge_pass_id {
             System.out.println("パスワードは8文字以上である必要があります。");
             return false;
         }
+<<<<<<< HEAD
+
+        // ② 大文字を含むか
+        if (!pass.matches(".*[A-Z].*")) {
+            System.out.println("パスワードには大文字を1文字以上含めてください。");
+            return false;
+        }
+
+        // ③ 小文字を含む
+        if (!pass.matches(".*[a-z].*")) {
+            System.out.println("パスワードには小文字を1文字以上含めてください。");
+            return false;
+        }
+
+        // ④ 数字を含む
+        if (!pass.matches(".*[0-9].*")) {
+            System.out.println("パスワードには数字を1文字以上含めてください。");
+            return false;
+        }
+
+        // ⑤ 特殊記号を含むか（!@#$%^&*()_+ などを対象に）
+        if (!pass.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*")) {
+            System.out.println("パスワードには特殊記号を1文字以上含めてください。");
+            return false;
+        }
+
+=======
  
         // ② 大文字を含むか
         if (!pass.matches(".*[A-Z].*")) {
@@ -107,6 +155,7 @@ public class Judge_pass_id {
             return false;
         }
  
+>>>>>>> branch 'master' of https://github.com/Kanata040516/group13.git
         // すべての条件を満たす
         return true;
     }

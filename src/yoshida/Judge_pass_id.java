@@ -17,18 +17,21 @@ public class Judge_pass_id {
 //        judge();
 //    }
 
-    public static void judge() {
+    public static int judge() {
         Scanner scanner = new Scanner(System.in);
         System.out.println("IDを入力してください：");
         String id = scanner.nextLine();
         System.out.println("パスワードを入力してください：");
         String pass = scanner.nextLine();
+        
+        int i = 0;
 
         // DB接続情報
         String url = Text.url;
         String user_name = Text.user_name;
         String password = Text.password;
 
+        
         Connection conn = null;
         PreparedStatement pstmt = null;
         ResultSet rs = null;
@@ -61,9 +64,14 @@ public class Judge_pass_id {
                     if (id.equals("0000")) {
                     	Menu_master master = new Menu_master();
                     	master.menu_master();
+//                    	店長だったら0を返す
+                    	i = 1;
+                    	
                     } else {
                     	Menu_employee employee = new Menu_employee();
                     	employee.menu_employee();
+//                    	従業員だったら0を返す
+                    	i = 2;
                     }
                 } else {
                     System.out.println("パスワードが違います。");
@@ -76,6 +84,7 @@ public class Judge_pass_id {
             System.out.println("DBエラー: " + e.getMessage());
         } finally {
         }
+		return i;
     }
 ////テスト用でメソッド作っといた
 //    public static void menu_master() {

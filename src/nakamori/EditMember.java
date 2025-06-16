@@ -110,8 +110,6 @@ public class EditMember {
 		
 		Scanner sc = new Scanner(System.in) ;
 		
-		int gyousuu = Select.selectMember( )+1 ;
-		
 		System.out.println( "更新する従業員番号を入力してください。" );
 		String code = sc.nextLine();
 		
@@ -180,8 +178,6 @@ public class EditMember {
   	// 従業員情報を削除するメソッド
   	public static void delete() {
   		Scanner sc = new Scanner(System.in) ;
-  		
-  		int gyousuu = Select.selectMember( )+1 ;
   		
   		System.out.println( "削除する従業員番号を入力してください。" );
   		String code = sc.nextLine();

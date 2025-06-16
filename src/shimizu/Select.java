@@ -49,7 +49,7 @@ public class Select {
 			else if(m == 9 || m == 10) {
 				//月次レポートのときのSQL文の追加
 				sqlReceipt += "and order_date like ?";
-				ps.setString(1, Sales.??());//月指定
+				ps.setString(1, Sales.Month());//月指定
 				
 				if(m == 10) {
 					//月次と顧客指定のレポートのときのSQL文の追加
@@ -59,7 +59,7 @@ public class Select {
 			}
 			
 			else if(!(m == 6)) {
-				//一覧表示ではなく検索ならwhere句をSQL文に追加する
+				//上記以外で、一覧表示ではなく検索ならwhere句をSQL文に追加する
 				sqlReceipt += "and ? = ?";
 				switch(m) {
 				//メニュー選択で入力された値に基づき1つめの?にカラム名を代入

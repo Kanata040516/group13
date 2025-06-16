@@ -28,8 +28,8 @@ public class Menu_employee {
 		}
 		
 		else if(mainmenu == 1) {//注文管理画面に移動
-			System.out.println("注文管理画面に移動します。");
-			Receipt.menuReceipt(0, null);
+			System.out.println("注文管理画面に移動します。.");
+			Receipt.menuReceipt();
 		}
 		
 		else if(mainmenu == 2) {//顧客管理画面に移動

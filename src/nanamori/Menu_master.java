@@ -2,15 +2,11 @@ package nanamori;
 
 import java.util.Scanner;
 
-import yoshida.Main;
-
-import nakamori.EditReceipt;
-
 import nakamori.EditCustomer;
-
 import nakamori.EditItem;
-
 import nakamori.EditMember;
+import nakamori.EditReceipt;
+import yoshida.Main;
 
 public class Menu_master extends Menu_employee{
 
@@ -32,33 +28,40 @@ public class Menu_master extends Menu_employee{
 		
 		Scanner check = new Scanner(System.in);
 
+		EditReceipt er = new EditReceipt();
+		
+		EditItem ei = new EditItem();
+		
+		EditCustomer ec = new EditCustomer();
+		
+		EditMember em = new EditMember();
 		
 		System.out.println("実行する操作を選んでください。\n0.ホーム画面へ戻る\n1.注文編集\n2.商品編集\n3.顧客編集\n4.従業員編集");
 		mainmenu = check.nextInt();//入力した値をmainmenuに入れる
 		
 		if(mainmenu == 0) {//ホーム画面に移動する。
 			System.out.println("初期画面に移動します。");
-			Main.home;
+			Main.main(null);
 		}
 		
 		if(mainmenu == 1) {//注文編集画面に移動する。
 			System.out.println("注文編集画面に移動します。");
-			Editreceipt.???;//???の部分はどのメソッドを実行するか不明.
+			er.startMenu();//???の部分はどのメソッドを実行するか不明.
 		}
 		
 		if(mainmenu == 2) {//商品編集画面に移動する。
 			System.out.println("商品編集画面に移動します。");
-			EditItem.???;//???の部分はどのメソッドを実行するか不明
+			ei.startMenu();//???の部分はどのメソッドを実行するか不明
 		}
 		
 		if(mainmenu == 3) {//顧客編集画面に移動する。
 			System.out.println("顧客編集画面に移動します。");
-			EditCustomer.???;//???の部分はどのメソッドを実行するか不明
+			ec.startMenu();//???の部分はどのメソッドを実行するか不明
 		}
 		
 		if(mainmenu == 4) {//従業員編集画面に移動する。
 			System.out.println("従業員編集画面に移動します。");
-			EditMember.???;//???の部分はどのメソッドを実行するか不明
+			em.startMenu();//???の部分はどのメソッドを実行するか不明
 		}
 		
 		if(mainmenu == 5) {//管理者閲覧画面に移動する。

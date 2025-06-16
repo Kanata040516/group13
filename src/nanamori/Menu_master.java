@@ -41,27 +41,27 @@ public class Menu_master extends Menu_employee{
 		
 		if(mainmenu == 0) {//ホーム画面に移動する。
 			System.out.println("初期画面に移動します。");
-			Main.home();
+			Main.main(null);
 		}
 		
 		if(mainmenu == 1) {//注文編集画面に移動する。
 			System.out.println("注文編集画面に移動します。");
-			er.startMenu();//???の部分はどのメソッドを実行するか不明.
+			er.startMenu();//EditReceipt内のstartMenuを実行
 		}
 		
 		if(mainmenu == 2) {//商品編集画面に移動する。
 			System.out.println("商品編集画面に移動します。");
-			ei.startMenu();//???の部分はどのメソッドを実行するか不明
+			ei.startMenu();//EditItem内のstartMenuを実行
 		}
 		
 		if(mainmenu == 3) {//顧客編集画面に移動する。
 			System.out.println("顧客編集画面に移動します。");
-			ec.startMenu();//???の部分はどのメソッドを実行するか不明
+			ec.startMenu();//EditCustomer内のstartMenuを実行
 		}
 		
 		if(mainmenu == 4) {//従業員編集画面に移動する。
 			System.out.println("従業員編集画面に移動します。");
-			em.startMenu();//???の部分はどのメソッドを実行するか不明
+			em.startMenu();//EditMember内のstartMenuを実行
 		}
 		
 		if(mainmenu == 5) {//管理者閲覧画面に移動する。

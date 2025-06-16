@@ -23,7 +23,7 @@ public class Menu_employee {
 		
 		if(mainmenu == 0) {//ホームに戻る
 			System.out.println("初期画面に移動します。");
-			Main.home();
+			Main.main(null);
 			
 		}
 		

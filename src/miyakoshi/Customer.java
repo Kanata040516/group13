@@ -7,7 +7,7 @@ import yoshida.Main;
 
 public class Customer {
 	
-	static int menu ;  //0-6, 注文検索の項目
+	static int menu;  //0-6, 注文検索の項目
 	static String  search ;//注文検索の内容
 
 		public static void menuCustomer(int menu, String search) {
@@ -33,7 +33,8 @@ public class Customer {
 				} else if (menu == 0) {
 					Main.main(null) ; //ホーム画面へ
 				} else if (menu == 4) {
-					Menu_employee.menu_employee();  //メニュー画面へ
+					Menu_employee employee = new Menu_employee(); 
+					employee.menu_employee(); //メニュー画面へ
 				} else {
 					System.out.println("\n【エラー：項目以外の内容の入力】");
 					System.out.println("0〜4の番号を入力してください。\n");

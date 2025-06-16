@@ -45,31 +45,25 @@ public class EditItem {
 
    
 //-------------------------------------------
-	// 顧客情報を追加するメソッド
+	// 商品情報を追加するメソッド
 	public static void insert ( ) {
 		
 		Scanner sc = new Scanner(System.in) ;
 	
-    System.out.println( "顧客情報を入力してください。" );
+    System.out.println( "商品情報を入力してください。" );
     
-    int gyousuu = Select.selectCustomer( 4, null ) +1 ;
+    int gyousuu = Select.selectItem( 4, null ) +1 ;
 		
-		System.out.println( "店舗形態" );
-		String group = sc.nextLine() ;
+		System.out.println( "商品の価格" );
+		String price = sc.nextLine() ;
 		
-		System.out.println( "店舗名" );
+		System.out.println( "商品名" );
 		String name = sc.nextLine() ;
 		
-		System.out.println( "店舗のメールアドレス" );
-		String mail = sc.nextLine() ;
+		System.out.println( "商品の分類" );
+		String group = sc.nextLine() ;
 		
-		System.out.println( "店舗の住所" );
-		String address = sc.nextLine() ;
-		
-		System.out.println( "店舗の電話番号" );
-		String number = sc.nextLine() ;
-		
-		String sql = "INSERT INTO customer VALUES ( ?, ?, ?, ?, ?, ?);" ;
+		String sql = "INSERT INTO product_detail VALUES ( ?, ?, ?, ?);" ;
 		
 		try ( 
 	  		Connection con = DriverManager.getConnection( url , user_name , password ) ;
@@ -78,11 +72,9 @@ public class EditItem {
 	  				
 	  		//入力値のセット(？マークの部分の差し替え)
 	  		ps.setInt( 1, gyousuu );
-	  		ps.setString( 2, group );
+	  		ps.setString( 2, price );
 	  		ps.setString( 3, name );
-	  		ps.setString( 4, mail );
-	  	    ps.setString( 5, address );
-  		ps.setString( 6, number );
+	  		ps.setString( 4, group );
 	  				
 	  		//SQL文の送信。
 	  		int result = ps.executeUpdate( );

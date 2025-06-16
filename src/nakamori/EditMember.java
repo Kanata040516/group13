@@ -61,7 +61,8 @@ public class EditMember {
   		String eID = sc.nextLine() ;
   		
   		String ePass = null ;
-  		boolean passCheck = false ;
+  		boolean passCheck = Judge_pass_id.passrules( ePass ) ;
+  		passCheck = false ;
   		while( !passCheck ) {
   		
   		System.out.println( "従業員パスワード" );

@@ -41,7 +41,7 @@ public class Menu_master extends Menu_employee{
 		
 		if(mainmenu == 0) {//ホーム画面に移動する。
 			System.out.println("初期画面に移動します。");
-			Main.main(null);
+			Main.home();
 		}
 		
 		if(mainmenu == 1) {//注文編集画面に移動する。

@@ -60,10 +60,16 @@ public class EditMember {
   		System.out.println( "従業員ID" );
   		String eID = sc.nextLine() ;
   		
+  		String ePass = null ;
+  		boolean passCheck = false ;
+  		while( !passCheck ) {
+  		
   		System.out.println( "従業員パスワード" );
-  		String ePass = sc.nextLine() ;
+  		ePass = sc.nextLine() ;
   		
   		Judge_pass_id.passrules( ePass );
+  		
+  		}
   		
   		String sql = "INSERT INTO member VALUES ( ?, ?, ?, ?);" ;
   		

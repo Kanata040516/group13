@@ -7,7 +7,7 @@ import yoshida.Main;
 
 public class Customer {
 	
-	static int menu ;  //0-6, 注文検索の項目
+	static int menu;  //0-6, 注文検索の項目
 	static String  search ;//注文検索の内容
 
 		public static void menuCustomer(int menu, String search) {

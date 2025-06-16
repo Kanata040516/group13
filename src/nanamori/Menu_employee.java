@@ -2,15 +2,11 @@ package nanamori;
 
 import java.util.Scanner;
 
-import yoshida.Main;
-
-import miyakoshi.Receipt;
-
-import miyakoshi.Sales;
-
 import miyakoshi.Customer;
-
 import miyakoshi.Item;
+import miyakoshi.Receipt;
+import miyakoshi.Sales;
+import yoshida.Main;
 
 public class Menu_employee {
 
@@ -27,7 +23,7 @@ public class Menu_employee {
 		
 		if(mainmenu == 0) {//ホームに戻る
 			System.out.println("初期画面に移動します。");
-			Main.home;
+			Main.main(null);
 			
 		}
 		

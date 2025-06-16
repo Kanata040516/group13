@@ -5,6 +5,7 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 
+import miyakoshi.Sales;
 import yoshida.Text;
 
 public class Select {
@@ -13,30 +14,45 @@ public class Select {
 	static String password = Text.password;
 	
 	
-	public static int selectReceipt(int menu, String what) {//注文履歴を表示するメソッド
+	public static int [] selectReceipt(int menu, String what) {//注文履歴を表示するメソッド
 		String sqlReceipt = "select * from receipt join price_history "
 				+ "on receipt.price_history_id = price_history.price_history_id"
 				+ "join product_detail on price_history.product_detail_id = product_detail.product_detail_id"
 				+ "join product_group on product_detail.product_group_id = product_group.product_group_id"
-				+ "join product_type on product_group.product_type_id = product_type.product_type_id";
+				+ "join product_type on product_group.product_type_id = product_type.product_type_id"
+				+ "where order_date between price_history.start_date and coalesc(price_history.last_date,current_date)";
+		//最後の行で注文の日付と価格履歴テーブルを照らし合わせて値段を取得しようとしている
 		
 		int m = menu;
 		String w  = what;
 		
-		int i = 0;
+		int [] i = {0,0};
 		
 		try(
 				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
 				PreparedStatement ps = con.prepareStatement( sqlReceipt ) ;
 			)
 			{
-			if(!(m == 6)) {
+			if(m == 7) {
+				//月次レポートのときのSQL文の追加
+				sqlReceipt += "and  order_date between ? and ?";
+				getString(1,Sales.startDate());
+			}
+			else if(m == 8){
+				//日次と顧客指定のレポートのときのSQL文の追加
+				sqlReceipt += "and order_date = ? and customer_name = ?";
+			}
+			else if(m == 9) {
+				//月次と顧客指定のレポートのときのSQL文の追加
+				sqlReceipt += "and order_date between ? and ? and customer_name = ?";
+			}
+			else if(!(m == 6)) {
 				//一覧表示ではなく検索ならwhere句をSQL文に追加する
-				sqlReceipt += "where ? = ?";
+				sqlReceipt += "and ? = ?";
 				switch(m) {
 				//メニュー選択で入力された値に基づき1つめの?にカラム名を代入
 				case 1:ps.setString(1, "receipt_id");break;//注文ID
-				case 2:ps.setString(1, "order_date");break;//日付
+				case 2:ps.setString(1, "order_date");break;//日付 or 日次レポート
 				case 3:ps.setString(1, "customer_name");break;//顧客名
 				case 4:ps.setString(1, "product_detail_name");break;//商品名
 				case 5:ps.setString(1, "product_group_name");break;//商品分類
@@ -58,7 +74,8 @@ public class Select {
 				String remark = ("remark");//備考
 				
 				System.out.printf("%4s     %s\n  %s店\n取引内容：%s  %d円\n%s",id,date,customer,product,price,remark);
-				i++;//行数を数える
+				i[0]++;//行数を数える
+				i[1] += price;//合計金額の計算
 			}//while
 			
 			}

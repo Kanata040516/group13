@@ -33,26 +33,38 @@ public class Select {
 				PreparedStatement ps = con.prepareStatement( sqlReceipt ) ;
 			)
 			{
-			if(m == 7) {
-				//月次レポートのときのSQL文の追加
+			if(m == 7 || m == 8) {
+				//日次レポートのときのSQL文の追加
 				sqlReceipt += "and  order_date between ? and ?";
-				getString(1,Sales.startDate());
+				ps.setString(1,Sales.startDate());//始めの日指定
+				ps.setString(2,Sales.lastDate());//終わりの日指定
+				
+				if(m == 8) {
+					//日次と顧客指定のときのSQL文の追加
+					sqlReceipt += "and customer_name = ?";
+					ps.setString(3,w);//顧客名を?に代入
+				}
 			}
-			else if(m == 8){
-				//日次と顧客指定のレポートのときのSQL文の追加
-				sqlReceipt += "and order_date = ? and customer_name = ?";
+			
+			else if(m == 9 || m == 10) {
+				//月次レポートのときのSQL文の追加
+				sqlReceipt += "and order_date like ?";
+				ps.setString(1, Sales.??());//月指定
+				
+				if(m == 10) {
+					//月次と顧客指定のレポートのときのSQL文の追加
+					sqlReceipt += "and customer_name = ?";
+					ps.setString(2, w);//顧客名を?に代入
+				}
 			}
-			else if(m == 9) {
-				//月次と顧客指定のレポートのときのSQL文の追加
-				sqlReceipt += "and order_date between ? and ? and customer_name = ?";
-			}
+			
 			else if(!(m == 6)) {
 				//一覧表示ではなく検索ならwhere句をSQL文に追加する
 				sqlReceipt += "and ? = ?";
 				switch(m) {
 				//メニュー選択で入力された値に基づき1つめの?にカラム名を代入
 				case 1:ps.setString(1, "receipt_id");break;//注文ID
-				case 2:ps.setString(1, "order_date");break;//日付 or 日次レポート
+				case 2:ps.setString(1, "order_date");break;//日付
 				case 3:ps.setString(1, "customer_name");break;//顧客名
 				case 4:ps.setString(1, "product_detail_name");break;//商品名
 				case 5:ps.setString(1, "product_group_name");break;//商品分類

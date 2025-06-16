@@ -51,7 +51,7 @@ public class EditReceipt {
 		
 		System.out.println( "注文内容を入力してください。" );
 		
-		int gyousuu = Select.selectReceipt( 6, null )+1 ;
+		int gyousuu = Select.selectReceipt( 6, null )[0] +1 ;
 		
 		System.out.println( "顧客名" );
 		String customer = sc.nextLine() ;

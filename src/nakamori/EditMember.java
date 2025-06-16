@@ -62,12 +62,13 @@ public class EditMember {
   		
   		String ePass = null ;
   		boolean passCheck = false ;
+  		
   		while( !passCheck ) {
   		
   		System.out.println( "従業員パスワード" );
   		ePass = sc.nextLine() ;
   		
-  		Judge_pass_id.passrules( ePass );
+  		passCheck = Judge_pass_id.passrules( ePass );
   		
   		}
   		
@@ -110,8 +111,6 @@ public class EditMember {
 		
 		Scanner sc = new Scanner(System.in) ;
 		
-		int gyousuu = Select.selectMember( )+1 ;
-		
 		System.out.println( "更新する従業員番号を入力してください。" );
 		String code = sc.nextLine();
 		
@@ -138,9 +137,13 @@ public class EditMember {
 		}
 		else if ( choice == 3 ) {
 			columnName = "ePass" ;
+			boolean passCheck = false ;
+			
+	  		while( !passCheck ) {
 			System.out.println( "新しい従業員パスワードを入力してください。" );
 			newValue = sc.nextLine();
-			Judge_pass_id.passrules( newValue );
+			passCheck = Judge_pass_id.passrules( newValue );
+	  		}
 		}
 		else {
 			System.out.println( "無効な番号です。" );
@@ -180,8 +183,6 @@ public class EditMember {
   	// 従業員情報を削除するメソッド
   	public static void delete() {
   		Scanner sc = new Scanner(System.in) ;
-  		
-  		int gyousuu = Select.selectMember( )+1 ;
   		
   		System.out.println( "削除する従業員番号を入力してください。" );
   		String code = sc.nextLine();

@@ -1,8 +1,7 @@
 package miyakoshi;
 
-import java.util.Scanner;s;
-import shimizu.select;
-import com.sun.tools.javac.Main;
+import java.util.Scanner;
+import shimizu.Select;
 
 public class Receipt {
 		

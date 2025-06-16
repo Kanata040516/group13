@@ -2,6 +2,7 @@ package miyakoshi;
 
 import java.util.Scanner;
 import shimizu.Select;
+import nanamori.Menu_employee;
 
 public class Receipt {
 		
@@ -28,9 +29,9 @@ public class Receipt {
 				if ( menu == 1 ||menu == 2 || menu == 3 || menu == 4 || menu == 5) {
 					break; //ループを抜けて詳細画面へ
 				} else if (menu == 0) {
-//					Main.main() ; //ホーム画面へ
+					Main.main(null) ; //ホーム画面へ
 				} else if (menu == 6) {
-//					Menu_employee.menu_select();  //メニュー画面へ
+					Menu_employee.menu_select();  //メニュー画面へ
 				} else {
 					System.out.println("\n【エラー：項目以外の内容の入力】");
 					System.out.println("0〜6の番号を入力してください。\n");

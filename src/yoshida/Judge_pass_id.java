@@ -103,7 +103,7 @@ public class Judge_pass_id {
             System.out.println("パスワードは8文字以上である必要があります。");
             return false;
         }
-<<<<<<< HEAD
+
 
         // ② 大文字を含むか
         if (!pass.matches(".*[A-Z].*")) {
@@ -129,7 +129,7 @@ public class Judge_pass_id {
             return false;
         }
 
-=======
+
  
         // ② 大文字を含むか
         if (!pass.matches(".*[A-Z].*")) {
@@ -155,7 +155,7 @@ public class Judge_pass_id {
             return false;
         }
  
->>>>>>> branch 'master' of https://github.com/Kanata040516/group13.git
+
         // すべての条件を満たす
         return true;
     }

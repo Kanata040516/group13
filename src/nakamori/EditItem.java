@@ -66,8 +66,17 @@ public class EditItem {
 		System.out.println( "商品の分類ID" );
 		String group = sc.nextLine() ;
 		
+<<<<<<< HEAD
 		String sql1 = "INSERT INTO price_history VALUES (?, ?, ?, CURRENT_DATE, null );";
 		String sql2 = "INSERT INTO product_detail VALUES ( ?, ?, ?);" ;
+=======
+		// IDの生成方法（例としてシンプルに連番を使っているならSelectメソッドを活用）
+	    int newProductDetailId = Select.selectItem( /* product_detailのID数を取得するメソッド */ ) + 1;
+	    int newPriceHistoryId = Select.selectItem( /* price_historyのID数を取得するメソッド */ ) + 1;
+		
+		String sql1 = "INSERT INTO price_history VALUES (?, ?, ?, CURRENT_DATE);";
+		String sql2 = "INSERT INTO product_detail VALUES ( ?, ?, ?, ?);" ;
+>>>>>>> branch 'master' of https://github.com/Kanata040516/group13.git
 		
 		try ( 
 	  		Connection con = DriverManager.getConnection( url , user_name , password ) ;
@@ -78,6 +87,7 @@ public class EditItem {
 			con.setAutoCommit(false); // トランザクション開始
 			
 			// price_historyにINSERT
+<<<<<<< HEAD
 			ps1.setString(1, String.format("%04s", gyousuu1));
 	        ps1.setString(2, String.format("%04s", gyousuu2)); // product_detail_idを使う
 	        ps1.setInt(3, price);
@@ -85,6 +95,15 @@ public class EditItem {
 	        
 	        // product_detailにINSERT
 	        ps2.setString(1, String.format("%04s", gyousuu2));
+=======
+			ps1.setString(1, String.format("%04d", newPriceHistoryId));
+	        ps1.setString(2, String.format("%04d", newProductDetailId)); // product_detail_idを使う
+	        ps1.setInt(3, price);
+	        int result1 = ps1.executeUpdate();
+	        
+	        // product_detailにINSERT
+	        ps2.setString(1, String.format("%04d", newProductDetailId));
+>>>>>>> branch 'master' of https://github.com/Kanata040516/group13.git
 	        ps2.setString(2, group);
 	        ps2.setString(3, name);
 	        int result2 = ps2.executeUpdate();

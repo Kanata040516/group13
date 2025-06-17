@@ -283,7 +283,7 @@ public class Select {
 		String sqlItem = "select * from price_history join product_detail "
 				+ "on price_history.product_detail_id = product_detail.product_detail_id "
 				+ "join product_type on product_detail.product_type_id = product_type.product_type_id ";
-		String dataItem = "select count(product_detail_id) from product_detail";
+		String dataItem = "select count(product_detail_id) from product_detail ";
 		
 		System.out.println("selectItem");//debug
 		int m = menu;
@@ -294,7 +294,7 @@ public class Select {
 		
 		if(m == 5) {
 			System.out.println("一覧表示");//debug
-			sqlItem += "limit ?,20";
+			sqlItem += "where last_date is null limit ?,20";
 			
 		}//if
 		else {

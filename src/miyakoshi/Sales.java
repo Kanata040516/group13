@@ -14,16 +14,25 @@ public class Sales {
 	static String date = null; //売り上げ日の記入
 	static String month = null;//売り上げ月の記入
 	
-	public static String startDate() {
+	static String startDate = null;
+	static String lastDate = null;
+	public String startDate() {
+		
+		if(!(startDate == null)) {
+			return startDate;
+		}
 		Scanner sc = new Scanner(System.in); //開始日
 		System.out.print("開始日： ");
-		String startDate = sc.nextLine();
+		startDate = sc.nextLine();
 		return startDate;
 	}
-	public static String lastDate() {
+	public String lastDate() {
+		if(!(lastDate == null)) {
+			return lastDate;
+		}
 		Scanner sc = new Scanner(System.in); //終了日
 		System.out.print("終了日： ");
-		String lastDate = sc.nextLine();
+		lastDate = sc.nextLine();
 		return lastDate;
 	}
 	public static String Month() {
@@ -83,8 +92,6 @@ public class Sales {
 				System.out.println("期間を指定して売上合計を計算します。\n" 
 						+ "表示したいデータの年、開始日、終了日を入力してください。\n");
 				System.out.println("記入例：2025-06-01, 2025-06-30");
-				startDate();
-				lastDate();
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 		}
 		   else if (menu == 3) {
@@ -103,8 +110,6 @@ public class Sales {
 				System.out.println("顧客名と期間を指定して売上合計を計算します。\n" 
 						+ "表示したいデータの顧客名、年、開始日、終了日を選択入力してください。\n");
 				System.out.println("記入例：2025-06-01, 2025-06-30");
-				startDate();
-				lastDate();
 				Customer();
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 		}
@@ -119,8 +124,9 @@ public class Sales {
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 		}  
 		else if(menu == 2) {
-			String start = startDate();
-			String last = lastDate();
+			Sales sales = new Sales();
+			String start = sales.startDate();
+			String last = sales.lastDate();
 			System.out.println("\n【日次：合計】");
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 			System.out.println( start + "～" + last);
@@ -138,8 +144,9 @@ public class Sales {
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 		}  
 		else if(menu == 4) {
-			String start = startDate();
-			String last = lastDate();
+			Sales sales = new Sales();
+			String start = sales.startDate();
+			String last = sales.lastDate();
 			String customer = Customer();
 			System.out.println("\n【日次：合計】");
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");

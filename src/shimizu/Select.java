@@ -46,8 +46,9 @@ public class Select {
 			if(m == 7 || m == 8) {
 				//日次レポートのときのSQL文の追加
 				sqlReceipt += "and  order_date between ? and ?";
-				ps.setString(1,Sales.startDate());//始めの日指定
-				ps.setString(2,Sales.lastDate());//終わりの日指定
+				Sales sales = new Sales();
+				ps.setString(1,sales.startDate());//始めの日指定
+				ps.setString(2,sales.lastDate());//終わりの日指定
 				
 				if(m == 8) {
 					//日次と顧客指定のときのSQL文の追加
@@ -270,12 +271,15 @@ public class Select {
 			)
 			{
 			
+			
+			ResultSet rsCount = psCount.executeQuery();
+			
+			while(rsCount.next()) {
+				count = rsCount.getInt("count(product_detail_id)");
+			}//データ件数を数える
+			
 			if(m == 5) {
 				sqlItem += "limit ?,20";
-				ResultSet rsCount = psCount.executeQuery();
-				while(rsCount.next()) {
-					count = rsCount.getInt("count(product_detail_id)");
-				}//データ件数を数える
 				
 			}//if
 			else {

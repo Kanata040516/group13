@@ -47,8 +47,7 @@ public class Judge_pass_id {
                 String dbPass = rs.getString("ePass");
                 
                 while (true) {
-                    System.out.print("パスワードを入力してください：");
-                    pass = scanner.nextLine();
+                    
 
                     if (passrules(pass)) {
                         System.out.println("パスワードがルールを満たしています。");

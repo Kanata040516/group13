@@ -82,8 +82,8 @@ public class EditMember {
   			//入力値のセット(？マークの部分の差し替え)
   			ps.setInt( 1, gyousuu );
   			ps.setString( 2, eName );
-  			ps.setString( 3, eID );
-  			ps.setString( 4, ePass );
+  			ps.setString( 3, ePass );
+  			ps.setString( 4, eID );
   				
   			//SQL文の送信。
   			int result = ps.executeUpdate( );
@@ -98,6 +98,7 @@ public class EditMember {
   		}
   		catch ( Exception e ) {
   			System.out.println( "エラーが発生しました。" );
+  			e.printStackTrace();
   		}
   		finally {
   			System.out.println( );

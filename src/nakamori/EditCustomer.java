@@ -53,7 +53,8 @@ public class EditCustomer {
         System.out.println( "顧客情報を入力してください。" );
         
         int gyousuu = Select.selectCustomer( 5, null ) +1 ;
-  		
+  		Select.selectCustomerGroup() ; // 店舗形態の表示
+        
   		System.out.println( "店舗形態" );
   		String group = sc.nextLine() ;
   		
@@ -110,6 +111,7 @@ public class EditCustomer {
   	public static void update() {
 		
 		Scanner sc = new Scanner(System.in) ;
+		Select.selectCustomerGroup() ; // 店舗形態の表示
 		
 		System.out.println( "更新する顧客番号を入力してください。" );
 		String code = sc.nextLine();

@@ -21,8 +21,10 @@ public class Judge_pass_id {
         Scanner scanner = new Scanner(System.in);
         System.out.println("IDを入力してください：");
         String id = scanner.nextLine();
+        
         System.out.println("パスワードを入力してください：");
         String pass = scanner.nextLine();
+
         
         int i = 0;
 
@@ -45,17 +47,6 @@ public class Judge_pass_id {
 
             if (rs.next()) {
                 String dbPass = rs.getString("ePass");
-                
-                while (true) {
-                    
-
-                    if (passrules(pass)) {
-                        System.out.println("パスワードがルールを満たしています。");
-                        break; // 入力ループ終了
-                    } else {
-                        System.out.println("パスワードが条件を満たしていません。再入力してください。");
-                    }
-                }
 
                 if (pass.equals(dbPass)) {
                     System.out.println("ログイン成功！");
@@ -74,6 +65,7 @@ public class Judge_pass_id {
                     }
                 } else {
                     System.out.println("パスワードが違います。");
+   
                 }
             } else {
                 System.out.println("IDが存在しません。");
@@ -96,64 +88,5 @@ public class Judge_pass_id {
 //        // 従業員向け処理をここに
 //    }
     
-    public static boolean passrules(String pass) {
-        // ① 文字数（例：8文字以上）
-        if (pass.length() < 8) {
-            System.out.println("パスワードは8文字以上である必要があります。");
-            return false;
-        }
 
-
-        // ② 大文字を含むか
-        if (!pass.matches(".*[A-Z].*")) {
-            System.out.println("パスワードには大文字を1文字以上含めてください。");
-            return false;
-        }
-
-        // ③ 小文字を含む
-        if (!pass.matches(".*[a-z].*")) {
-            System.out.println("パスワードには小文字を1文字以上含めてください。");
-            return false;
-        }
-
-        // ④ 数字を含む
-        if (!pass.matches(".*[0-9].*")) {
-            System.out.println("パスワードには数字を1文字以上含めてください。");
-            return false;
-        }
-
-        // ⑤ 特殊記号を含むか（!@#$%^&*()_+ などを対象に）
-        if (!pass.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*")) {
-            System.out.println("パスワードには特殊記号を1文字以上含めてください。");
-            return false;
-        }
-
- 
-        // ② 大文字を含むか
-        if (!pass.matches(".*[A-Z].*")) {
-            System.out.println("パスワードには大文字を1文字以上含めてください。");
-            return false;
-        }
- 
-        // ③ 小文字を含む
-        if (!pass.matches(".*[a-z].*")) {
-            System.out.println("パスワードには小文字を1文字以上含めてください。");
-            return false;
-        }
- 
-        // ④ 数字を含む
-        if (!pass.matches(".*[0-9].*")) {
-            System.out.println("パスワードには数字を1文字以上含めてください。");
-            return false;
-        }
- 
-        // ⑤ 特殊記号を含むか（!@#$%^&*()_+ などを対象に）
-        if (!pass.matches(".*[!@#$%^&*()_+\\-=\\[\\]{};':\"\\\\|,.<>\\/?].*")) {
-            System.out.println("パスワードには特殊記号を1文字以上含めてください。");
-            return false;
-        }
- 
-        // すべての条件を満たす
-        return true;
-    }
 }

@@ -21,7 +21,7 @@ public class Select {
 				+ "join product_group on product_detail.product_group_id = product_group.product_group_id"
 				+ "join product_type on product_group.product_type_id = product_type.product_type_id"
 				+ "where order_date between price_history.start_date and coalesc(price_history.last_date,current_date)";
-		//最後の行で注文の日付と価格履歴テーブルを照らし合わせて値段を取得しようとしている
+		//最後の行で注文の日付と価格履歴テーブルを照らし合わせて注文の日の値段を取得しようとしている
 		
 		int m = menu;
 		String w  = what;
@@ -49,7 +49,7 @@ public class Select {
 			else if(m == 9 || m == 10) {
 				//月次レポートのときのSQL文の追加
 				sqlReceipt += "and order_date like ?";
-				ps.setString(1, Sales.??());//月指定
+				ps.setString(1, Sales.Month());//月指定
 				
 				if(m == 10) {
 					//月次と顧客指定のレポートのときのSQL文の追加
@@ -59,7 +59,7 @@ public class Select {
 			}
 			
 			else if(!(m == 6)) {
-				//一覧表示ではなく検索ならwhere句をSQL文に追加する
+				//上記以外で、一覧表示ではなく検索ならwhere句をSQL文に追加する
 				sqlReceipt += "and ? = ?";
 				switch(m) {
 				//メニュー選択で入力された値に基づき1つめの?にカラム名を代入
@@ -105,6 +105,8 @@ public class Select {
 	}//selectReceipt
 	
 	
+
+		
 	public static int selectCustomer(int menu, String what) {//顧客情報を表示するメソッド
 		String sqlCustomer = "select * from customer join customer_group "
 				+ "on customer.customer_group_id = customer_group.customer_group_id ";
@@ -162,7 +164,7 @@ public class Select {
 			return i;
 	}//selectCustomer
 	
-	
+
 	public static int selectItem(int menu, String what) {//商品情報を表示するメソッド
 		String sqlItem = "select * from price_history join product_detail "
 				+ "on price_history.product_detail_id = product_detail.product_detail_id "
@@ -221,6 +223,7 @@ public class Select {
 		    }
 		
 		return i;
+
 	}//selectItem
 	
 	
@@ -291,6 +294,7 @@ public class Select {
 	}//selectItemGroup
 	
 	
+
 	public static int selectMember() {//従業員を表示するメソッド
 		
 		String sqlMember = "select * from member";
@@ -333,6 +337,30 @@ public class Select {
 		
 		//return members;←アレイリスト関連
 		return i;
+	
 	}//selectMember
 	
+	public static int price_history() {
+		String sqlHistory = "select * from price_history";
+		int i = 0;
+		
+		try(
+				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
+				PreparedStatement ps = con.prepareStatement( sqlHistory ) ;
+			){
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				i++;
+			}
+		}
+		catch(Exception e) {
+			System.out.println(Text.tryCatch);
+		}
+		finally {
+			System.out.println("price_history〇");//debug
+		}
+		
+		return i;
+	}
 }//Select

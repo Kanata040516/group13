@@ -95,6 +95,7 @@ public class EditReceipt {
 	    }
 		catch ( Exception e ) {
 			System.out.println( "エラーが発生しました。" );
+			e.printStackTrace();
 		}
 		finally {
 			System.out.println( );

@@ -15,15 +15,13 @@ public class Menu_master extends Menu_employee{
 	@Override
 	public  void menu_employee() {//マスター視点のmenu_select処理
 	
-		mainmenu = 0;//mainmenuの値を初期化する処理。
 		
-		System.out.println("実行する操作を選んでください。\n0.ホーム画面へ戻る\n1.注文管理\n2.顧客管理\n3.商品管理\n4.売上管理\n5.編集画面");
+		System.out.println("実行する操作を選んでください。\n0.ホーム画面へ戻る\n1.注文管理\n2.顧客管理\n3.商品管理\n4.売上管理\n5.編集画面に移動");
 		
 		mastermove = true;//店長が操作しているかを判別する。
-		
 		if(mainmenu == 5) {//管理者編集画面に移行する。
 			System.out.println("");
-			System.out.println("管理者編集画面に移動します。");
+			System.out.println("管理者編集画面に移動します。\n ");
 			menu_master();
 		}
 		else {//menu_employee内で入力された値が5じゃない場合、親クラスのコードを参照して処理を行う。
@@ -53,46 +51,45 @@ public class Menu_master extends Menu_employee{
 			mainmenu = check.nextInt();//入力した値をmainmenuに入れる
 			
 			if(mainmenu == 0) {//ホーム画面に移動する。
-				System.out.println("初期画面に移動します。");
+				System.out.println("初期画面に移動します。\n ");
 				Main.main(null);
 			}
 			
 			else if(mainmenu == 1) {//注文編集画面に移動する。
-				System.out.println("注文編集画面に移動します。");
+				System.out.println("注文編集画面に移動します。\n ");
 				er.startMenu();//EditReceipt内のstartMenuを実行
 			}
 			
 			else if(mainmenu == 2) {//商品編集画面に移動する。
-				System.out.println("商品編集画面に移動します。");
+				System.out.println("商品編集画面に移動します。\n ");
 				ei.startMenu();//EditItem内のstartMenuを実行
 			}
 			
 			else if(mainmenu == 3) {//顧客編集画面に移動する。
-				System.out.println("顧客編集画面に移動します。");
+				System.out.println("顧客編集画面に移動します。\n ");
 				ec.startMenu();//EditCustomer内のstartMenuを実行
 			}
 			
 			else if(mainmenu == 4) {//従業員編集画面に移動する。
-				System.out.println("従業員編集画面に移動します。");
+				System.out.println("従業員編集画面に移動します。\n ");
 				em.startMenu();//EditMember内のstartMenuを実行
 			}
 			
 			else if(mainmenu == 5) {//管理者閲覧画面に移動する。
-				System.out.println("管理者閲覧画面に移動します。");
+				System.out.println("管理者閲覧画面に移動します。\n ");
+				mainmenu = 0;//mainmenuの値を初期化する処理。
 				menu_employee();
 			}
 			
 			else {//指定以外の入力が行われた際に、もう一度入力をさせる処理。
-				System.out.println("想定外の入力が行われました。もう一度入力してください。");
-				System.out.println("");
+				System.out.println("想定外の入力が行われました。もう一度入力してください。\n ");
 				menu_master();
 			}
 			
 			
 		}
 		catch(InputMismatchException e){//入力された値が数字じゃなかった場合再起処理によってもう一度入力させる処理。
-			System.out.println("数字で入力してください。もう一度入力してください。");
-			System.out.println("");
+			System.out.println("数字以外が入力されました。もう一度入力してください。\n ");
 			menu_employee();
 		}
 		

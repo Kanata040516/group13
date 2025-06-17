@@ -23,11 +23,9 @@ public class Item {
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("どの項目を検索しますか？\n "
 						+ "操作したい番号をお選びください。\n");
-				System.out.println("");
 				System.out.println("0.ホーム画面\n" + "1. 商品ID \n" + "2.価格\n" + 
 				"3.商品名\n" + "4.分類\n" + "5.一覧表示\n" + "6.メニュー画面\n" );
-				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
-				
+				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");	
 				System.out.print("番号を入力 ： ");
 				menu = sc1.nextInt();
 
@@ -69,18 +67,18 @@ public class Item {
 				System.out.println("\n【詳細検索】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("検索したい商品名を入力してください。");
+				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 				System.out.print("商品名 ： ");
 				search = sc2.nextLine();
-				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 			}
 			
 			else if (menu == 4) { 
 				System.out.println("\n【詳細検索】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("検索したい商品分類を入力してください。");
+				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 				System.out.print("商品分類 ： ");
 				search = sc2.nextLine();
-				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 			}
 			else if (menu == 5) { 
 				Select.selectItem( menu, search);//一覧表示なので詳細検索は無し
@@ -94,9 +92,9 @@ public class Item {
 			System.out.println("移動したい画面の番号をお選びください\n");
 			System.out.println("0.ホーム画面\n" + "1.メニュー画面");
 			Scanner sc = new Scanner(System.in); //顧客
+			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 			System.out.print("番号： ");
 			int move = sc.nextInt();
-			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 			
 			if(move == 0) {
 				Main.main(null); //ホーム画面移動

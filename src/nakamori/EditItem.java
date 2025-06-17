@@ -55,7 +55,7 @@ public class EditItem {
     int gyousuu = Select.selectItem( 4, null ) +1 ;
 		
 		System.out.println( "商品の価格" );
-		String price = sc.nextLine() ;
+		int price = Integer.parseInt(sc.nextLine()) ;
 		
 		System.out.println( "商品名" );
 		String name = sc.nextLine() ;
@@ -63,26 +63,40 @@ public class EditItem {
 		System.out.println( "商品の分類" );
 		String group = sc.nextLine() ;
 		
-		String sql = "INSERT INTO product_detail VALUES ( ?, ?, ?, ?);" ;
+		// IDの生成方法（例としてシンプルに連番を使っているならSelectメソッドを活用）
+	    int newProductDetailId = Select.selectItem( /* product_detailのID数を取得するメソッド */ ) + 1;
+	    int newPriceHistoryId = Select.selectItem( /* price_historyのID数を取得するメソッド */ ) + 1;
+		
+		String sql1 = "INSERT INTO price_history VALUES (?, ?, ?, CURRENT_DATE);";
+		String sql2 = "INSERT INTO product_detail VALUES ( ?, ?, ?, ?);" ;
 		
 		try ( 
 	  		Connection con = DriverManager.getConnection( url , user_name , password ) ;
-	  		PreparedStatement ps = con.prepareStatement( sql ) ;
+	  		PreparedStatement ps1 = con.prepareStatement( sql1 ) ;
+			PreparedStatement ps2 = con.prepareStatement( sql2 ) ;
 	  		) {
+	  		
+			con.setAutoCommit(false); // トランザクション開始
+			
+			// price_historyにINSERT
+			ps1.setString(1, String.format("%04d", newPriceHistoryId));
+	        ps1.setString(2, String.format("%04d", newProductDetailId)); // product_detail_idを使う
+	        ps1.setInt(3, price);
+	        int result1 = ps1.executeUpdate();
+	        
+	        // product_detailにINSERT
+	        ps2.setString(1, String.format("%04d", newProductDetailId));
+	        ps2.setString(2, group);
+	        ps2.setString(3, name);
+	        int result2 = ps2.executeUpdate();
+
 	  				
-	  		//入力値のセット(？マークの部分の差し替え)
-	  		ps.setInt( 1, gyousuu );
-	  		ps.setString( 2, price );
-	  		ps.setString( 3, name );
-	  		ps.setString( 4, group );
-	  				
-	  		//SQL文の送信。
-	  		int result = ps.executeUpdate( );
-	  				
-	  		if ( result == 1 ) {
+	  		if ( result1 == 1 && result2 == 1 ) {
+	  			con.commit(); // 成功したらコミット
 	  			System.out.println( "1件の書き込みが完了しました。" );
 	  		}
 	  		else{
+	  			con.rollback(); // どちらか失敗したらロールバック
 	  			System.out.println( "書き込みに失敗しました。" );
 	  		}
 	  				

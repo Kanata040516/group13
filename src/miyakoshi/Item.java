@@ -29,11 +29,11 @@ public class Item {
 				System.out.print("番号を入力 ： ");
 				menu = sc1.nextInt();
 
-				if (menu == 1 ||menu == 2 ||menu == 3 || menu == 4 ) {
+				if (menu == 1 ||menu == 2 ||menu == 3 || menu == 4 || menu == 5) {
 					break; //ループを抜けて詳細画面へ
 				} else if (menu == 0) {
 					Main.main(null) ; //ホーム画面へ
-				} else if (menu == 5) {
+				} else if (menu == 6) {
 					Menu_employee employee = new Menu_employee(); 
 					employee.menu_employee(); //メニュー画面へ
 				} else {
@@ -80,11 +80,9 @@ public class Item {
 				System.out.print("商品分類 ： ");
 				search = sc2.nextLine();
 			}
-			else if (menu == 5) { 
-				Select.selectItem( 5, null);//一覧表示なので詳細検索は無し
-			}
-			sc1.close();
-			sc2.close();
+			
+			//sc1.close();
+			//sc2.close();
 			Select.selectItem( menu, search );//結果表示をSelectクラスで
 			
 			//結果表示後

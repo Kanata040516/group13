@@ -36,6 +36,36 @@ public class Select {
 		
 		int [] i = {0,0};//1つ目がデータ件数、2つ目が合計金額を入れる配列
 		
+		Sales sales = new Sales();
+		
+		if(m == 7 || m == 8) {
+			//日次レポートのときのSQL文の追加
+			sqlReceipt += "and  order_date between ? and ?";
+			if(m == 8) {
+				//日次と顧客指定のときのSQL文の追加
+				sqlReceipt += "and customer_name = ?";
+			}
+		}
+		
+		else if(m == 9 || m == 10) {
+			//月次レポートのときのSQL文の追加
+			sqlReceipt += "and order_date like ?";
+			if(m == 10) {
+				//月次と顧客指定のレポートのときのSQL文の追加
+				sqlReceipt += "and customer_name = ?";
+			}
+		}
+		
+		else if (m == 6) {
+			sqlReceipt +=  "limit ?,20";
+		}
+		
+		else {
+			//上記以外で、一覧表示ではなく検索ならwhere句をSQL文に追加する
+			sqlReceipt += "and ? = ?";
+		}//else
+		
+		
 		try(
 				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
 				PreparedStatement psCount = con.prepareStatement( dataCount ) ;
@@ -44,34 +74,23 @@ public class Select {
 			{
 			
 			if(m == 7 || m == 8) {
-				//日次レポートのときのSQL文の追加
-				sqlReceipt += "and  order_date between ? and ?";
-				Sales sales = new Sales();
 				ps.setString(1,sales.startDate());//始めの日指定
 				ps.setString(2,sales.lastDate());//終わりの日指定
 				
 				if(m == 8) {
-					//日次と顧客指定のときのSQL文の追加
-					sqlReceipt += "and customer_name = ?";
 					ps.setString(3,w);//顧客名を?に代入
 				}
 			}
 			
 			else if(m == 9 || m == 10) {
-				//月次レポートのときのSQL文の追加
-				sqlReceipt += "and order_date like ?";
-				Sales sales = new Sales();
 				ps.setString(1, sales.Month());//月指定
 				
 				if(m == 10) {
-					//月次と顧客指定のレポートのときのSQL文の追加
-					sqlReceipt += "and customer_name = ?";
 					ps.setString(2, w);//顧客名を?に代入
 				}
 			}
 			
 			else if (m == 6) {
-				sqlReceipt +=  "limit ?,20";
 				ResultSet rsCount = psCount.executeQuery();
 				while(rsCount.next()) {
 			    count = rsCount.getInt("count(receipt_id)");
@@ -80,8 +99,6 @@ public class Select {
 			}
 			
 			else {
-				//上記以外で、一覧表示ではなく検索ならwhere句をSQL文に追加する
-				sqlReceipt += "and ? = ?";
 				switch(m) {
 				//メニュー選択で入力された値に基づき1つめの?にカラム名を代入
 				case 1:ps.setString(1, "receipt_id");break;//注文ID
@@ -223,7 +240,7 @@ public class Select {
 				
 				
 			}//while
-			/*
+			
 			if(m == 4 && data<(count-20)) {//一覧表示かつデータ件数の残りが20件以上だったら
 				System.out.println("\n次のページを表示しますか？：Enter");
 				
@@ -241,7 +258,7 @@ public class Select {
 			}//if
 				
 				else { break total;}
-*/
+
 			break;
 			}//totalwhile
 			
@@ -266,12 +283,22 @@ public class Select {
 				+ "join product_type on product_detail.product_type_id = product_type.product_type_id ";
 		String dataItem = "select count(product_detail_id) from product_detail";
 		
+		System.out.println("selectItem");//debug
 		int m = menu;
 		String w  = what;
 		
 		int data = 0;
 		int count = 0;
 		
+		if(m == 5) {
+			System.out.println("一覧表示");//debug
+			sqlItem += "limit ?,20";
+			
+		}//if
+		else {
+			//一覧表示ではなく検索ならwhere句をSQL文に追加する
+			sqlItem += "where ? = ?";
+		}//else
 		try(
 				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
 				PreparedStatement psCount = con.prepareStatement( dataItem ) ;
@@ -279,26 +306,19 @@ public class Select {
 			)
 			{
 			
-			
-			ResultSet rsCount = psCount.executeQuery();
-			
-			while(rsCount.next()) {
-				count = rsCount.getInt("count(product_detail_id)");
-			}//データ件数を数える
-			
 			if(m == 5) {
-				sqlItem += "limit ?,20";
-				
+				ResultSet rsCount = psCount.executeQuery();
+				while(rsCount.next()) {
+					count = rsCount.getInt("count(product_detail_id)");
+				}//データ件数を数える
 			}//if
 			else {
-				//一覧表示ではなく検索ならwhere句をSQL文に追加する
-				sqlItem += "where ? = ?";
 				
 				switch(m) {
 				case 1:ps.setString(1, "group_detail_id");break;//商品ID
 				case 2:ps.setString(1, "price");break;//価格
 				case 3:ps.setString(1, "group_detail_name");break;//商品名
-				case 4:ps.setString(1, "product_type");break;//分類
+				case 4:ps.setString(1, "name");break;//分類
 				}//switch
 					
 				ps.setString(2, w);
@@ -318,11 +338,11 @@ public class Select {
 			while(rs.next()) {
 				
 				String id = rs.getString("product_detail_id");//商品ID
-				String group = rs.getString("product_type_name");//分類
+				String group = rs.getString("name");//分類
 				String name = rs.getString("product_detail_name");//商品名
 				int price = rs.getInt("price");//価格
 				
-				System.out.printf("%4s: [%s]  %s  %d円",id,group,name,price);
+				System.out.printf("%4s: [%s]  %s  %d円\n",id,group,name,price);
 			}//while
 			if(m == 5 && data<(count-20)) {//一覧表示かつデータ件数の残りが20件以上だったら
 				System.out.println("\n次のページを表示しますか？：Enter");

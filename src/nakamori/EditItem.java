@@ -52,7 +52,8 @@ public class EditItem {
 	
     System.out.println( "商品情報を入力してください。" );
     
-    int gyousuu = Select.selectItem( 4, null ) +1 ;
+    int gyousuu1 = Select.price_history( ) +1 ; // price_historyのデータ件数+1
+    int gyousuu2 = Select.selectItem( 4, null ) +1 ;// product_detailのデータ件数+1
 		
 		System.out.println( "商品の価格" );
 		int price = Integer.parseInt(sc.nextLine()) ;
@@ -60,15 +61,13 @@ public class EditItem {
 		System.out.println( "商品名" );
 		String name = sc.nextLine() ;
 		
-		System.out.println( "商品の分類" );
+		Select.selectItemGroup() ; // 分類の表示
+		
+		System.out.println( "商品の分類ID" );
 		String group = sc.nextLine() ;
 		
-		// IDの生成方法（例としてシンプルに連番を使っているならSelectメソッドを活用）
-	    int newProductDetailId = Select.selectItem( /* product_detailのID数を取得するメソッド */ ) + 1;
-	    int newPriceHistoryId = Select.selectItem( /* price_historyのID数を取得するメソッド */ ) + 1;
-		
-		String sql1 = "INSERT INTO price_history VALUES (?, ?, ?, CURRENT_DATE);";
-		String sql2 = "INSERT INTO product_detail VALUES ( ?, ?, ?, ?);" ;
+		String sql1 = "INSERT INTO price_history VALUES (?, ?, ?, CURRENT_DATE, null );";
+		String sql2 = "INSERT INTO product_detail VALUES ( ?, ?, ?);" ;
 		
 		try ( 
 	  		Connection con = DriverManager.getConnection( url , user_name , password ) ;
@@ -79,13 +78,13 @@ public class EditItem {
 			con.setAutoCommit(false); // トランザクション開始
 			
 			// price_historyにINSERT
-			ps1.setString(1, String.format("%04d", newPriceHistoryId));
-	        ps1.setString(2, String.format("%04d", newProductDetailId)); // product_detail_idを使う
+			ps1.setString(1, String.format("%04s", gyousuu1));
+	        ps1.setString(2, String.format("%04s", gyousuu2)); // product_detail_idを使う
 	        ps1.setInt(3, price);
 	        int result1 = ps1.executeUpdate();
 	        
 	        // product_detailにINSERT
-	        ps2.setString(1, String.format("%04d", newProductDetailId));
+	        ps2.setString(1, String.format("%04s", gyousuu2));
 	        ps2.setString(2, group);
 	        ps2.setString(3, name);
 	        int result2 = ps2.executeUpdate();
@@ -117,6 +116,9 @@ public class EditItem {
 	
 	Scanner sc = new Scanner(System.in) ;
 	
+	Select.selectItem(5, null); // product_detailの一覧表示
+	int gyousuu1 = Select.price_history( ) +1 ; // price_historyのデータ件数+1
+	
 	System.out.println( "更新する商品番号を入力してください。" );
 	String code = sc.nextLine();
 	
@@ -138,7 +140,6 @@ public class EditItem {
 		columnName = "price" ;
 		System.out.println( "新しい商品の価格を入力してください。" );
 		newIntValue = Integer.parseInt(sc.nextLine()) ;
-		isInteger = true ;
 		isPriceUpdate = true ;
 	}
 	else if ( choice == 2 ) {
@@ -157,7 +158,7 @@ public class EditItem {
 	}
 		
 	String sql = isPriceUpdate ?
-			"UPDATE price_history SET " + columnName + " = ? WHERE price_no = ?;" :
+			"INSERT INTO price_history VALUES (?, ?, ?, CURRENT_DATE, null );":
 	        "UPDATE product_detail SET " + columnName + " = ? WHERE product_no = ?;" ;
 	
 	try ( 
@@ -165,12 +166,15 @@ public class EditItem {
 		PreparedStatement ps = con.prepareStatement( sql ) ;
 		) {
 		
-		if (isInteger) {
-	            ps.setInt(1, newIntValue);
-	        } else {
-	            ps.setString(1, newValue);
-	        }
-	        ps.setString(2, code);
+		if ( isPriceUpdate ) {
+			ps.setString(1, String.format("%04s", gyousuu1));
+	        ps.setString(2, String.format("%04s", code)); // product_detail_idを使う
+	        ps.setInt(3, newIntValue);
+		} 
+		else {
+	    ps.setString(1, newValue);
+	    ps.setString(2, code);
+		}
 	      
 	    int result = ps.executeUpdate();
 			
@@ -196,6 +200,8 @@ public class EditItem {
 	// 商品情報を削除するメソッド
 	public static void delete() {
     Scanner sc = new Scanner(System.in) ;
+    
+    Select.selectItem(5, null);
     
     System.out.println( "削除するIDを入力してください。" );
     String code = sc.nextLine();

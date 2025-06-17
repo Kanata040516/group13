@@ -1,8 +1,11 @@
 package miyakoshi;
 
 import java.util.Scanner;
-import shimizu.Select;
+
 import nanamori.Menu_employee;
+import nanamori.Menu_master;
+import shimizu.Select;
+import yoshida.Judge_pass_id;
 import yoshida.Main;
 
 public class Sales {
@@ -137,7 +140,7 @@ public class Sales {
 		else if(menu == 4) {
 			String start = startDate();
 			String last = lastDate();
-			 String customer = Customer();
+			String customer = Customer();
 			System.out.println("\n【日次：合計】");
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 			System.out.println( "顧客名 ： " + customer + "\n" );
@@ -145,6 +148,30 @@ public class Sales {
 			System.out.println("\n売上合計" + Select.selectReceipt(8,customer)[1]  + "円" ); 
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 		}
+		
+		//結果表示後
+		System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
+		System.out.println("移動したい画面の番号をお選びください\n");
+		System.out.println("0.ホーム画面\n" + "1.メニュー画面");
+		Scanner sc = new Scanner(System.in); //顧客
+		System.out.print("番号： ");
+		int move = sc.nextInt();
+		System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
+		String m = Integer.toString(move);
+		
+		if("0".equals(m)) {
+			Main.main(null); //ホーム画面移動
+		}else if("1".equals(m)) {
+			Judge_pass_id j = new Judge_pass_id();
+		    int pass = j.judge();
+			if ( "0000".equals(pass)) {
+				Menu_master ma = new Menu_master(); //店長のメニュー画面
+				ma.menu_master();
+            } else {
+            	Menu_employee em = new Menu_employee(); //従業員のメニュー画面
+            	em.menu_employee();
+            }
+			sc.close();
+		}
 	}
-	
 }

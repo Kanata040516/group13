@@ -154,9 +154,9 @@ public class Sales {
 		System.out.println("移動したい画面の番号をお選びください\n");
 		System.out.println("0.ホーム画面\n" + "1.メニュー画面");
 		Scanner sc = new Scanner(System.in); //顧客
+		System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 		System.out.print("番号： ");
 		int move = sc.nextInt();
-		System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 		
 		if(move == 0) {
 			Main.main(null); //ホーム画面移動

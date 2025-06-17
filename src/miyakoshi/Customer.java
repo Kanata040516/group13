@@ -23,11 +23,9 @@ public class Customer {
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("どの項目を検索しますか？\n "
 						+ "操作したい番号をお選びください。\n");
-				System.out.println("");
 				System.out.println("0.ホーム画面\n" + "1. 顧客名 \n" + "2.住所\n" + 
 				"3.店舗形態\n" + "4.一覧表示\n"+ "5.メニュー画面\n");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
-				
 				System.out.print("番号を入力 ： ");
 				menu = sc1.nextInt();
 
@@ -68,9 +66,9 @@ public class Customer {
 				System.out.println("\n【詳細検索】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("検索したい店舗形態を入力してください。");
+				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 				System.out.print("店舗形態 ");
 				search = sc2.nextLine();
-				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 			}
 			else if (menu == 4) { 
 				Select.selectCustomer( menu, search );//一覧表示なので詳細検索は無し
@@ -84,9 +82,9 @@ public class Customer {
 			System.out.println("移動したい画面の番号をお選びください\n");
 			System.out.println("0.ホーム画面\n" + "1.メニュー画面");
 			Scanner sc = new Scanner(System.in); //顧客
+			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 			System.out.print("番号： ");
 			int move = sc.nextInt();
-			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 			
 			if(move == 0) {
 				Main.main(null); //ホーム画面移動

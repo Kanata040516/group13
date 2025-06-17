@@ -417,7 +417,7 @@ public class Select {
 	public static int selectMember() {//従業員を表示するメソッド
 		
 		String sqlMember = "select * from member limit ?,20";
-		String dataMember = "select count(member_id) from member";
+		String dataMember = "select count(member_no) from member";
 		
 		int data = 0;
 		int count = 0;
@@ -433,7 +433,7 @@ public class Select {
 			
 			ResultSet rsCount = psCount.executeQuery();
 			while(rsCount.next()) {
-				count = rsCount.getInt("count(member_id)");
+				count = rsCount.getInt("count(member_no)");
 			}//データ件数を数える
 			
 			

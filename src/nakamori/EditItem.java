@@ -48,7 +48,7 @@ public class EditItem {
 	// 商品情報を追加するメソッド
 	public static void insert ( ) {
 		
-		Scanner sc = new Scanner(System.in) ;
+	Scanner sc = new Scanner(System.in) ;
 	
     System.out.println( "商品情報を入力してください。" );
     
@@ -149,9 +149,10 @@ public class EditItem {
 		newValue = sc.nextLine();
 	}
 	else if ( choice == 3 ) {
+		Select.selectItemGroup();
 		columnName = "group" ;
-		System.out.println( "新しい商品の分類を入力してください。" );
-		newIntValue = Integer.parseInt(sc.nextLine()) ;
+		System.out.println( "新しい商品の分類IDを入力してください。" );
+		newValue = sc.nextLine() ;
 	}
 	else {
 		System.out.println( "無効な番号です。" );
@@ -236,5 +237,3 @@ public class EditItem {
    }
 
   }
-
-

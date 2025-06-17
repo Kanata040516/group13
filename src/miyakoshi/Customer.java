@@ -33,7 +33,7 @@ public class Customer {
 					break; //ループを抜けて詳細画面へ
 				} else if (menu == 0) {
 					Main.main(null) ; //ホーム画面へ
-				} else if (menu == 4) {
+				} else if (menu == 5) {
 					Menu_employee employee = new Menu_employee(); 
 					employee.menu_employee(); //メニュー画面へ
 				} else {
@@ -71,10 +71,9 @@ public class Customer {
 				search = sc2.nextLine();
 			}
 			else if (menu == 4) { 
-				Select.selectCustomer( menu, search );//一覧表示なので詳細検索は無し
+				//Select.selectCustomer( menu, search );//一覧表示なので詳細検索は無し
 			}
-			sc1.close();
-			sc2.close();
+			
 			Select.selectCustomer( menu, search );//結果表示をSelectクラスで
 			
 			//結果表示後
@@ -85,9 +84,9 @@ public class Customer {
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 			System.out.print("番号： ");
 			int move = sc.nextInt();
-			
+
 			if(move == 0) {
-				Main.main(null); //ホーム画面移動
+				Main.main(new String[] {}); //ホーム画面移動
 			}else if(move == 1) {
 				Judge_pass_id j = new Judge_pass_id();
 			    int pass = j.judge();
@@ -99,6 +98,8 @@ public class Customer {
 	            	em.menu_employee();
 	            }
 				sc.close();
+				sc1.close();
+				sc2.close();
 			}
 	}
 }

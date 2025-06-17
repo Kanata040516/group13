@@ -167,6 +167,16 @@ public class Select {
 		
 		int count = 0;//データ件数を入れる変数
 		
+		if(m == 4) {
+			System.out.println("一覧表示");//debug
+			sqlCustomer +=  "limit ?,20";
+		}
+		else{
+			//一覧表示ではなく検索ならwhere句をSQL文に追加する
+			sqlCustomer += "where ? = ?";
+			System.out.println("if");//debug
+		}//if
+		
 		try(
 				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
 				PreparedStatement psCount = con.prepareStatement( dataCustomer ) ;
@@ -181,14 +191,8 @@ public class Select {
 				count = rsCount.getInt("count(customer_id)");
 			}//データ件数を数える
 			
-			if(m == 4) {
-				sqlCustomer +=  "limit ?,20";
-			}
 			
-			else{
-				//一覧表示ではなく検索ならwhere句をSQL文に追加する
-				sqlCustomer += "where ? = ?";
-				
+			if(!(m  == 4)) {
 				switch(m) {
 				//メニュー選択で入力された値に基づき1つめの?にカラム名を代入
 				case 1:ps.setString(1, "customer_name");break;//顧客名
@@ -198,9 +202,8 @@ public class Select {
 				
 				ps.setString(2, w);
 				//検索したい値を2つめの?に代入
-				
-				System.out.println("if");//debug
 			}//if
+				
 			
 			total:while(true) {
 				
@@ -216,10 +219,11 @@ public class Select {
 				String group = rs.getString("customer_group_name");//店舗形態
 				String name = rs.getString("customer_name");//顧客名
 				
-				System.out.printf("%4s: [%s]  %s店",id,group,name);
+				System.out.printf("%4s: [%s]  %s店\n",id,group,name);
 				
 				
 			}//while
+			/*
 			if(m == 4 && data<(count-20)) {//一覧表示かつデータ件数の残りが20件以上だったら
 				System.out.println("\n次のページを表示しますか？：Enter");
 				
@@ -237,7 +241,8 @@ public class Select {
 			}//if
 				
 				else { break total;}
-
+*/
+			break;
 			}//totalwhile
 			
 			}//try

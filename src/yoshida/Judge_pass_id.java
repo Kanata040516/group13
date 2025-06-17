@@ -130,7 +130,6 @@ public class Judge_pass_id {
         }
 
 
- 
         // ② 大文字を含むか
         if (!pass.matches(".*[A-Z].*")) {
             System.out.println("パスワードには大文字を1文字以上含めてください。");
@@ -154,7 +153,6 @@ public class Judge_pass_id {
             System.out.println("パスワードには特殊記号を1文字以上含めてください。");
             return false;
         }
- 
 
         // すべての条件を満たす
         return true;

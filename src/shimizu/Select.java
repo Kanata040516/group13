@@ -17,11 +17,13 @@ public class Select {
 	
 	public static int [] selectReceipt(int menu, String what) {//注文履歴を表示するメソッド
 		String sqlReceipt = "select * from receipt join price_history "
-				+ "on receipt.price_history_id = price_history.price_history_id"
-				+ "join product_detail on price_history.product_detail_id = product_detail.product_detail_id"
-				+ "join product_type on product_detail.product_type_id = product_type.product_type_id"
-				+ "join product_group on product_type.product_group_id = product_group.product_group_id"
-				+ "where order_date between price_history.start_date and coalesc(price_history.last_date,current_date)";
+				+ "on receipt.price_history_id = price_history.price_history_id "
+				+ "join product_detail on price_history.product_detail_id = product_detail.product_detail_id "
+				+ "join product_type on product_detail.product_type_id = product_type.product_type_id "
+				+ "join product_group on product_type.product_group_id = product_group.product_group_id "
+				+ "join customer on receipt.customer_id = customer.customer_id"
+				+ "where order_date between price_history.start_date and coalesce(price_history.last_date,current_date) ";
+				
 		
 		String dataCount = "select count(receipt_id) from receipt";
 		

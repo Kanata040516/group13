@@ -161,7 +161,7 @@ public class Sales {
 		
 		if("0".equals(m)) {
 			Main.main(null); //ホーム画面移動
-		} else if("1".equals(m)) {
+		}else if("1".equals(m)) {
 			Judge_pass_id j = new Judge_pass_id();
 		    int pass = j.judge();
 			if ( "0000".equals(pass)) {

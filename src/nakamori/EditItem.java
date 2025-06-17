@@ -53,7 +53,7 @@ public class EditItem {
     System.out.println( "商品情報を入力してください。" );
     
     int gyousuu1 = Select.price_history( ) +1 ; // price_historyのデータ件数+1
-    int gyousuu2 = Select.selectItem( 4, null ) +1 ;// product_detailのデータ件数+1
+    int gyousuu2 = Select.selectItem( 5, null ) +1 ;// product_detailのデータ件数+1
 		
 		System.out.println( "商品の価格" );
 		int price = sc.nextInt() ;

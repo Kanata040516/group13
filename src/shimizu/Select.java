@@ -60,7 +60,8 @@ public class Select {
 			else if(m == 9 || m == 10) {
 				//月次レポートのときのSQL文の追加
 				sqlReceipt += "and order_date like ?";
-				ps.setString(1, Sales.Month());//月指定
+				Sales sales = new Sales();
+				ps.setString(1, sales.Month());//月指定
 				
 				if(m == 10) {
 					//月次と顧客指定のレポートのときのSQL文の追加
@@ -142,6 +143,7 @@ public class Select {
 			
 			catch(Exception e){
 				System.out.println(Text.tryCatch);
+				System.out.println(e);//debug
 			}
 		    
 		    finally {
@@ -242,6 +244,7 @@ public class Select {
 			
 			catch(Exception e){
 				System.out.println(Text.tryCatch);
+				System.out.println(e);//debug
 			}
 		    
 		    finally {
@@ -340,6 +343,7 @@ public class Select {
 			
 			catch(Exception e){
 				System.out.println(Text.tryCatch);
+				System.out.println(e);//debug
 			}
 		    
 		    finally {
@@ -375,6 +379,7 @@ public class Select {
 			
 			catch(Exception e){
 				System.out.println(Text.tryCatch);
+				System.out.println(e);//debug
 			}
 		    
 		    finally {
@@ -400,7 +405,7 @@ public class Select {
 			while(rs.next()) {
 				
 				id = rs.getString("product_type_id");//分類ID
-				String name = rs.getString("product_type_name");//分類名
+				String name = rs.getString("name");//分類名
 				
 				System.out.printf("%4s:   %s\n",id,name);
 			}//while
@@ -409,6 +414,7 @@ public class Select {
 			
 			catch(Exception e){
 				System.out.println(Text.tryCatch);
+				System.out.println(e);//debug
 			}
 		    
 		    finally {
@@ -487,6 +493,7 @@ public class Select {
 			
 			catch(Exception e){
 				System.out.println(Text.tryCatch);
+				System.out.println(e);//debug
 			}
 		    
 		    finally {
@@ -515,6 +522,7 @@ public class Select {
 		}
 		catch(Exception e) {
 			System.out.println(Text.tryCatch);
+			System.out.println(e);//debug
 		}
 		finally {
 			System.out.println("price_history〇");//debug

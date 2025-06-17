@@ -81,7 +81,7 @@ public class Item {
 				search = sc2.nextLine();
 			}
 			else if (menu == 5) { 
-				Select.selectItem( menu, search);//一覧表示なので詳細検索は無し
+				Select.selectItem( 5, null);//一覧表示なので詳細検索は無し
 			}
 			sc1.close();
 			sc2.close();

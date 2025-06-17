@@ -16,6 +16,7 @@ public class Sales {
 	
 	static String startDate = null;
 	static String lastDate = null;
+	
 	public String startDate() {
 		
 		if(!(startDate == null)) {

@@ -362,5 +362,5 @@ public class Select {
 		}
 		
 		return i;
-	}
+	}//price_history
 }//Select

@@ -204,6 +204,8 @@ public class EditCustomer {
   	public static void delete() {
 	Scanner sc = new Scanner(System.in) ;
 	
+	Select.selectCustomerGroup() ; // 店舗形態の表示
+	
 	System.out.println( "削除するIDを入力してください。" );
 	String code = sc.nextLine();
 		

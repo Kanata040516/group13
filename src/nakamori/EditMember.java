@@ -109,6 +109,7 @@ public class EditMember {
   	// 従業員を更新するメソッド
     public static void update() {
 		
+    	Select.selectMember( );
 		Scanner sc = new Scanner(System.in) ;
 		
 		System.out.println( "更新する従業員番号を入力してください。" );
@@ -182,6 +183,8 @@ public class EditMember {
     //-------------------------------------------
   	// 従業員情報を削除するメソッド
   	public static void delete() {
+  		
+  		Select.selectMember( );
   		Scanner sc = new Scanner(System.in) ;
   		
   		System.out.println( "削除する従業員番号を入力してください。" );

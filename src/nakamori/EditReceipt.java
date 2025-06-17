@@ -47,11 +47,10 @@ public class EditReceipt {
 	// 注文を追加するメソッド
 	public static void insert ( ) {
 		
+		int gyousuu = Select.selectReceipt( 6, null )[0] +1 ;
 		Scanner sc = new Scanner(System.in) ;
 		
 		System.out.println( "注文内容を入力してください。" );
-		
-		int gyousuu = Select.selectReceipt( 6, null )[0] +1 ;
 		
 		System.out.println( "顧客名" );
 		String customer = sc.nextLine() ;
@@ -107,6 +106,7 @@ public class EditReceipt {
 	// 注文を更新するメソッド
 	public static void update() {
 		
+		Select.selectReceipt( 6, null ) ; 
 		Scanner sc = new Scanner(System.in) ;
 		
 		System.out.println( "更新する注文IDを入力してください。" );
@@ -192,6 +192,8 @@ public class EditReceipt {
 	//-------------------------------------------
 	// 注文を削除するメソッド
 	public static void delete() {
+		
+		Select.selectReceipt( 6, null ) ; 
 		Scanner sc = new Scanner(System.in) ;
 		
 		System.out.println( "削除するIDを入力してください。" );

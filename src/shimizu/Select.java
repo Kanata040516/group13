@@ -19,8 +19,8 @@ public class Select {
 		String sqlReceipt = "select * from receipt join price_history "
 				+ "on receipt.price_history_id = price_history.price_history_id"
 				+ "join product_detail on price_history.product_detail_id = product_detail.product_detail_id"
-				+ "join product_group on product_detail.product_group_id = product_group.product_group_id"
-				+ "join product_type on product_group.product_type_id = product_type.product_type_id"
+				+ "join product_type on product_detail.product_type_id = product_type.product_type_id"
+				+ "join product_group on product_type.product_group_id = product_group.product_group_id"
 				+ "where order_date between price_history.start_date and coalesc(price_history.last_date,current_date)";
 		
 		String dataCount = "select count(receipt_id) from receipt";
@@ -86,7 +86,7 @@ public class Select {
 				case 2:ps.setString(1, "order_date");break;//日付
 				case 3:ps.setString(1, "customer_name");break;//顧客名
 				case 4:ps.setString(1, "product_detail_name");break;//商品名
-				case 5:ps.setString(1, "product_group_name");break;//商品分類
+				case 5:ps.setString(1, "product_type_name");break;//商品分類
 				}//switch
 				
 				ps.setString(2, w);
@@ -254,7 +254,7 @@ public class Select {
 	public static int selectItem(int menu, String what) {//商品情報を表示するメソッド
 		String sqlItem = "select * from price_history join product_detail "
 				+ "on price_history.product_detail_id = product_detail.product_detail_id "
-				+ "join product_group on product_detail.product_group_id = product_group.product_group_id ";
+				+ "join product_type on product_detail.product_type_id = product_type.product_type_id ";
 		String dataItem = "select count(product_detail_id) from product_detail";
 		
 		int m = menu;
@@ -286,7 +286,7 @@ public class Select {
 				case 1:ps.setString(1, "group_detail_id");break;//商品ID
 				case 2:ps.setString(1, "price");break;//価格
 				case 3:ps.setString(1, "group_detail_name");break;//商品名
-				case 4:ps.setString(1, "product_group");break;//分類
+				case 4:ps.setString(1, "product_type");break;//分類
 				}//switch
 					
 				ps.setString(2, w);
@@ -306,7 +306,7 @@ public class Select {
 			while(rs.next()) {
 				
 				String id = rs.getString("product_detail_id");//商品ID
-				String group = rs.getString("product_group_name");//分類
+				String group = rs.getString("product_type_name");//分類
 				String name = rs.getString("product_detail_name");//商品名
 				int price = rs.getInt("price");//価格
 				
@@ -382,7 +382,7 @@ public class Select {
 	
 	
 	public static String selectItemGroup() {//商品分類(食べ物なら「野菜」とか)を表示するメソッド
-		String sqlItemGroup = "select * from product_group";
+		String sqlItemGroup = "select * from product_type";
 		String id = null;
 		
 		try(
@@ -395,8 +395,8 @@ public class Select {
 			
 			while(rs.next()) {
 				
-				id = rs.getString("product_group_id");//分類ID
-				String name = rs.getString("product_group_name");//分類名
+				id = rs.getString("product_type_id");//分類ID
+				String name = rs.getString("product_type_name");//分類名
 				
 				System.out.printf("%4s:   %s\n",id,name);
 			}//while

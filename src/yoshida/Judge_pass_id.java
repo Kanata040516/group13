@@ -64,13 +64,13 @@ public class Judge_pass_id {
                     if (id.equals("0000")) {
                     	Menu_master master = new Menu_master();
                     	master.menu_master();
-//                    	店長だったら0を返す
+//                    	店長だったら1を返す
                     	i = 1;
                     	
                     } else {
                     	Menu_employee employee = new Menu_employee();
                     	employee.menu_employee();
-//                    	従業員だったら0を返す
+//                    	従業員だったら2を返す
                     	i = 2;
                     }
                 } else {

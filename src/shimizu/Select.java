@@ -105,6 +105,8 @@ public class Select {
 	}//selectReceipt
 	
 	
+
+		
 	public static int selectCustomer(int menu, String what) {//顧客情報を表示するメソッド
 		String sqlCustomer = "select * from customer join customer_group "
 				+ "on customer.customer_group_id = customer_group.customer_group_id ";
@@ -162,7 +164,7 @@ public class Select {
 			return i;
 	}//selectCustomer
 	
-	
+
 	public static int selectItem(int menu, String what) {//商品情報を表示するメソッド
 		String sqlItem = "select * from price_history join product_detail "
 				+ "on price_history.product_detail_id = product_detail.product_detail_id "
@@ -221,6 +223,7 @@ public class Select {
 		    }
 		
 		return i;
+
 	}//selectItem
 	
 	
@@ -291,6 +294,7 @@ public class Select {
 	}//selectItemGroup
 	
 	
+
 	public static int selectMember() {//従業員を表示するメソッド
 		
 		String sqlMember = "select * from member";
@@ -333,6 +337,7 @@ public class Select {
 		
 		//return members;←アレイリスト関連
 		return i;
+	
 	}//selectMember
 	
 	public static int price_history() {

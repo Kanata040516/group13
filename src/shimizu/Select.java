@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.Scanner;
 
 import miyakoshi.Sales;
 import yoshida.Text;
@@ -21,18 +22,27 @@ public class Select {
 				+ "join product_group on product_detail.product_group_id = product_group.product_group_id"
 				+ "join product_type on product_group.product_type_id = product_type.product_type_id"
 				+ "where order_date between price_history.start_date and coalesc(price_history.last_date,current_date)";
+		
+		String dataCount = "select count(receipt_id) from receipt";
+		
 		//最後の行で注文の日付と価格履歴テーブルを照らし合わせて注文の日の値段を取得しようとしている
 		
 		int m = menu;
 		String w  = what;
 		
-		int [] i = {0,0};
+		int data = 0;//データを20件ずつ表示するために値を増加させていく変数
+		
+		int count = 0;//データ件数を入れる変数
+		
+		int [] i = {0,0};//1つ目がデータ件数、2つ目が合計金額を入れる配列
 		
 		try(
 				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
+				PreparedStatement psCount = con.prepareStatement( dataCount ) ;
 				PreparedStatement ps = con.prepareStatement( sqlReceipt ) ;
 			)
 			{
+			
 			if(m == 7 || m == 8) {
 				//日次レポートのときのSQL文の追加
 				sqlReceipt += "and  order_date between ? and ?";
@@ -58,7 +68,16 @@ public class Select {
 				}
 			}
 			
-			else if(!(m == 6)) {
+			else if (m == 6) {
+				sqlReceipt +=  "limit ?,20";
+				ResultSet rsCount = psCount.executeQuery();
+				while(rsCount.next()) {
+			    count = rsCount.getInt("count(receipt_id)");
+				}//データ件数を数える
+				
+			}
+			
+			else {
 				//上記以外で、一覧表示ではなく検索ならwhere句をSQL文に追加する
 				sqlReceipt += "and ? = ?";
 				switch(m) {
@@ -72,9 +91,14 @@ public class Select {
 				
 				ps.setString(2, w);
 				//検索したい値を2つめの?に代入
-			}//if
+			}//else
 			
-			ResultSet rs = ps.executeQuery();
+			total:while(true) {
+				 if(m == 6) {
+					 ps.setInt(1, data);
+				 }//一覧表示のときだけループの中でdataを増加させて表示をわけられるように
+				 
+				ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				
@@ -86,11 +110,34 @@ public class Select {
 				String remark = ("remark");//備考
 				
 				System.out.printf("%4s     %s\n  %s店\n取引内容：%s  %d円\n%s",id,date,customer,product,price,remark);
-				i[0]++;//行数を数える
+				
 				i[1] += price;//合計金額の計算
 			}//while
 			
-			}
+			
+			if(m == 6 && data<(count-20)) {//一覧表示かつデータ件数の残りが20件以上だったら
+					System.out.println("\n次のページを表示しますか？：Enter");
+					
+					while(true) {
+					String enter = new Scanner(System.in).nextLine();
+					if(enter.equals("")) {//Enterが押されたら
+						data+=20;break;//次のデータを表示させるためにdataを増加させてループ抜ける
+					}
+					
+					else{//Enter以外の入力があった場合
+						System.out.println("\n~~~次のページを表示したい場合はEnterのみを押してください~~~");
+						continue;//Enterのみを入力させるためループを繰り返す
+					}
+					}//while
+				}//if
+				
+				else { break total;}
+				
+				i[0] = count;
+				}//totalwhile
+			}//try
+			
+			
 			
 			catch(Exception e){
 				System.out.println(Text.tryCatch);
@@ -105,24 +152,37 @@ public class Select {
 	}//selectReceipt
 	
 	
-
-		
 	public static int selectCustomer(int menu, String what) {//顧客情報を表示するメソッド
 		String sqlCustomer = "select * from customer join customer_group "
 				+ "on customer.customer_group_id = customer_group.customer_group_id ";
+		String dataCustomer = "select count(customer_id) from customer";
 		
 		int m = menu;
 		String w  = what;
 		
-		int i = 0;
+		int data = 0;//データを20件ずつ表示するために値を増加させていく変数
+		
+		int count = 0;//データ件数を入れる変数
 		
 		try(
 				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
+				PreparedStatement psCount = con.prepareStatement( dataCustomer ) ;
 				PreparedStatement ps = con.prepareStatement( sqlCustomer ) ;
 			)
 			{
 			
-			if(!(m == 4)) {
+
+			ResultSet rsCount = psCount.executeQuery();
+			
+			while(rsCount.next()) {
+				count = rsCount.getInt("count(customer_id)");
+			}//データ件数を数える
+			
+			if(m == 4) {
+				sqlCustomer +=  "limit ?,20";
+			}
+			
+			else{
 				//一覧表示ではなく検索ならwhere句をSQL文に追加する
 				sqlCustomer += "where ? = ?";
 				
@@ -139,6 +199,12 @@ public class Select {
 				System.out.println("if");//debug
 			}//if
 			
+			total:while(true) {
+				
+				if(m== 4) {
+					ps.setInt(1,data);
+				}
+				
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
@@ -148,10 +214,30 @@ public class Select {
 				String name = rs.getString("customer_name");//顧客名
 				
 				System.out.printf("%4s: [%s]  %s店",id,group,name);
-				i++;//行数を数える
+				
+				
 			}//while
+			if(m == 4 && data<(count-20)) {//一覧表示かつデータ件数の残りが20件以上だったら
+				System.out.println("\n次のページを表示しますか？：Enter");
+				
+				while(true) {
+				String enter = new Scanner(System.in).nextLine();
+				if(enter.equals("")) {//Enterが押されたら
+					data+=20;break;//次のデータを表示させるためにdataを増加させてループ抜ける
+				}
+				
+				else{//Enter以外の入力があった場合
+					System.out.println("\n~~~次のページを表示したい場合はEnterのみを押してください~~~");
+					continue;//Enterのみを入力させるためループを繰り返す
+				}
+				}//while
+			}//if
+				
+				else { break total;}
+
+			}//totalwhile
 			
-			}
+			}//try
 			
 			catch(Exception e){
 				System.out.println(Text.tryCatch);
@@ -161,28 +247,38 @@ public class Select {
 		    	System.out.println("select〇");//debug
 		    }
 			
-			return i;
+			return count;
 	}//selectCustomer
 	
-
+	
 	public static int selectItem(int menu, String what) {//商品情報を表示するメソッド
 		String sqlItem = "select * from price_history join product_detail "
 				+ "on price_history.product_detail_id = product_detail.product_detail_id "
-				+ "join product_group on product_detail.product_group_id = product_group.product_group_id "
-				+ "where ? = ?";
+				+ "join product_group on product_detail.product_group_id = product_group.product_group_id ";
+		String dataItem = "select count(product_detail_id) from product_detail";
 		
 		int m = menu;
 		String w  = what;
 		
-		int i = 0;;
+		int data = 0;
+		int count = 0;
 		
 		try(
 				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
+				PreparedStatement psCount = con.prepareStatement( dataItem ) ;
 				PreparedStatement ps = con.prepareStatement( sqlItem ) ;
 			)
 			{
 			
-			if(!(m == 5)) {
+			if(m == 5) {
+				sqlItem += "limit ?,20";
+				ResultSet rsCount = psCount.executeQuery();
+				while(rsCount.next()) {
+					count = rsCount.getInt("count(product_detail_id)");
+				}//データ件数を数える
+				
+			}//if
+			else {
 				//一覧表示ではなく検索ならwhere句をSQL文に追加する
 				sqlItem += "where ? = ?";
 				
@@ -197,8 +293,14 @@ public class Select {
 				//検索したい値を2つめの?に代入
 				
 				System.out.println("if");//debug
-			}//if
+			}//else
 			
+             total:while(true) {
+				
+				if(m== 5) {
+					ps.setInt(1,data);
+				}
+				
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
@@ -209,10 +311,28 @@ public class Select {
 				int price = rs.getInt("price");//価格
 				
 				System.out.printf("%4s: [%s]  %s  %d円",id,group,name,price);
-				i++;//行数を数える
 			}//while
+			if(m == 5 && data<(count-20)) {//一覧表示かつデータ件数の残りが20件以上だったら
+				System.out.println("\n次のページを表示しますか？：Enter");
+				
+				while(true) {
+				String enter = new Scanner(System.in).nextLine();
+				if(enter.equals("")) {//Enterが押されたら
+					data+=20;break;//次のデータを表示させるためにdataを増加させてループ抜ける
+				}
+				
+				else{//Enter以外の入力があった場合
+					System.out.println("\n~~~次のページを表示したい場合はEnterのみを押してください~~~");
+					continue;//Enterのみを入力させるためループを繰り返す
+				}
+				}//while
+			}//if
+				
+				else { break total;}
+
+			}//totalwhile
 			
-			}
+			}//try
 			
 			catch(Exception e){
 				System.out.println(Text.tryCatch);
@@ -222,7 +342,7 @@ public class Select {
 		    	System.out.println("select〇");//debug
 		    }
 		
-		return i;
+		return count;
 
 	}//selectItem
 	
@@ -294,21 +414,32 @@ public class Select {
 	}//selectItemGroup
 	
 	
-
 	public static int selectMember() {//従業員を表示するメソッド
 		
-		String sqlMember = "select * from member";
-		int i = 0;
+		String sqlMember = "select * from member limit ?,20";
+		String dataMember = "select count(member_id) from member";
+		
+		int data = 0;
+		int count = 0;
 		
 		//ArrayList <String> members = new ArrayList<>();←全てのIDをJudge()に渡すためのアレイリスト、いらなそう
 		
 		try(
 				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
+				PreparedStatement psCount = con.prepareStatement( dataMember ) ;
 				PreparedStatement ps = con.prepareStatement( sqlMember ) ;
 			)
 			{
-				
-			ResultSet rs = ps.executeQuery();
+			
+			ResultSet rsCount = psCount.executeQuery();
+			while(rsCount.next()) {
+				count = rsCount.getInt("count(member_id)");
+			}//データ件数を数える
+			
+			
+			total:while(true) {
+				ps.setInt(1,data);
+				ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
 				
@@ -321,11 +452,34 @@ public class Select {
 				System.out.printf("%4s:   %s\nID:%s   Pass:%s\n",id,name,eID,ePass);
 				
 				//members.add(eID);←IDを1行ずつリストに格納、繰り返されることで全てのIDが格納される、アレイリスト関連
-				
-				i++;
+
 			}//while
 			System.out.println("-------------------------------------------");
-			}
+			
+			if(data<(count-20)) {
+				System.out.println("\n次のページを表示しますか？：Enter");
+				
+				
+				while(true) {
+				String enter = new Scanner(System.in).nextLine();
+				if(enter.equals("")) {
+					data+=20;break;
+				}
+				
+				else{
+					System.out.println("\n~~~次のページを表示したい場合はEnterのみを押してください~~~");
+					continue;
+				}
+				}//while
+				
+				}
+				
+				else{
+					break total;
+				}
+				}//totalwhile
+		
+			}//try
 			
 			catch(Exception e){
 				System.out.println(Text.tryCatch);
@@ -336,9 +490,10 @@ public class Select {
 		    }
 		
 		//return members;←アレイリスト関連
-		return i;
+		return count;
 	
 	}//selectMember
+	
 	
 	public static int price_history() {
 		String sqlHistory = "select * from price_history";

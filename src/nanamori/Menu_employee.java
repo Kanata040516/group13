@@ -57,7 +57,7 @@ public class Menu_employee {
 				
 			}
 			
-			else{//指定された数字以外が入力された場合にもう一度入力させる処理。
+			else{//指定された数字以外が入力された場合にもう一度入力させる処理
 				System.out.println("想定外の入力が行われました。もう一度入力してください。\n ");
 				menu_employee();
 			}

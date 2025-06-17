@@ -157,14 +157,13 @@ public class Sales {
 		System.out.print("番号： ");
 		int move = sc.nextInt();
 		System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
-		String m = Integer.toString(move);
 		
-		if("0".equals(m)) {
+		if(move == 0) {
 			Main.main(null); //ホーム画面移動
-		}else if("1".equals(m)) {
+		}else if(move == 1) {
 			Judge_pass_id j = new Judge_pass_id();
 		    int pass = j.judge();
-			if ( "0000".equals(pass)) {
+			if ( pass == 1) {
 				Menu_master ma = new Menu_master(); //店長のメニュー画面
 				ma.menu_master();
             } else {

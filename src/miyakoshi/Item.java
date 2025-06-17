@@ -3,7 +3,9 @@ package miyakoshi;
 import java.util.Scanner;
 
 import nanamori.Menu_employee;
+import nanamori.Menu_master;
 import shimizu.Select;
+import yoshida.Judge_pass_id;
 import yoshida.Main;
 
 public class Item {
@@ -85,7 +87,31 @@ public class Item {
 			}
 			sc1.close();
 			sc2.close();
-			Select.selectItem( menu, search );
+			Select.selectItem( menu, search );//結果表示をSelectクラスで
+			
+			//結果表示後
+			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
+			System.out.println("移動したい画面の番号をお選びください\n");
+			System.out.println("0.ホーム画面\n" + "1.メニュー画面");
+			Scanner sc = new Scanner(System.in); //顧客
+			System.out.print("番号： ");
+			int move = sc.nextInt();
+			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
+			
+			if(move == 0) {
+				Main.main(null); //ホーム画面移動
+			}else if(move == 1) {
+				Judge_pass_id j = new Judge_pass_id();
+			    int pass = j.judge();
+				if ( pass == 1) {
+					Menu_master ma = new Menu_master(); //店長のメニュー画面
+					ma.menu_master();
+	            } else {
+	            	Menu_employee em = new Menu_employee(); //従業員のメニュー画面
+	            	em.menu_employee();
+	            }
+				sc.close();
+			}
 	}
 }
 		

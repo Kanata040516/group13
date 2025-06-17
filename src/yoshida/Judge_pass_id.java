@@ -38,13 +38,13 @@ public class Judge_pass_id {
 
         try {
             conn = DriverManager.getConnection(url, user_name, password);
-            String sql = "SELECT password FROM users WHERE id = ?";
+            String sql = "SELECT ePass FROM member WHERE eID = ?";
             pstmt = conn.prepareStatement(sql);
             pstmt.setString(1, id);
             rs = pstmt.executeQuery();
 
             if (rs.next()) {
-                String dbPass = rs.getString("password");
+                String dbPass = rs.getString("ePass");
                 
                 while (true) {
                     System.out.print("パスワードを入力してください：");
@@ -61,7 +61,7 @@ public class Judge_pass_id {
                 if (pass.equals(dbPass)) {
                     System.out.println("ログイン成功！");
 
-                    if (id.equals("0000")) {
+                    if (id.equals("tentyo")) {
                     	Menu_master master = new Menu_master();
                     	master.menu_master();
 //                    	店長だったら1を返す

@@ -19,7 +19,7 @@ public class Item {
 			
 			while(true) {
 				
-				System.out.println("【注文管理】");
+				System.out.println("【商品管理】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("どの項目を検索しますか？\n "
 						+ "操作したい番号をお選びください。\n");
@@ -73,6 +73,7 @@ public class Item {
 			}
 			
 			else if (menu == 4) { 
+				Select.selectItemGroup();
 				System.out.println("\n【詳細検索】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("検索したい商品分類を入力してください。");
@@ -80,9 +81,7 @@ public class Item {
 				System.out.print("商品分類 ： ");
 				search = sc2.nextLine();
 			}
-			
-			//sc1.close();
-			//sc2.close();
+
 			Select.selectItem( menu, search );//結果表示をSelectクラスで
 			
 			//結果表示後

@@ -63,6 +63,7 @@ public class Customer {
 				search = sc2.nextLine();
 			}
 			else if (menu == 3) { 
+				Select.selectCustomerGroup();
 				System.out.println("\n【詳細検索】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("検索したい店舗形態を入力してください。");

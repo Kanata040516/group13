@@ -29,7 +29,7 @@ public class Customer {
 				System.out.print("番号を入力 ： ");
 				menu = sc1.nextInt();
 
-				if (menu == 1 ||menu == 2 ||menu == 3 ||menu == 4  ) {
+				if  (menu == 1 ||menu == 2 ||menu == 3 ||menu == 4  ) {
 					break; //ループを抜けて詳細画面へ
 				} else if (menu == 0) {
 					Main.main(null) ; //ホーム画面へ

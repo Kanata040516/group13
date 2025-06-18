@@ -9,7 +9,7 @@ import yoshida.Main;
 
 public class Sales {
  
-	static int menu = 0;//0-6, 注文検索の項目
+	static int menu = 0 ;//0-6, 注文検索の項目
 	static String date = null; //売り上げ日の記入
 	static String month = null;//売り上げ月の記入
 	

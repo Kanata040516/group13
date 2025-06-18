@@ -17,7 +17,7 @@ public class Receipt {
 			
 			Scanner sc1 = new Scanner (System.in); //項目を選択
 			
-			while(true) {
+			while (true) {
 				
 				System.out.println("【注文管理】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");

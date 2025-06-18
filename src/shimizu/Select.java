@@ -16,16 +16,16 @@ public class Select {
 	
 	
 	public static int [] selectReceipt(int menu, String what) {//注文履歴を表示するメソッド
-		String sqlReceipt = "select * from receipt join price_history "
-				+ "on receipt.price_history_id = price_history.price_history_id "
-				+ "join product_detail on price_history.product_detail_id = product_detail.product_detail_id "
-				+ "join product_type on product_detail.product_type_id = product_type.product_type_id "
-				+ "join product_group on product_type.product_group_id = product_group.product_group_id "
-				+ "join customer on receipt.customer_id = customer.customer_id"
-				+ "where order_date between price_history.start_date and coalesce(price_history.last_date,current_date) ";
+		String sqlReceipt = "select * from receipt "
+				+ "				join product_detail on receipt.product_detail_id = product_detail.product_detail_id "
+				+ "               join price_history ON product_detail.product_detail_id = price_history.product_detail_id "
+				+ "				join product_type on product_detail.product_type_id = product_type.product_type_id "
+				+ "				join product_group on product_type.product_group_id = product_group.product_group_id "
+				+ "				join customer on receipt.customer_id = customer.customer_id "
+				+ "				where date between price_history.start_date and coalesce(price_history.last_date,current_date) ";
 				
 		
-		String dataCount = "select count(receipt_id) from receipt";
+		String dataCount = "select count(main_id) from receipt";
 		
 		//最後の行で注文の日付と価格履歴テーブルを照らし合わせて注文の日の値段を取得しようとしている
 		
@@ -42,7 +42,7 @@ public class Select {
 		
 		if(m == 7 || m == 8) {
 			//日次レポートのときのSQL文の追加
-			sqlReceipt += "and  order_date between ? and ?";
+			sqlReceipt += "and  date between ? and ?";
 			if(m == 8) {
 				//日次と顧客指定のときのSQL文の追加
 				sqlReceipt += "and customer_name = ?";
@@ -51,7 +51,7 @@ public class Select {
 		
 		else if(m == 9 || m == 10) {
 			//月次レポートのときのSQL文の追加
-			sqlReceipt += "and order_date like ?";
+			sqlReceipt += "and date like ?";
 			if(m == 10) {
 				//月次と顧客指定のレポートのときのSQL文の追加
 				sqlReceipt += "and customer_name = ?";
@@ -95,7 +95,7 @@ public class Select {
 			else if (m == 6) {
 				ResultSet rsCount = psCount.executeQuery();
 				while(rsCount.next()) {
-			    count = rsCount.getInt("count(receipt_id)");
+			    count = rsCount.getInt("count(main_id)");
 				}//データ件数を数える
 				
 			}
@@ -103,8 +103,8 @@ public class Select {
 			else {
 				switch(m) {
 				//メニュー選択で入力された値に基づき1つめの?にカラム名を代入
-				case 1:ps.setString(1, "receipt_id");break;//注文ID
-				case 2:ps.setString(1, "order_date");break;//日付
+				case 1:ps.setString(1, "main_id");break;//注文ID
+				case 2:ps.setString(1, "date");break;//日付
 				case 3:ps.setString(1, "customer_name");break;//顧客名
 				case 4:ps.setString(1, "product_detail_name");break;//商品名
 				case 5:ps.setString(1, "product_type_name");break;//商品分類
@@ -123,14 +123,14 @@ public class Select {
 			
 			while(rs.next()) {
 				
-				String id = rs.getString("receipt_id");//注文ID
-				String date = rs.getString("order_date");//日付
+				String id = rs.getString("main_id");//注文ID
+				String date = rs.getString("date");//日付
 				String customer = rs.getString("customer_name");//顧客名
 				String product = rs.getString("product_detail_name");//商品名
 				int price =rs.getInt("price");//価格
 				String remark = ("remark");//備考
 				
-				System.out.printf("%4s     %s\n  %s店\n取引内容：%s  %d円\n%s",id,date,customer,product,price,remark);
+				System.out.printf("%4s     %s\n  %s店\n取引内容：%s  %d円\n%s\n",id,date,customer,product,price,remark);
 				
 				i[1] += price;//合計金額の計算
 			}//while
@@ -232,7 +232,7 @@ public class Select {
 				
 			ResultSet rs = ps.executeQuery();
 			
-			while(rs.next()) {
+			if(rs.next()) {
 				
 				String id = rs.getString("customer_id");//顧客ID
 				String group = rs.getString("customer_group_name");//店舗形態
@@ -342,6 +342,8 @@ public class Select {
 			ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
+				//検索のときデータあるのにここに入らない
+				//他の部分には入ってそう
 				
 				String id = rs.getString("product_detail_id");//商品ID
 				String group = rs.getString("product_type_name");//分類
@@ -489,7 +491,7 @@ public class Select {
 			while(rs.next()) {
 				
 				String id = rs.getString("member_no");//従業員の番号
-				String name = rs.getString("eName");//従業員の名前
+				String name = rs.getString("Name");//従業員の名前
 				String eID = rs.getString("eID");//従業員のID(ユーザーネーム)
 				String ePass = rs.getString("ePass");//パスワード
 				

@@ -79,7 +79,8 @@ public class EditMember {
   			) {
   				
   			//入力値のセット(？マークの部分の差し替え)
-  			ps.setInt( 1, gyousuu );
+  			ps.setString(1, String.format("%04d", gyousuu)); // 4桁のゼロ埋め
+
   			ps.setString( 2, eName );
   			ps.setString( 3, ePass );
   			ps.setString( 4, eID );

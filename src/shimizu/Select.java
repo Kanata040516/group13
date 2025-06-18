@@ -156,7 +156,7 @@ public class Select {
 					i[0] = count;
 					
 					System.out.println("\n---------------------------");
-					System.out.printf("合計金額：%d円",i[1]);
+					System.out.printf("合計金額：%d円\n",i[1]);
 					return i; // 見つかった数など
 					
 				}//try

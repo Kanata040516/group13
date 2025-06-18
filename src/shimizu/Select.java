@@ -17,12 +17,12 @@ public class Select {
 	
 	public static int [] selectReceipt(int menu, String what) {//注文履歴を表示するメソッド
 		String sqlReceipt = "select * from receipt "
-				+ "				join product_detail on receipt.product_detail_id = product_detail.product_detail_id "
+				+ "				left join product_detail on receipt.product_detail_id = product_detail.product_detail_id "
 				+ "               join price_history ON product_detail.product_detail_id = price_history.product_detail_id "
 				+ "				join product_type on product_detail.product_type_id = product_type.product_type_id "
 				+ "				join product_group on product_type.product_group_id = product_group.product_group_id "
 				+ "				join customer on receipt.customer_id = customer.customer_id "
-				+ "				where date between price_history.start_date and coalesce(price_history.last_date,current_date) ";
+				+ "				where receipt.date between price_history.start_date and coalesce(price_history.last_date,current_date) ";
 				
 		
 		String dataCount = "select count(main_id) from receipt";
@@ -50,16 +50,20 @@ public class Select {
 		}
 		
 		else if(m == 9 || m == 10) {
-			//月次レポートのときのSQL文の追加
-			sqlReceipt += "and date like ?";
-			if(m == 10) {
-				//月次と顧客指定のレポートのときのSQL文の追加
-				sqlReceipt += "and customer_name = ?";
-			}
+		    // 月次レポートのときのSQL文の追加
+		    sqlReceipt += "and DATE_FORMAT(receipt.date, '%Y-%m') = ?";
+		    if(m == 10) {
+		        // 月次と顧客指定のレポートのときのSQL文の追加
+		        sqlReceipt += "and customer_name = ?";
+		    }
 		}
 		
 		else if (m == 6) {
-			sqlReceipt +=  "limit ?,20 ";//order by main_id asc
+			sqlReceipt +=  "order by receipt.main_id asc limit ?,20 ";
+		}
+		
+		if(m > 6) {
+			sqlReceipt += "order by receipt.main_id asc";
 		}
 		
 		try(
@@ -70,8 +74,10 @@ public class Select {
 			{
 			
 			if(m == 7 || m == 8) {
-				ps.setString(1,sales.startDate());//始めの日指定
-				ps.setString(2,sales.lastDate());//終わりの日指定
+				java.sql.Date startDate = java.sql.Date.valueOf(sales.startDate());
+				java.sql.Date lastDate = java.sql.Date.valueOf(sales.lastDate());
+				ps.setDate(1,startDate);//始めの日指定
+				ps.setDate(2,lastDate);//終わりの日指定
 				
 				if(m == 8) {
 					ps.setString(3,w);//顧客名を?に代入
@@ -86,7 +92,8 @@ public class Select {
 				}
 			}
 			
-			else if (m == 6) {
+		     else if (m == 6) {
+		    	 //System.out.println("SQL Query: " + ps.toString());//debug
 				ResultSet rsCount = psCount.executeQuery();
 				while(rsCount.next()) {
 			    count = rsCount.getInt("count(main_id)");
@@ -102,7 +109,8 @@ public class Select {
 					columnName = "main_id";
 					break;
 				case 2:
-					columnName = "date";
+					columnName = "receipt.date";
+					break;
 				case 3:
 					columnName = "customer_name";
 					break;
@@ -114,17 +122,20 @@ public class Select {
 				}
 				
 				// SQL再定義
-				sqlReceipt += "and " + columnName + " = ? ";
+				sqlReceipt += "and " + columnName + " = ? ORDER BY receipt.main_id asc ";
 				
 				// psの再準備
 				try (PreparedStatement psSearch = con.prepareStatement(sqlReceipt)) {
 					if(m == 2) {
 						java.sql.Date date = java.sql.Date.valueOf(w);
 						psSearch.setDate(1, date); // 検索条件をセット
+						//System.out.println("SQL Query: " + psSearch.toString());//debug
 					}
 					else {
 					    psSearch.setString(1, w); // 検索条件をセット
+					    //System.out.println("SQL Query: " + psSearch.toString());//debug
 					}
+					
 					ResultSet rs = psSearch.executeQuery();
  
 					while (rs.next()) {
@@ -134,18 +145,22 @@ public class Select {
 						String customer = rs.getString("customer_name");//顧客名
 						String product = rs.getString("product_detail_name");//商品名
 						int amount =  rs.getInt("amount");
-						int price =rs.getInt("price");//価格
+						int price =rs.getInt("price")*amount;//価格
 						String remark = ("remark");//備考
 						
-						System.out.printf("[%s]     %s\n  %s店\n  取引内容：%s  %d個\n      %d円\n  %s:\n",id,date,customer,product,amount,price*amount,remark);
+						System.out.printf("[%s]     %s\n  %s店\n  取引内容：%s  %d個\n      %d円\n  %s:\n\n",id,date,customer,product,amount,price,remark);
 						
 						count++;//データ件数を数える
 						i[1] += price;//合計金額の計算
 						}
 					i[0] = count;
+					
+					System.out.println("\n---------------------------");
+					System.out.printf("合計金額：%d円\n",i[1]);
 					return i; // 見つかった数など
-				}
-			}
+					
+				}//try
+			}//else
 			
 			total:while(true) {
 				//System.out.println("total:while");//debug
@@ -156,17 +171,20 @@ public class Select {
 				ResultSet rs = ps.executeQuery();
 			
 			while(rs.next()) {
-				System.out.println("while(rs.next())");
+				//System.out.println("while(rs.next())");//debug
 				String id = rs.getString("main_id");//注文ID
 				String date = rs.getString("date");//日付
 				String customer = rs.getString("customer_name");//顧客名
 				String product = rs.getString("product_detail_name");//商品名
 				int amount =  rs.getInt("amount");
-				int price =rs.getInt("price");//価格
+				int price =rs.getInt("price")*amount;//価格
 				String remark = ("remark");//備考
 				
-				System.out.printf("[%s]     %s\n  %s店\n  取引内容：%s  %d個\n      %d円\n  %s:\n",id,date,customer,product,amount,price*amount,remark);
+				System.out.printf("[%s]     %s\n  %s店\n  取引内容：%s  %d個\n      %d円\n  %s:\n\n",id,date,customer,product,amount,price,remark);
 				
+				if(!(m == 6)) {
+					count++;
+				}
 				i[1] += price;//合計金額の計算
 			}//while
 			
@@ -191,6 +209,9 @@ public class Select {
 				
 				i[0] = count;
 				}//totalwhile
+			System.out.println("\n---------------------------");
+			if(count > 0) {
+			System.out.printf("合計金額：%d円\n",i[1]);}
 			}//try
 			
 			
@@ -649,4 +670,7 @@ public class Select {
 		
 		return i;
 	}//price_history
+
+
+
 }//Select

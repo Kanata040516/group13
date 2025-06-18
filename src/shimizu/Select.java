@@ -315,7 +315,7 @@ public class Select {
 			} //if
 			else {
 				// 検索処理
-				String columnName = "";
+				String columnName = null;
 				switch (m) {
 				case 1:
 					columnName = "product_detail.product_detail_id";
@@ -332,7 +332,7 @@ public class Select {
 				}
  
 				// SQL再定義
-				sqlItem += "where " + columnName + " = ?";
+				sqlItem += "where " + columnName + " = ? and last_date is null";
  
 				// psの再準備
 				try (PreparedStatement psSearch = con.prepareStatement(sqlItem)) {

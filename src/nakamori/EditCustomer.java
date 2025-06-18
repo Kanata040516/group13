@@ -70,20 +70,22 @@ public class EditCustomer {
   		System.out.println( "店舗の電話番号" );
   		String number = sc.nextLine() ;
   		
-  		String sql = "INSERT INTO customer VALUES ( ?, ?, ?, ?, ?, ?);" ;
+  		String sql = "INSERT INTO customer (customer_id, customer_name, mail, tel, address, customer_group_id) VALUES ( ?, ?, ?, ?, ?, ?);" ;
   		
   		try ( 
   	  		Connection con = DriverManager.getConnection( url , user_name , password ) ;
   	  		PreparedStatement ps = con.prepareStatement( sql ) ;
   	  		) {
-  	  				
+  	  		
+  			int num = Select.selectCustomer( 5, null ) +1 ;
+  			
   	  		//入力値のセット(？マークの部分の差し替え)
-  	  		ps.setInt( 1, gyousuu );
-  	  		ps.setString( 2, group );
-  	  		ps.setString( 3, name );
-  	  		ps.setString( 4, mail );
-  	  	    ps.setString( 5, address );
-	  		ps.setString( 6, number );
+  	  		ps.setString( 1, String.format("%04d", num) );
+  	  		ps.setString( 2, name );
+  	  		ps.setString( 3, mail );
+  	  	    ps.setString( 4, address );
+	  		ps.setString( 5, number );
+	  		ps.setString( 6, group );
   	  				
   	  		//SQL文の送信。
   	  		int result = ps.executeUpdate( );
@@ -98,6 +100,7 @@ public class EditCustomer {
   	  	}
   	  	catch ( Exception e ) {
   	  		System.out.println( "エラーが発生しました。" );
+  	  	    e.printStackTrace();
   	  	}
   	  	finally {
   	  		System.out.println( );
@@ -111,7 +114,6 @@ public class EditCustomer {
   	public static void update() {
 		
 		Scanner sc = new Scanner(System.in) ;
-		Select.selectCustomerGroup() ; // 店舗形態の表示
 		
 		System.out.println( "更新する顧客番号を入力してください。" );
 		String code = sc.nextLine();
@@ -128,17 +130,15 @@ public class EditCustomer {
 		
 		String columnName = null ;
 		String newValue = null ;
-		int newIntValue = 0 ;
-		boolean Integer = false ;
 		
 		if ( choice == 1 ) {
-			columnName = "group" ;
+			Select.selectCustomerGroup() ; // 店舗形態の表示
+			columnName = "customer_group_id" ;
 			System.out.println( "新しい店舗形態を入力してください。" );
-			newIntValue = sc.nextInt();
-			Integer = true ;
+			newValue = sc.nextLine();
 		}
 		else if ( choice == 2 ) {
-			columnName = "name" ;
+			columnName = "customer_name" ;
 			System.out.println( "新しい店舗名を入力してください。" );
 			newValue = sc.nextLine();
 		}
@@ -153,7 +153,7 @@ public class EditCustomer {
 			newValue = sc.nextLine();
 		}
 		else if ( choice == 5 ) {
-			columnName = "number" ;
+			columnName = "tel" ;
 			System.out.println( "新しい店舗の電話番号を入力してください。" );
 			newValue = sc.nextLine();
 		}
@@ -161,20 +161,14 @@ public class EditCustomer {
 			System.out.println( "無効な番号です。" );
 		}
 			
-		String sql = "UPDATE customer SET " + columnName + " = ? WHERE customer_no = ?;" ;
+		String sql = "UPDATE customer SET `" + columnName + "` = ? WHERE customer_id = ?;" ;
 		
 		try ( 
 			Connection con = DriverManager.getConnection( url , user_name , password ) ;
 			PreparedStatement ps = con.prepareStatement( sql ) ;
 			) {
 			
-			if ( Integer ) {
-				ps.setInt(1, newIntValue) ;
-			}
-			else {
-				ps.setString(1, newValue) ;
-			}
-			
+			ps.setString(1, newValue) ;
 			ps.setString(2, code) ;
 			
 			//SQL文の送信。
@@ -190,6 +184,7 @@ public class EditCustomer {
 		}
 		catch ( Exception e ) {
 			System.out.println( "エラーが発生しました。" );
+			e.printStackTrace();
 		}
 		finally {
 			System.out.println( );
@@ -203,8 +198,6 @@ public class EditCustomer {
   	// 顧客情報を削除するメソッド
   	public static void delete() {
 	Scanner sc = new Scanner(System.in) ;
-	
-	Select.selectCustomerGroup() ; // 店舗形態の表示
 	
 	System.out.println( "削除するIDを入力してください。" );
 	String code = sc.nextLine();

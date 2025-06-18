@@ -126,7 +126,7 @@ public class Select {
 				String id = rs.getString("receipt_id");//注文ID
 				String date = rs.getString("order_date");//日付
 				String customer = rs.getString("customer_name");//顧客名
-				String product = rs.getString("product_name");//商品名
+				String product = rs.getString("product_detail_name");//商品名
 				int price =rs.getInt("price");//価格
 				String remark = ("remark");//備考
 				
@@ -216,7 +216,7 @@ public class Select {
 				//メニュー選択で入力された値に基づき1つめの?にカラム名を代入
 				case 1:ps.setString(1, "customer_name");break;//顧客名
 				case 2:ps.setString(1, "address");break;//住所
-				case 3:ps.setString(1, "customer_group");break;//業務形態
+				case 3:ps.setString(1, "customer_group_name");break;//業務形態
 				}//switch
 				
 				ps.setString(2, w);
@@ -285,16 +285,20 @@ public class Select {
 				+ "join product_type on product_detail.product_type_id = product_type.product_type_id ";
 		String dataItem = "select count(product_detail_id) from product_detail ";
 		
-		System.out.println("selectItem");//debug
+		
 		int m = menu;
 		String w  = what;
+		
+		System.out.printf("menu:%d  what:%s\n",m,w);//debug
 		
 		int data = 0;
 		int count = 0;
 		
 		if(m == 5) {
 			System.out.println("一覧表示");//debug
-			sqlItem += "where last_date is null limit ?,20";
+			sqlItem += "where last_date is null "
+					+ "order by product_detail.product_detail_id asc "
+					+ " limit ?,20 ";
 			
 		}//if
 		else {
@@ -318,15 +322,15 @@ public class Select {
 				
 				switch(m) {
 				case 1:ps.setString(1, "group_detail_id");break;//商品ID
-				case 2:ps.setString(1, "price");break;//価格
+				case 2:ps.setString(1, "price");System.out.println("case2");break;//価格
 				case 3:ps.setString(1, "group_detail_name");break;//商品名
-				case 4:ps.setString(1, "name");break;//分類
+				case 4:ps.setString(1, "group_type_name");System.out.println("case4");break;//分類
+				
 				}//switch
 					
 				ps.setString(2, w);
 				//検索したい値を2つめの?に代入
 				
-				System.out.println("if");//debug
 			}//else
 			
              total:while(true) {
@@ -340,11 +344,13 @@ public class Select {
 			while(rs.next()) {
 				
 				String id = rs.getString("product_detail_id");//商品ID
-				String group = rs.getString("name");//分類
+				String group = rs.getString("product_type_name");//分類
 				String name = rs.getString("product_detail_name");//商品名
 				int price = rs.getInt("price");//価格
 				
 				System.out.printf("%4s: [%s]  %s  %d円\n",id,group,name,price);
+				
+				System.out.println("while");//debug
 			}//while
 			if(m == 5 && data<(count-20)) {//一覧表示かつデータ件数の残りが20件以上だったら
 				System.out.println("\n次のページを表示しますか？：Enter");
@@ -362,7 +368,9 @@ public class Select {
 				}//while
 			}//if
 				
-				else { break total;}
+				else { 
+					System.out.println("一覧表示以外");//debug
+					break total;}
 
 			}//totalwhile
 			
@@ -374,7 +382,7 @@ public class Select {
 			}
 		    
 		    finally {
-		    	System.out.println("select〇");//debug
+		    	System.out.println("selectItemのfinally");//debug
 		    }
 		
 		return count;
@@ -432,7 +440,7 @@ public class Select {
 			while(rs.next()) {
 				
 				id = rs.getString("product_type_id");//分類ID
-				String name = rs.getString("name");//分類名
+				String name = rs.getString("product_type_name");//分類名
 				
 				System.out.printf("%4s:   %s\n",id,name);
 			}//while

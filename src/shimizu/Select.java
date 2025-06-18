@@ -59,18 +59,11 @@ public class Select {
 		}
 		
 		else if (m == 6) {
-			sqlReceipt +=  "limit ?,20";
+			sqlReceipt +=  "limit ?,20 ";//order by main_id asc
 		}
 		
-		else {
-			//上記以外で、一覧表示ではなく検索ならwhere句をSQL文に追加する
-			System.out.println("一覧表示以外のSQL文の追加");//debug
-			sqlReceipt += "and ? = ?";
-		}//else
-		
-		
 		try(
-				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
+				Connection con = DriverManager.getConnection( url , user_name , password ) ;
 				PreparedStatement psCount = con.prepareStatement( dataCount ) ;
 				PreparedStatement ps = con.prepareStatement( sqlReceipt ) ;
 			)
@@ -102,21 +95,60 @@ public class Select {
 			}
 			
 			else {
-				switch(m) {
-				//メニュー選択で入力された値に基づき1つめの?にカラム名を代入
-				case 1:ps.setString(1, "main_id");break;//注文ID
-				case 2:ps.setString(1, "date");break;//日付
-				case 3:ps.setString(1, "customer_name");System.out.println("case3");break;//顧客名
-				case 4:ps.setString(1, "product_detail_name");break;//商品名
-				case 5:ps.setString(1, "product_type_name");break;//商品分類
-				}//switch
+				// 検索処理
+				String columnName = null;
+				switch (m) {
+				case 1:
+					columnName = "main_id";
+					break;
+				case 2:
+					columnName = "date";
+				case 3:
+					columnName = "customer_name";
+					break;
+				case 4:
+					columnName = "product_detail_name";
+					break;
+				case 5:
+					columnName = "product_type.product_type_id";
+				}
 				
-				ps.setString(2, w);
-				//検索したい値を2つめの?に代入
-			}//else
+				// SQL再定義
+				sqlReceipt += "and " + columnName + " = ? ";
+				
+				// psの再準備
+				try (PreparedStatement psSearch = con.prepareStatement(sqlReceipt)) {
+					if(m == 2) {
+						java.sql.Date date = java.sql.Date.valueOf(w);
+						psSearch.setDate(1, date); // 検索条件をセット
+					}
+					else {
+					    psSearch.setString(1, w); // 検索条件をセット
+					}
+					ResultSet rs = psSearch.executeQuery();
+ 
+					while (rs.next()) {
+						//System.out.println("while(rs.next())");//debug
+						String id = rs.getString("main_id");//注文ID
+						String date = rs.getString("date");//日付
+						String customer = rs.getString("customer_name");//顧客名
+						String product = rs.getString("product_detail_name");//商品名
+						int amount =  rs.getInt("amount");
+						int price =rs.getInt("price");//価格
+						String remark = ("remark");//備考
+						
+						System.out.printf("[%s]     %s\n  %s店\n  取引内容：%s  %d個\n      %d円\n  %s:\n",id,date,customer,product,amount,price*amount,remark);
+						
+						count++;//データ件数を数える
+						i[1] += price;//合計金額の計算
+						}
+					i[0] = count;
+					return i; // 見つかった数など
+				}
+			}
 			
 			total:while(true) {
-				System.out.println("total:while");
+				//System.out.println("total:while");//debug
 				 if(m == 6) {
 					 ps.setInt(1, data);
 				 }//一覧表示のときだけループの中でdataを増加させて表示をわけられるように
@@ -129,10 +161,11 @@ public class Select {
 				String date = rs.getString("date");//日付
 				String customer = rs.getString("customer_name");//顧客名
 				String product = rs.getString("product_detail_name");//商品名
+				int amount =  rs.getInt("amount");
 				int price =rs.getInt("price");//価格
 				String remark = ("remark");//備考
 				
-				System.out.printf("%4s     %s\n  %s店\n取引内容：%s  %d円\n%s\n",id,date,customer,product,price,remark);
+				System.out.printf("[%s]     %s\n  %s店\n  取引内容：%s  %d個\n      %d円\n  %s:\n",id,date,customer,product,amount,price*amount,remark);
 				
 				i[1] += price;//合計金額の計算
 			}//while
@@ -168,7 +201,10 @@ public class Select {
 			}
 		    
 		    finally {
-		    	System.out.println("select〇");//debug
+		    	//System.out.println("select〇");//debug
+		    	if(count == 0) {
+					System.out.println("＊＊データが見つかりません＊＊");
+				}
 		    }
 			
 		return i;
@@ -185,46 +221,62 @@ public class Select {
 		String w  = what;
 		
 		int data = 0;//データを20件ずつ表示するために値を増加させていく変数
-		
 		int count = 0;//データ件数を入れる変数
 		
 		if(m == 4) {
-			System.out.println("一覧表示");//debug
+			//System.out.println("一覧表示");//debug
 			sqlCustomer +=  "limit ?,20";
 		}
-		else{
-			//一覧表示ではなく検索ならwhere句をSQL文に追加する
-			sqlCustomer += "where ? = ?";
-			System.out.println("if");//debug
-		}//if
 		
 		try(
-				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
+				Connection con = DriverManager.getConnection( url , user_name , password ) ;
 				PreparedStatement psCount = con.prepareStatement( dataCustomer ) ;
 				PreparedStatement ps = con.prepareStatement( sqlCustomer ) ;
 			)
 			{
 			
-
-			ResultSet rsCount = psCount.executeQuery();
 			
-			while(rsCount.next()) {
-				count = rsCount.getInt("count(customer_id)");
-			}//データ件数を数える
-			
-			
-			if(!(m  == 4)) {
-				switch(m) {
-				//メニュー選択で入力された値に基づき1つめの?にカラム名を代入
-				case 1:ps.setString(1, "customer_name");break;//顧客名
-				case 2:ps.setString(1, "address");break;//住所
-				case 3:ps.setString(1, "customer_group_name");break;//業務形態
-				}//switch
-				
-				ps.setString(2, w);
-				//検索したい値を2つめの?に代入
+			if(m == 4) {
+				ResultSet rsCount = psCount.executeQuery();
+				while(rsCount.next()) {
+					count = rsCount.getInt("count(customer_id)");
+				}//データ件数を数える
 			}//if
-				
+			else {
+				// 検索処理
+				String columnName = null;
+				switch (m) {
+				case 1:
+					columnName = "customer_name";
+					break;
+				case 2:
+					columnName = "address";
+					break;
+				case 3:
+					columnName = "customer.customer_group_id";
+					break;
+				}
+ 
+				// SQL再定義
+				sqlCustomer += "and " + columnName + " = ? ";
+ 
+				// psの再準備
+				try (PreparedStatement psSearch = con.prepareStatement(sqlCustomer)) {
+					psSearch.setString(1, w); // 検索条件をセット
+ 
+					ResultSet rs = psSearch.executeQuery();
+ 
+					while (rs.next()) {
+						String id = rs.getString("customer_id");//顧客ID
+						String group = rs.getString("customer_group_name");//店舗形態
+						String name = rs.getString("customer_name");//顧客名
+						
+						System.out.printf("%4s: [%s]  %s店\n",id,group,name);
+						count++;//データ件数を数える
+						}
+					return count; // 見つかった数など
+				}
+			}
 			
 			total:while(true) {
 				
@@ -234,7 +286,7 @@ public class Select {
 				
 			ResultSet rs = ps.executeQuery();
 			
-			if(rs.next()) {
+			while(rs.next()) {
 				
 				String id = rs.getString("customer_id");//顧客ID
 				String group = rs.getString("customer_group_name");//店舗形態
@@ -270,13 +322,17 @@ public class Select {
 			
 			catch(Exception e){
 				System.out.println(Text.tryCatch);
-				System.out.println(e);//debug
+				//System.out.println(e);//debug
 			}
 		    
 		    finally {
-		    	System.out.println("select〇");//debug
+		    	//System.out.println("select〇");//debug
+		    	if(count == 0) {
+					System.out.println("＊＊データが見つかりません＊＊");
+				}
 		    }
 			
+		
 			return count;
 	}//selectCustomer
 	
@@ -284,26 +340,26 @@ public class Select {
 	public static int selectItem(int menu, String what) {//商品情報を表示するメソッド
 		String sqlItem = "select * from price_history join product_detail "
 				+ "on price_history.product_detail_id = product_detail.product_detail_id "
-				+ "join product_type on product_detail.product_type_id = product_type.product_type_id ";
+				+ "join product_type on product_detail.product_type_id = product_type.product_type_id "
+				+ "where last_date is null ";
 		String dataItem = "select count(product_detail_id) from product_detail ";
  
 		int m = menu;
 		String w = what;
  
-		System.out.printf("menu:%d  what:%s\n", m, w);//debug
+		//System.out.printf("menu:%d  what:%s\n", m, w);//debug
  
 		int data = 0;
 		int count = 0;
  
 		if (m == 5) {
-			System.out.println("一覧表示");//debug
-			sqlItem += "where last_date is null "
-					+ "order by product_detail.product_detail_id asc "
+			//System.out.println("一覧表示");//debug
+			sqlItem += "order by product_detail.product_detail_id asc "
 					+ " limit ?,20 ";
  
 		} //if
 		try (
-				Connection con = DriverManager.getConnection(url, user_name, password); //finallyがなくても操作できる
+				Connection con = DriverManager.getConnection(url, user_name, password); 
 				PreparedStatement psCount = con.prepareStatement(dataItem);
 				PreparedStatement ps = con.prepareStatement(sqlItem);) {
  
@@ -332,7 +388,7 @@ public class Select {
 				}
  
 				// SQL再定義
-				sqlItem += "where " + columnName + " = ? and last_date is null";
+				sqlItem += "and " + columnName + " = ? order by product_detail.product_detail_id asc";
  
 				// psの再準備
 				try (PreparedStatement psSearch = con.prepareStatement(sqlItem)) {
@@ -347,9 +403,10 @@ public class Select {
 						int price = rs.getInt("price");//価格
  
 						System.out.printf("%4s: [%s]  %s  %d円\n", id, group, name, price);
+						count++;//データ件数を数える
 					}
  
-					return 1; // 見つかった数など
+					return count; // 見つかった数など
 				}
 			}
  
@@ -370,7 +427,8 @@ public class Select {
  
 					System.out.printf("%4s: [%s]  %s  %d円\n", id, group, name, price);
  
-					System.out.println("while");//debug
+					//System.out.println("while");//debug
+					
 				} //while
 				if (m == 5 && data < (count - 20)) {//一覧表示かつデータ件数の残りが20件以上だったら
 					System.out.println("\n次のページを表示しますか？：Enter");
@@ -390,7 +448,7 @@ public class Select {
 				} //if
  
 				else {
-					System.out.println("一覧表示以外");//debug
+					//System.out.println("一覧表示以外");//debug
 					break total;
 				}
  
@@ -400,13 +458,17 @@ public class Select {
  
 		catch (Exception e) {
 			System.out.println(Text.tryCatch);
-			System.out.println(e);//debug
+			//System.out.println(e);//debug
 		}
  
 		finally {
-			System.out.println("selectItemのfinally");//debug
+			//System.out.println("selectItemのfinally");//debug
+			if(count == 0) {
+				System.out.println("＊＊データが見つかりません＊＊");
+			}
 		}
- 
+		
+		
 		return count;
  
 	}//selectItem
@@ -417,7 +479,7 @@ public class Select {
 		String id = null;
 		
 		try(
-				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
+				Connection con = DriverManager.getConnection( url , user_name , password ) ;
 				PreparedStatement ps = con.prepareStatement( sqlCustomerGroup ) ;
 			)
 			{
@@ -436,11 +498,11 @@ public class Select {
 			
 			catch(Exception e){
 				System.out.println(Text.tryCatch);
-				System.out.println(e);//debug
+				//System.out.println(e);//debug
 			}
 		    
 		    finally {
-		    	System.out.println("select〇");//debug
+		    	//System.out.println("select〇");//debug
 		    }
 		
 		return id;
@@ -452,7 +514,7 @@ public class Select {
 		String id = null;
 		
 		try(
-				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
+				Connection con = DriverManager.getConnection( url , user_name , password ) ;
 				PreparedStatement ps = con.prepareStatement( sqlItemGroup ) ;
 			)
 			{
@@ -471,11 +533,11 @@ public class Select {
 			
 			catch(Exception e){
 				System.out.println(Text.tryCatch);
-				System.out.println(e);//debug
+				//System.out.println(e);//debug
 			}
 		    
 		    finally {
-		    	System.out.println("select〇");//debug
+		    	//System.out.println("select〇");//debug
 		    }
 		return id;
 	}//selectItemGroup
@@ -492,7 +554,7 @@ public class Select {
 		//ArrayList <String> members = new ArrayList<>();←全てのIDをJudge()に渡すためのアレイリスト、いらなそう
 		
 		try(
-				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
+				Connection con = DriverManager.getConnection( url , user_name , password ) ;
 				PreparedStatement psCount = con.prepareStatement( dataMember ) ;
 				PreparedStatement ps = con.prepareStatement( sqlMember ) ;
 			)
@@ -550,11 +612,11 @@ public class Select {
 			
 			catch(Exception e){
 				System.out.println(Text.tryCatch);
-				System.out.println(e);//debug
+				//System.out.println(e);//debug
 			}
 		    
 		    finally {
-		    	System.out.println("select〇");//debug
+		    	//System.out.println("select〇");//debug
 		    }
 		
 		//return members;←アレイリスト関連
@@ -568,7 +630,7 @@ public class Select {
 		int i = 0;
 		
 		try(
-				Connection con = DriverManager.getConnection( url , user_name , password ) ;//finallyがなくても操作できる
+				Connection con = DriverManager.getConnection( url , user_name , password ) ;
 				PreparedStatement ps = con.prepareStatement( sqlHistory ) ;
 			){
 			ResultSet rs = ps.executeQuery();
@@ -579,10 +641,10 @@ public class Select {
 		}
 		catch(Exception e) {
 			System.out.println(Text.tryCatch);
-			System.out.println(e);//debug
+			//System.out.println(e);//debug
 		}
 		finally {
-			System.out.println("price_history〇");//debug
+			//System.out.println("price_history〇");//debug
 		}
 		
 		return i;

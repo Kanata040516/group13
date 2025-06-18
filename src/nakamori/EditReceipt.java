@@ -67,7 +67,8 @@ public class EditReceipt {
 		System.out.println( "備考" );
 		String remark = sc.nextLine() ;
 		
-		String sql = "INSERT INTO receipt VALUES ( ?, ?, ?, ?, ?, ? );" ;
+		String sql = "INSERT INTO receipt (customer_id, product_detail_id , amount, date, remark) VALUES (?, ?, ?, ?, ?);";
+
 		
 		try ( 
 			Connection con = DriverManager.getConnection( url , user_name , password ) ;
@@ -75,12 +76,12 @@ public class EditReceipt {
 			) {
 			
 			//入力値のセット(？マークの部分の差し替え)
-			ps.setInt( 1, gyousuu );
-			ps.setString( 2, customer );
-			ps.setString( 3, item );
-			ps.setInt( 4, amount );
-			ps.setString( 5, date );
-			ps.setString( 6, remark );
+			//ps.setInt( 1, gyousuu );
+			ps.setString( 1, customer );
+			ps.setString( 2, item );
+			ps.setInt( 3, amount );
+			ps.setString( 4, date );
+			ps.setString( 5, remark );
 			
 			//SQL文の送信。
 			int result = ps.executeUpdate( );
@@ -128,12 +129,12 @@ public class EditReceipt {
 		boolean Integer = false ;
 		
 		if ( choice == 1 ) {
-			columnName = "customer" ;
+			columnName = "customer_id" ;
 			System.out.println( "新しい顧客名を入力してください。" );
 			newValue = sc.nextLine();
 		}
 		else if ( choice == 2 ) {
-			columnName = "item" ;
+			columnName = "product_detail_id" ;
 			System.out.println( "新しい商品名を入力してください。" );
 			newValue = sc.nextLine();
 		}

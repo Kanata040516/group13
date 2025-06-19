@@ -17,7 +17,7 @@ public class Receipt {
 			
 			Scanner sc1 = new Scanner (System.in); //項目を選択
 			
-			while(true) {
+			while (true) {
 				
 				System.out.println("【注文管理】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
@@ -80,6 +80,7 @@ public class Receipt {
 				search = sc2.nextLine();
 			}		
 			else if (menu == 5) { 
+				Select.selectItemGroup();
 				System.out.println("\n【詳細検索】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("検索したい商品分類を入力してください。");
@@ -87,8 +88,7 @@ public class Receipt {
 				System.out.print("商品分類 ： ");
 				search = sc2.nextLine();
 			}
-			sc1.close();
-			sc2.close();
+			
 			Select.selectReceipt( menu, search ); //結果表示をSelectクラスで
 			
 			//結果表示後

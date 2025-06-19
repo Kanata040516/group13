@@ -9,7 +9,7 @@ import yoshida.Main;
 
 public class Sales {
  
-	static int menu = 0;//0-6, 注文検索の項目
+	static int menu = 0 ;//0-6, 注文検索の項目
 	static String date = null; //売り上げ日の記入
 	static String month = null;//売り上げ月の記入
 	
@@ -62,7 +62,7 @@ public class Sales {
 		
 		while(true) {
 			Scanner sc = new Scanner(System.in); //項目を選択
-			System.out.println("【注文管理】");
+			System.out.println("【売上管理】");
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 			System.out.println("どの項目を検索しますか？\n "
 					+ "操作したい番号をお選びください。\n");
@@ -84,7 +84,7 @@ public class Sales {
 							System.out.println("\n【エラー：項目以外の内容の入力】");
 							System.out.println("0〜5の番号を入力してください。\n");
 							}
-			sc.close();
+
 			}
 		
 		//詳細画面へ

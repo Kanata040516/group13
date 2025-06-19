@@ -29,7 +29,7 @@ public class Customer {
 				System.out.print("番号を入力 ： ");
 				menu = sc1.nextInt();
 
-				if (menu == 1 ||menu == 2 ||menu == 3 ||menu == 4  ) {
+				if  (menu == 1 ||menu == 2 ||menu == 3 ||menu == 4  ) {
 					break; //ループを抜けて詳細画面へ
 				} else if (menu == 0) {
 					Main.main(null) ; //ホーム画面へ
@@ -63,6 +63,7 @@ public class Customer {
 				search = sc2.nextLine();
 			}
 			else if (menu == 3) { 
+				Select.selectCustomerGroup();
 				System.out.println("\n【詳細検索】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("検索したい店舗形態を入力してください。");

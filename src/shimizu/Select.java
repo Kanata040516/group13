@@ -16,13 +16,20 @@ public class Select {
 	
 	
 	public static int [] selectReceipt(int menu, String what) {//注文履歴を表示するメソッド
-		String sqlReceipt = "select * from receipt "
-				+ "				left join product_detail on receipt.product_detail_id = product_detail.product_detail_id "
-				+ "               join price_history ON product_detail.product_detail_id = price_history.product_detail_id "
-				+ "				join product_type on product_detail.product_type_id = product_type.product_type_id "
-				+ "				join product_group on product_type.product_group_id = product_group.product_group_id "
-				+ "				join customer on receipt.customer_id = customer.customer_id "
-				+ "				where receipt.date between price_history.start_date and coalesce(price_history.last_date,current_date) ";
+		String sqlReceipt = "WITH ranked_price AS (SELECT price_history.*, "
+				+ "receipt.main_id, receipt.date AS receipt_date, ROW_NUMBER() "
+				+ "OVER (PARTITION BY receipt.main_id ORDER BY CASE WHEN receipt.date "
+				+ "BETWEEN price_history.start_date AND COALESCE(price_history.last_date, CURRENT_DATE) THEN 0 "
+				+ "WHEN price_history.start_date <= receipt.date AND COALESCE(price_history.last_date, CURRENT_DATE) "
+				+ "<= CURRENT_DATE THEN 1 ELSE 2 END, price_history.start_date DESC) AS rn FROM receipt "
+				+ "LEFT JOIN product_detail ON receipt.product_detail_id = product_detail.product_detail_id "
+				+ "LEFT JOIN price_history ON product_detail.product_detail_id = price_history.product_detail_id) "
+				+ "SELECT receipt.*, product_detail.*, ranked_price.price, product_type.*, product_group.*, customer.* FROM receipt"
+				+ " LEFT JOIN product_detail ON receipt.product_detail_id = product_detail.product_detail_id "
+				+ "LEFT JOIN (SELECT * FROM ranked_price WHERE rn = 1) AS ranked_price ON receipt.main_id = ranked_price.main_id "
+				+ "JOIN product_type ON product_detail.product_type_id = product_type.product_type_id "
+				+ "JOIN product_group ON product_type.product_group_id = product_group.product_group_id "
+				+ "JOIN customer ON receipt.customer_id = customer.customer_id ";
 				
 		
 		String dataCount = "select count(main_id) from receipt";

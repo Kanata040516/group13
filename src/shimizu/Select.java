@@ -24,13 +24,14 @@ public class Select {
 				+ "<= CURRENT_DATE THEN 1 ELSE 2 END, price_history.start_date DESC) AS rn FROM receipt "
 				+ "LEFT JOIN product_detail ON receipt.product_detail_id = product_detail.product_detail_id "
 				+ "LEFT JOIN price_history ON product_detail.product_detail_id = price_history.product_detail_id) "
-				+ "SELECT receipt.*, product_detail.*, ranked_price.price, product_type.*, product_group.*, customer.* FROM receipt"
-				+ " LEFT JOIN product_detail ON receipt.product_detail_id = product_detail.product_detail_id "
+				+ "SELECT receipt.*, product_detail.*, ranked_price.price, product_type.*, product_group.*, customer.* FROM receipt "
+				+ "LEFT JOIN product_detail ON receipt.product_detail_id = product_detail.product_detail_id "
 				+ "LEFT JOIN (SELECT * FROM ranked_price WHERE rn = 1) AS ranked_price ON receipt.main_id = ranked_price.main_id "
 				+ "JOIN product_type ON product_detail.product_type_id = product_type.product_type_id "
 				+ "JOIN product_group ON product_type.product_group_id = product_group.product_group_id "
 				+ "JOIN customer ON receipt.customer_id = customer.customer_id ";
-				
+		//注文の日に応じて価格履歴テーブルからその日の値段を取ってくる
+		//注文の日の価格履歴のデータがない場合、現在までの最新の値段とする
 		
 		String dataCount = "select count(main_id) from receipt";
 		
@@ -113,7 +114,7 @@ public class Select {
 				String columnName = null;
 				switch (m) {
 				case 1:
-					columnName = "main_id";
+					columnName = "receipt.main_id";
 					break;
 				case 2:
 					columnName = "receipt.date";
@@ -231,7 +232,7 @@ public class Select {
 		    finally {
 		    	//System.out.println("select〇");//debug
 		    	if(count == 0) {
-					System.out.println("＊＊データが見つかりません＊＊");
+					System.out.println(Text.notFound);
 				}
 		    }
 			
@@ -356,7 +357,7 @@ public class Select {
 		    finally {
 		    	//System.out.println("select〇");//debug
 		    	if(count == 0) {
-					System.out.println("＊＊データが見つかりません＊＊");
+					System.out.println(Text.notFound);
 				}
 		    }
 			
@@ -492,7 +493,7 @@ public class Select {
 		finally {
 			//System.out.println("selectItemのfinally");//debug
 			if(count == 0) {
-				System.out.println("＊＊データが見つかりません＊＊");
+				System.out.println(Text.notFound);
 			}
 		}
 		

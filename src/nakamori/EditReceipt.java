@@ -128,6 +128,11 @@ public class EditReceipt {
 			System.out.print( "\n新しい日付(YYYY-MM-DD)を入力してください。：" );
 			newValue = sc.nextLine();
 		}
+		else if ( choice == 5 ) {
+			columnName = "remark" ;
+			System.out.print( "\n新しい備考を入力してください：" );
+			newValue = sc.nextLine();
+		}
 		else {
 			System.out.println( "\n無効な番号です。" );
 		}

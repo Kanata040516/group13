@@ -65,10 +65,11 @@ public class Judge_pass_id {
                     }
                 } else {
                     System.out.println("パスワードが違います。");
-   
+                    judge();
                 }
             } else {
                 System.out.println("IDが存在しません。");
+                judge();
             }
 
         } catch (SQLException e) {

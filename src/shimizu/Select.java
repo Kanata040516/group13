@@ -682,7 +682,7 @@ public class Select {
 	}//price_history
 
 
-	public static boolean object_id_judge(int menu,String ID) {
+	public static boolean object_id_judge(int menu,String ID) {//データ更新や削除を目的に入力されたprimary keyがデータベース内に存在しているか確認すメソッド
 		ArrayList<String> IDdata = new ArrayList<>();
 		
 		int m = menu;

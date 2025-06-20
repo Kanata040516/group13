@@ -9,7 +9,6 @@ import nanamori.Menu_employee;
 import nanamori.Menu_master;
 import shimizu.Select;
 import yoshida.Judge_pass_id;
-import yoshida.Main;
 import yoshida.Text;
 
 public class EditCustomer {
@@ -51,27 +50,31 @@ public class EditCustomer {
 	        }
 	  	}//while
 
-	  		System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
-	  		System.out.println("移動したい画面の番号をお選びください\n");
-	  		System.out.println("0.ホーム画面\n" + "1.メニュー画面");
-	  		Scanner sc = new Scanner(System.in); //顧客
-	  		System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
-	  		System.out.print("番号： ");
-	  		int move = sc.nextInt();
-	  		
-	  		if(move == 0) {
-	  			Main.main(null); //ホーム画面移動
-	  		}else if(move == 1) {
-	  			Judge_pass_id j = new Judge_pass_id();
-	  		    int pass = j.judge();
-	  			if ( pass == 1) {
-	  				Menu_master ma = new Menu_master(); //店長のメニュー画面
-	  				ma.menu_master();
-	            } else {
-	            	Menu_employee em = new Menu_employee(); //従業員のメニュー画面
-	            	em.menu_employee();
-	            }
-	  		}
+		System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
+		System.out.println("移動したい画面の番号をお選びください\n");
+		System.out.println("1.顧客編集画面\n" + "2.メニュー画面(ID、パスワード入力)\n\n" + "0.終了");
+		Scanner sc = new Scanner(System.in); 
+		System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
+		System.out.print("番号： ");
+		int move = sc.nextInt();
+		
+		if(move == 0) {
+			System.exit(move);
+		}
+		else if(move == 1) {
+			startMenu();
+		}
+		else if(move == 2) {
+			Judge_pass_id j = new Judge_pass_id();
+		    int pass = j.judge();
+			if ( pass == 1) {
+				Menu_master ma = new Menu_master(); //店長のメニュー画面
+				ma.menu_master();
+          } else {
+          	Menu_employee em = new Menu_employee(); //従業員のメニュー画面
+          	em.menu_employee();
+          }
+		}
 	  	} 
 	
 	

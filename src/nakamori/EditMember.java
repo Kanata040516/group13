@@ -147,6 +147,10 @@ public class EditMember {
 		System.out.print( "更新する従業員番号を入力してください。：" );
 		String code = sc.nextLine();
 		
+		String columnName = null ;
+		String newValue = null ;
+		
+		while(true) {
 		System.out.println( "\n更新したい項目を選んでください。" );
 		
 		System.out.println( "1: 従業員名" );
@@ -155,18 +159,17 @@ public class EditMember {
 		System.out.print( "番号を入力：" );
 		int choice = Integer.parseInt(sc.nextLine()) ;
 		
-		String columnName = null ;
-		String newValue = null ;
-		
 		if ( choice == 1 ) {
 			columnName = "name" ;
 			System.out.print( "\n新しい従業員名を入力してください。：" );
 			newValue = sc.nextLine();
+			break;
 		}
 		else if ( choice == 2 ) {
 			columnName = "eID" ;
 			System.out.print( "\n新しい従業員IDを入力してください。：" );
 			newValue = sc.nextLine();
+			break;
 		}
 		else if ( choice == 3 ) {
 			columnName = "ePass" ;
@@ -177,10 +180,13 @@ public class EditMember {
 			newValue = sc.nextLine();
 			passCheck = passrules( newValue );
 	  		}
+	  		break;
 		}
 		else {
-			System.out.println( "\n無効な番号です。" );
+			System.out.println("\n【エラー：項目以外の内容の入力】");
+			System.out.println("1〜3の番号を入力してください。");
 		}
+	}//while
 			
 		String sql = "UPDATE member SET " + columnName + " = ? WHERE member_no = ?;" ;
 		

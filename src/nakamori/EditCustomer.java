@@ -152,6 +152,10 @@ public class EditCustomer {
 		System.out.print( "更新する顧客番号を入力してください。：" );
 		String code = sc.nextLine();
 		
+		String columnName = null ;
+		String newValue = null ;
+		
+		while(true) {
 		System.out.println( "\n更新したい項目を選んでください。" );
 		
 		System.out.println( "1: 店舗形態" );
@@ -162,39 +166,43 @@ public class EditCustomer {
 		System.out.print( "番号を入力：" );
 		int choice = Integer.parseInt(sc.nextLine()) ;
 		
-		String columnName = null ;
-		String newValue = null ;
-		
 		if ( choice == 1 ) {
 			System.out.println( "" );
 			Select.selectCustomerGroup() ; // 店舗形態の表示
 			columnName = "customer_group_id" ;
 			System.out.println("\n上記を参照して新しい店舗形態番号を入力してください。：");
 			newValue = sc.nextLine();
+			break;
 		}
 		else if ( choice == 2 ) {
 			columnName = "customer_name" ;
 			System.out.print( "\n新しい店舗名を入力してください。：" );
 			newValue = sc.nextLine();
+			break;
 		}
 		else if ( choice == 3 ) {
 			columnName = "mail" ;
 			System.out.print( "\n新しい店舗のメールアドレスを入力してください。：" );
 			newValue = sc.nextLine();
+			break;
 		}
 		else if ( choice == 4 ) {
 			columnName = "tel" ;
 			System.out.print( "\n新しい店舗の電話番号を入力してください。：" );
 			newValue = sc.nextLine();
+			break;
 		}
 		else if ( choice == 5 ) {
 			columnName = "address" ;
 			System.out.print( "\n新しい店舗の所在地(都道府県)を入力してください。：" );
 			newValue = sc.nextLine();
+			break;
 		}
 		else {
-			System.out.println( "\n無効な番号です。" );
+			System.out.println("\n【エラー：項目以外の内容の入力】");
+			System.out.println("1〜5の番号を入力してください。");
 		}
+	}//while
 			
 		String sql = "UPDATE customer SET `" + columnName + "` = ? WHERE customer_id = ?;" ;
 		

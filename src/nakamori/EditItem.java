@@ -186,6 +186,12 @@ public class EditItem {
 		System.out.print("更新する商品番号を入力してください。：");
 		String code = sc.nextLine();
 
+		String columnName = null;
+		String newValue = null;
+		int newIntValue = 0;
+		boolean isPriceUpdate = false;
+
+		while(true){
 		System.out.println("\n更新したい項目を選んでください。");
 		System.out.println("1: 商品の価格");
 		System.out.println("2: 商品名");
@@ -193,22 +199,19 @@ public class EditItem {
 		System.out.print("番号を入力：");
 
 		int choice = Integer.parseInt(sc.nextLine());
-
-		String columnName = null;
-		String newValue = null;
-		int newIntValue = 0;
-		boolean isPriceUpdate = false;
-
+		
 		if (choice == 1) {
 			columnName = "price";
 			System.out.print("\n新しい商品の価格を入力してください。：");
 			newIntValue = Integer.parseInt(sc.nextLine());
 			isPriceUpdate = true;
+			break;
 		}
 		else if (choice == 2) {
 			columnName = "product_detail_name";
             System.out.print("\n新しい商品名を入力してください。：");
 			newValue = sc.nextLine();
+			break;
 		}
 		else if (choice == 3) {
 			System.out.println( "" );
@@ -216,10 +219,13 @@ public class EditItem {
 			columnName = "product_type_id";
 			System.out.print("\n上記を参照して新しい商品の分類番号を入力してください：");
 			newValue = sc.nextLine();
+			break;
 		}
 		else {
-			System.out.println("\n無効な番号です。");
+			System.out.println("\n【エラー：項目以外の内容の入力】");
+			System.out.println("1〜3の番号を入力してください。");
 		}
+	}//while
 
 		String sql = isPriceUpdate ?
 				"INSERT INTO price_history (price_history_id, product_detail_id, price, start_date, last_date) VALUES ( ?, ?, ?, ?, null );":

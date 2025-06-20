@@ -125,6 +125,13 @@ public class EditReceipt {
 		Scanner sc = new Scanner(System.in) ;
 		System.out.print( "更新する注文番号を入力してください。：" );
 		String code = sc.nextLine();
+		
+		String columnName = null ;
+		String newValue = null ;
+		int newIntValue = 0 ;
+		boolean integer = false ;
+		
+		while(true) {
 		System.out.println( "\n更新したい項目を選んでください。" );
 		System.out.println( "1: 顧客名" );
 		System.out.println( "2: 商品名" );
@@ -133,48 +140,53 @@ public class EditReceipt {
 		System.out.println( "5: 備考" );
 		System.out.print( "番号を入力：" );
 		int choice = Integer.parseInt(sc.nextLine()) ;
-		String columnName = null ;
-		String newValue = null ;
-		int newIntValue = 0 ;
-		boolean Integer = false ;
+
+		
 		if ( choice == 1 ) {
 			columnName = "customer_id" ;
 			System.out.println( "" );
 			Select.selectCustomer(4,null);
 			System.out.print("\n上記を参照して新しい顧客番号を入力してください。：");
 			newValue = sc.nextLine();
+			break;
 		}
 		else if ( choice == 2 ) {
 			columnName = "product_detail_id" ;
 			System.out.print( "\n新しい商品番号を入力してください。：" );
 			newValue = sc.nextLine();
+			break;
 		}
 		else if ( choice == 3 ) {
 			columnName = "amount" ;
 			System.out.print( "\n新しい数量を入力してください。：" );
 			newIntValue = sc.nextInt();
-			Integer = true ;
+			integer = true ;
+			break;
 		}
 		else if ( choice == 4 ) {
 			columnName = "date" ;
 			System.out.print( "\n新しい日付(YYYY-MM-DD)を入力してください。：" );
 			newValue = sc.nextLine();
+			break;
 		}
 		else if ( choice == 5 ) {
 			columnName = "remark" ;
 			System.out.print( "\n新しい備考を入力してください：" );
 			newValue = sc.nextLine();
+			break;
 		}
 		else {
-			System.out.println( "\n無効な番号です。" );
+			System.out.println("\n【エラー：項目以外の内容の入力】");
+			System.out.println("1〜5の番号を入力してください。");
 		}
+	}//while
 		String sql = "UPDATE receipt SET " + columnName + " = ? WHERE main_id = ?;" ;
 		try ( 
 			Connection con = DriverManager.getConnection( url , user_name , password ) ;
 			PreparedStatement ps = con.prepareStatement( sql ) ;
 			) {
 			//入力値のセット(？マークの部分の差し替え)
-			if ( Integer ) {
+			if ( integer ) {
 				ps.setInt(1, newIntValue) ;
 			}
 			else {

@@ -23,7 +23,7 @@ public class Customer {
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("どの項目を検索しますか？\n "
 						+ "操作したい番号をお選びください。\n");
-				System.out.println("0.ホーム画面\n" + "1. 顧客名 \n" + "2.住所\n" + 
+				System.out.println("0.ホーム画面\n" + "1. 顧客名 \n" + "2.所在地(都道府県)\n" + 
 				"3.店舗形態\n" + "4.一覧表示\n"+ "5.メニュー画面\n");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 				System.out.print("番号を入力 ： ");
@@ -57,18 +57,18 @@ public class Customer {
 			else if (menu == 2) { 
 				System.out.println("\n【詳細検索】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
-				System.out.println("検索したい住所を入力してください。");
+				System.out.println("検索したい所在地(都道府県)を入力してください。");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
-				System.out.print("住所 ： ");
+				System.out.print("都道府県 ： ");
 				search = sc2.nextLine();
 			}
 			else if (menu == 3) { 
 				Select.selectCustomerGroup();
 				System.out.println("\n【詳細検索】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
-				System.out.println("検索したい店舗形態を入力してください。");
+				System.out.println("検索したい店舗形態番号を入力してください。");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
-				System.out.print("店舗形態 ");
+				System.out.print("店舗形態番号 ");
 				search = sc2.nextLine();
 			}
 			else if (menu == 4) { 

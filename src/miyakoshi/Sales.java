@@ -127,8 +127,10 @@ public class Sales {
             String month = sales.Month(); // メソッドを呼び出して戻り値を取得
 			System.out.println("\n【月次：合計】");
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
-			System.out.println( month );
-			System.out.println("\n売上合計" + Select.selectReceipt(9,null)[1]  + "円" );
+			System.out.println( month +"\n");
+			int totalprice = Select.selectReceipt(9,null)[1];
+			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
+			System.out.println("\n売上合計：" + totalprice  + "円" );
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 		}  
 		else if(menu == 2) {
@@ -136,8 +138,10 @@ public class Sales {
 			String last = sales.lastDate();
 			System.out.println("\n【日次：合計】");
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
-			System.out.println( start + "～" + last);
-			System.out.println("\n売上合計" + Select.selectReceipt(7,null)[1]  + "円" );
+			System.out.println( start + "～" + last + "\n");
+			int totalprice = Select.selectReceipt(7,null)[1];
+			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
+			System.out.println("\n売上合計：" +  totalprice + "円" );
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 		}
 		else if (menu == 3) {
@@ -146,8 +150,10 @@ public class Sales {
 			System.out.println("\n【月次：合計】");
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 			System.out.println( "顧客名 ： " + customer + "\n");
-			System.out.println( month );
-			System.out.println("\n売上合計" +Select.selectReceipt(10,customer)[1]  + "円" );
+			System.out.println( month + "\n" );
+			int totalprice = Select.selectReceipt(10,customer)[1];
+			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
+			System.out.println("\n売上合計：" +totalprice + "円" );
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 		}  
 		else if(menu == 4) {
@@ -157,8 +163,9 @@ public class Sales {
 			System.out.println("\n【日次：合計】");
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 			System.out.println( "顧客名 ： " + customer + "\n" );
-			System.out.println( start + "～" + last);
-			System.out.println("\n売上合計" + Select.selectReceipt(8,customer)[1]  + "円" );
+			System.out.println( start + "～" + last + "\n");
+			int totalprice =  Select.selectReceipt(8,customer)[1];
+			System.out.println("\n売上合計：" + totalprice + "円" );
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 		}
 		

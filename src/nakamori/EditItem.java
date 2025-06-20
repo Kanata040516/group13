@@ -8,7 +8,11 @@ import java.sql.ResultSet;
 import java.time.LocalDate;
 import java.util.Scanner;
 
+import nanamori.Menu_employee;
+import nanamori.Menu_master;
 import shimizu.Select;
+import yoshida.Judge_pass_id;
+import yoshida.Main;
 import yoshida.Text;
 
 public class EditItem {
@@ -23,7 +27,7 @@ public class EditItem {
 	Scanner sc = new Scanner(System.in);
 
 	public void startMenu() {
-
+		while(true) {
 		System.out.println("編集メニューを選択してください");
 		System.out.println("1: 追加");
 		System.out.println("2: 更新");
@@ -34,17 +38,43 @@ public class EditItem {
 
 		if (menuEdit == 1) {
 			insert();
+			break;
 		}
 		else if (menuEdit == 2) {
 			update();
+			break;
 		}
 		else if (menuEdit == 3) {
 			delete();
+			break;
 		}
 		else {
-			System.out.println("無効なメニュー番号です。");
+			System.out.println("\n【エラー：項目以外の内容の入力】");
+			System.out.println("1〜3の番号を入力してください。\n");
 		}
-
+		}//while
+		
+		System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
+		System.out.println("移動したい画面の番号をお選びください\n");
+		System.out.println("0.ホーム画面\n" + "1.メニュー画面");
+		Scanner sc = new Scanner(System.in); //顧客
+		System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
+		System.out.print("番号： ");
+		int move = sc.nextInt();
+		
+		if(move == 0) {
+			Main.main(null); //ホーム画面移動
+		}else if(move == 1) {
+			Judge_pass_id j = new Judge_pass_id();
+		    int pass = j.judge();
+			if ( pass == 1) {
+				Menu_master ma = new Menu_master(); //店長のメニュー画面
+				ma.menu_master();
+            } else {
+            	Menu_employee em = new Menu_employee(); //従業員のメニュー画面
+            	em.menu_employee();
+            }
+		}
 	}
 
 	//price_history の最新の start_date を取得し、そこに1日足して新しい start_date に使う。

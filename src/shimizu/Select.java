@@ -4,6 +4,7 @@ import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
+import java.util.ArrayList;
 import java.util.Scanner;
 
 import miyakoshi.Sales;
@@ -655,7 +656,7 @@ public class Select {
 	}//selectMember
 	
 	
-	public static int price_history() {
+	public static int price_history() {//価格履歴のデータ数を返すメソッド
 		String sqlHistory = "select * from price_history";
 		int i = 0;
 		
@@ -680,6 +681,49 @@ public class Select {
 		return i;
 	}//price_history
 
+
+	public static boolean object_id_judge(int menu,String ID) {
+		ArrayList<String> IDdata = new ArrayList<>();
+		
+		int m = menu;
+		String id = ID;
+		
+		String  column = null;
+		
+		String sql = null;
+		
+		switch(m) {
+		case 1: sql = "select main_id from receipt";column ="main_id";break;
+		case 2: sql = "select customer_id from customer";column ="customer_id";break;
+		case 3: sql = "select product_detail_id from product_detail";column ="product_detail_id";break;
+		case 4: sql = "select member_id from member";column ="member_id";break;
+		}
+		try(
+				Connection con = DriverManager.getConnection( url , user_name , password ) ;
+				PreparedStatement ps = con.prepareStatement( sql ) ;
+			){
+			ResultSet rs = ps.executeQuery();
+			
+			while(rs.next()) {
+				IDdata.add(rs.getString(column));
+			}
+			
+			for(String i:IDdata) {
+				if(id.equals(i)) {
+					return true;
+				}
+			}//for
+		}
+		catch(Exception e) {
+			System.out.println(Text.tryCatch);
+			//System.out.println(e);//debug
+		}
+		finally {
+			//System.out.println("updateの際入力されたIDが存在するかチェック〇");//debug
+		}
+		
+		return false;
+	}//update_id_jadge
 
 
 }//Select

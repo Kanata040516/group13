@@ -245,9 +245,21 @@ public class EditCustomer {
 	Select.selectCustomer(4, null);
 	System.out.println("\n～以上が現在の顧客データです～\n");
 	
+	String code =null;
+	while(true) {
 	System.out.print( "削除する番号を入力してください。：" );
-	String code = sc.nextLine();
-		
+	code = sc.nextLine();
+	
+	if(Select.object_id_judge(2,code)) {
+		break;
+	}
+	else {
+		System.out.println("\n【エラー：存在しないデータ番号の入力】");
+		System.out.println("データ内に存在する番号を選んでください\n");
+		System.out.println("入力に戻ります");
+	}
+	}//while
+	
 	String sql = "DELETE FROM customer WHERE customer_id = ?;" ;
 		
 		try ( 

@@ -49,7 +49,7 @@ public class Judge_pass_id {
                 String dbPass = rs.getString("ePass");
 
                 if (pass.equals(dbPass)) {
-                    System.out.println("ログイン成功！");
+                    //System.out.println("ログイン成功！");←いる？？
 
                     if (id.equals("tentyo")) {
                     	Menu_master master = new Menu_master();

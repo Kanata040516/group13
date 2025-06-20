@@ -77,7 +77,7 @@ public class EditItem {
 	// 商品情報を追加するメソッド
 	public static void insert() {
 
-		int gyousuu1 = Select.price_history() + 1; // price_historyのデータ件数+1
+		int gyousuu1 = Select.price_history() + 11; // price_historyのデータ件数+1
 		int gyousuu2 = Select.selectItem(5, null) + 1;// product_detailのデータ件数+1
 		System.out.println("\n～以上が現在の商品データです～\n");
 		Scanner sc = new Scanner(System.in);
@@ -203,15 +203,17 @@ public class EditItem {
 
 				String formattedCode = String.format("%04d", Integer.parseInt(code.trim()));
 				LocalDate maxStartDate = getMaxStartDate(formattedCode);
-				LocalDate newStartDate = (maxStartDate == null) ? LocalDate.now() : maxStartDate.plusDays(1);
+				LocalDate newStartDate = LocalDate.now();
+				LocalDate newLastDate = newStartDate.minusDays(1);
 
 				// 1. 既存の最新価格履歴のlast_dateを更新
 				String updateLastDateSql =
-						"UPDATE price_history SET last_date = DATE_SUB(start_date, INTERVAL 1 DAY) " +
-								"WHERE product_detail_id = ? AND last_date IS NULL";
+						"UPDATE price_history SET last_date = ? "
+						+ "WHERE product_detail_id = ? AND last_date IS NULL";
 
 				try (PreparedStatement psUpdate = con.prepareStatement(updateLastDateSql)) {
-					psUpdate.setString(1, formattedCode);
+					psUpdate.setDate(1, java.sql.Date.valueOf(newLastDate));
+					psUpdate.setString(2, formattedCode);
 					int updateCount = psUpdate.executeUpdate();
 
 					//System.out.println("price_historyの終了日を更新した件数: " + updateCount);//debug
@@ -224,7 +226,7 @@ public class EditItem {
 
 				try (PreparedStatement psInsert = con.prepareStatement(insertPriceHistorySql)) {
 					// price_history_idをユニークに作成（例: レコード数+1）
-					int newId = Select.price_history() + 1;
+					int newId = Select.price_history() + 11;
 					psInsert.setString(1, String.format("%04d", newId));
 					psInsert.setString(2, formattedCode);
 					psInsert.setInt(3, newIntValue);

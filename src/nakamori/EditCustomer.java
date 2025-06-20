@@ -65,11 +65,11 @@ public class EditCustomer {
   		System.out.print( "\n店舗のメールアドレス：" );
   		String mail = sc.nextLine() ;
   		
-  		System.out.print( "\n店舗の所在地(都道府県)：" );
-  		String address = sc.nextLine() ;
-  		
   		System.out.print( "\n店舗の電話番号：" );
   		String number = sc.nextLine() ;
+  		
+  		System.out.print( "\n店舗の所在地(都道府県)：" );
+  		String address = sc.nextLine() ;
   		
   		String sql = "INSERT INTO customer (customer_id, customer_name, mail, tel, address, customer_group_id) VALUES ( ?, ?, ?, ?, ?, ?);" ;
   		
@@ -83,8 +83,8 @@ public class EditCustomer {
   	  		ps.setString( 1, String.format("%04d", gyousuu) );
   	  		ps.setString( 2, name );
   	  		ps.setString( 3, mail );
-  	  	    ps.setString( 4, address );
-	  		ps.setString( 5, number );
+  	  	    ps.setString( 4,number );
+	  		ps.setString( 5, address );
 	  		ps.setString( 6, group );
   	  				
   	  		//SQL文の送信。
@@ -126,8 +126,8 @@ public class EditCustomer {
 		System.out.println( "1: 店舗形態" );
 		System.out.println( "2: 店舗名" );
 		System.out.println( "3: 店舗のメールアドレス" );
-		System.out.println( "4: 店舗の所在地(都道府県)" );
-		System.out.println( "5: 店舗の電話番号" );
+		System.out.println( "4: 店舗の電話番号" );
+		System.out.println( "5: 店舗の所在地(都道府県)" );
 		System.out.print( "番号を入力：" );
 		int choice = Integer.parseInt(sc.nextLine()) ;
 		
@@ -152,13 +152,13 @@ public class EditCustomer {
 			newValue = sc.nextLine();
 		}
 		else if ( choice == 4 ) {
-			columnName = "address" ;
-			System.out.print( "\n新しい店舗の所在地(都道府県)を入力してください。：" );
+			columnName = "tel" ;
+			System.out.print( "\n新しい店舗の電話番号を入力してください。：" );
 			newValue = sc.nextLine();
 		}
 		else if ( choice == 5 ) {
-			columnName = "tel" ;
-			System.out.print( "\n新しい店舗の電話番号を入力してください。：" );
+			columnName = "address" ;
+			System.out.print( "\n新しい店舗の所在地(都道府県)を入力してください。：" );
 			newValue = sc.nextLine();
 		}
 		else {

@@ -60,14 +60,14 @@ public class Menu_master extends Menu_employee{
 				er.startMenu();//EditReceipt内のstartMenuを実行
 			}
 			
-			else if(mainmenu == 2) {//商品編集画面に移動する。
-				System.out.println("商品編集画面に移動します。\n ");
-				ei.startMenu();//EditItem内のstartMenuを実行
-			}
-			
-			else if(mainmenu == 3) {//顧客編集画面に移動する。
+			else if(mainmenu == 2) {//顧客編集画面に移動する。
 				System.out.println("顧客編集画面に移動します。\n ");
 				ec.startMenu();//EditCustomer内のstartMenuを実行
+			}
+			
+			else if(mainmenu == 3) {//商品編集画面に移動する
+				System.out.println("商品編集画面に移動します。\n ");
+				ei.startMenu();//EditItem内のstartMenuを実行
 			}
 			
 			else if(mainmenu == 4) {//従業員編集画面に移動する。

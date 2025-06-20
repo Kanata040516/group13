@@ -38,18 +38,21 @@ public class EditReceipt {
 	//-------------------------------------------
 	// 注文を追加するメソッド
 	public static void insert ( ) {
-		int gyousuu = Select.selectReceipt( 6, null )[0] +1 ;
+		Select.selectReceipt( 6, null );
+		System.out.println("\n～以上が現在の注文データです～\n");
 		Scanner sc = new Scanner(System.in) ;
-		System.out.println( "注文内容を入力してください。" );
-		System.out.println( "顧客名" );
+		System.out.println( "注文内容を入力してください。\n" );
+		System.out.println( "顧客番号(下記参照)" );
+		Select.selectCustomer(4,null);
+		System.out.println("：");
 		String customer = sc.nextLine() ;
-		System.out.println( "商品名" );
+		System.out.print( "\n商品番号：" );
 		String item = sc.nextLine() ;
-		System.out.println( "数量" ) ;
+		System.out.print( "\n数量：" ) ;
 		int amount = Integer.parseInt(sc.nextLine()) ;
-		System.out.println( "日付 (YYYY-MM-DD)" );
+		System.out.print( "\n日付 (YYYY-MM-DD)：" );
 		String date = sc.nextLine() ;
-		System.out.println( "備考" );
+		System.out.print( "\n備考：" );
 		String remark = sc.nextLine() ;
 		String sql = "INSERT INTO receipt (customer_id, product_detail_id , amount, date, remark) VALUES (?, ?, ?, ?, ?);";
  
@@ -68,14 +71,14 @@ public class EditReceipt {
 			//SQL文の送信。
 			int result = ps.executeUpdate( );
 			if ( result == 1 ) {
-				System.out.println( "1件の書き込みが完了しました。" );
+				System.out.println( "\n1件の書き込みが完了しました。" );
 			}
 			else{
-				System.out.println( "書き込みに失敗しました。" );
+				System.out.println( "\n書き込みに失敗しました。" );
 			}
 	    }
 		catch ( Exception e ) {
-			System.out.println( "エラーが発生しました。" );
+			System.out.println(Text.tryCatch);
 			e.printStackTrace();
 		}
 		finally {
@@ -85,17 +88,18 @@ public class EditReceipt {
 	//-------------------------------------------
 	// 注文を更新するメソッド
 	public static void update() {
-		Select.selectReceipt( 6, null ) ; 
+		Select.selectReceipt( 6, null );
+		System.out.println("\n～以上が現在の注文データです～\n");
 		Scanner sc = new Scanner(System.in) ;
-		System.out.println( "更新する注文IDを入力してください。" );
+		System.out.print( "更新する注文番号を入力してください。：" );
 		String code = sc.nextLine();
-		System.out.println( "更新したい項目を選んでください。" );
+		System.out.println( "\n更新したい項目を選んでください。" );
 		System.out.println( "1: 顧客名" );
 		System.out.println( "2: 商品名" );
 		System.out.println( "3: 数量" );
 		System.out.println( "4: 日付" );
 		System.out.println( "5: 備考" );
-		System.out.println( "番号を入力" );
+		System.out.print( "番号を入力：" );
 		int choice = Integer.parseInt(sc.nextLine()) ;
 		String columnName = null ;
 		String newValue = null ;
@@ -103,27 +107,29 @@ public class EditReceipt {
 		boolean Integer = false ;
 		if ( choice == 1 ) {
 			columnName = "customer_id" ;
-			System.out.println( "新しい顧客名を入力してください。" );
+			System.out.println( "" );
+			Select.selectCustomer(4,null);
+			System.out.print("\n上記を参照して新しい顧客番号を入力してください。：");
 			newValue = sc.nextLine();
 		}
 		else if ( choice == 2 ) {
 			columnName = "product_detail_id" ;
-			System.out.println( "新しい商品名を入力してください。" );
+			System.out.print( "\n新しい商品番号を入力してください。：" );
 			newValue = sc.nextLine();
 		}
 		else if ( choice == 3 ) {
 			columnName = "amount" ;
-			System.out.println( "新しい数量を入力してください。" );
+			System.out.print( "\n新しい数量を入力してください。：" );
 			newIntValue = sc.nextInt();
 			Integer = true ;
 		}
 		else if ( choice == 4 ) {
 			columnName = "date" ;
-			System.out.println( "新しい日付(YYYY-MM-DD)を入力してください。" );
+			System.out.print( "\n新しい日付(YYYY-MM-DD)を入力してください。：" );
 			newValue = sc.nextLine();
 		}
 		else {
-			System.out.println( "無効な番号です。" );
+			System.out.println( "\n無効な番号です。" );
 		}
 		String sql = "UPDATE receipt SET " + columnName + " = ? WHERE main_id = ?;" ;
 		try ( 
@@ -142,14 +148,14 @@ public class EditReceipt {
 			//SQL文の送信。
 			int result = ps.executeUpdate( );
 			if ( result == 1 ) {
-				System.out.println( "1件の書き込みが完了しました。" );
+				System.out.println( "\n1件の書き込みが完了しました。" );
 			}
 			else{
-				System.out.println( "書き込みに失敗しました。" );
+				System.out.println( "\n書き込みに失敗しました。" );
 			}
 		}
 		catch ( Exception e ) {
-			System.out.println( "エラーが発生しました。" );
+			System.out.println(Text.tryCatch);
 		}
 		finally {
 			System.out.println( );
@@ -158,9 +164,10 @@ public class EditReceipt {
 	//-------------------------------------------
 	// 注文を削除するメソッド
 	public static void delete() {
-		Select.selectReceipt( 6, null ) ; 
+		Select.selectReceipt( 6, null );
+		System.out.println("\n～以上が現在の注文データです～\n");
 		Scanner sc = new Scanner(System.in) ;
-		System.out.println( "削除するIDを入力してください。" );
+		System.out.print( "削除する番号を入力してください。：" );
 		String code = sc.nextLine();
 		String sql = "DELETE FROM receipt WHERE main_id = ?;" ;
 		try ( 
@@ -172,14 +179,14 @@ public class EditReceipt {
 			//SQL文の送信。
 			int result = ps.executeUpdate( );
 			if ( result == 1 ) {
-				System.out.println( "削除しました。" );
+				System.out.println( "\n削除しました。" );
 			}
 			else{
-				System.out.println( "失敗しました。" );
+				System.out.println( "\n失敗しました。" );
 			}
 		}
 		catch ( Exception e ) {
-			System.out.println( "エラーが発生しました。" );
+			System.out.println(Text.tryCatch);
 		}
 		finally {
 			System.out.println( );

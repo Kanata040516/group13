@@ -77,21 +77,22 @@ public class EditItem {
 	// 商品情報を追加するメソッド
 	public static void insert() {
 
+		int gyousuu1 = Select.price_history() + 1; // price_historyのデータ件数+1
+		int gyousuu2 = Select.selectItem(5, null) + 1;// product_detailのデータ件数+1
+		System.out.println("\n～以上が現在の商品データです～\n");
 		Scanner sc = new Scanner(System.in);
 		System.out.println("商品情報を入力してください。");
 
-		int gyousuu1 = Select.price_history() + 1; // price_historyのデータ件数+1
-		int gyousuu2 = Select.selectItem(5, null) + 1;// product_detailのデータ件数+1
-
-		System.out.println("商品の価格");
+		
+		System.out.print("\n商品の価格：");
 		int price = Integer.parseInt(sc.nextLine());
-
+		System.out.println("");
+		System.out.println("\n商品の分類番号(下記参照)");
 		Select.selectItemGroup(); // 分類の表示
-
-		System.out.println("商品の分類ID");
+		System.out.print("：");
 		String group = sc.nextLine();
 
-		System.out.println("商品名");
+		System.out.println("\n商品名：");
 		String name = sc.nextLine();
 
 		String sql1 = "INSERT INTO product_detail (product_detail_id, product_type_id, product_detail_name )VALUES ( ?, ?, ?);";
@@ -125,15 +126,15 @@ public class EditItem {
 
 			//SQL文の送信。
 			if (result1 == 1 && result2 == 1) {
-				System.out.println("1件の書き込みが完了しました。");
+				System.out.println("\n1件の書き込みが完了しました。");
 				con.commit(); //成功したらコミット
 			}
 			else {
-				System.out.println("書き込みに失敗しました。");
+				System.out.println("\n書き込みに失敗しました。");
 			}
 		}
 		catch (Exception e) {
-			System.out.println("エラーが発生しました。");
+			System.out.println(Text.tryCatch);
 			e.printStackTrace();
 		}
 		finally {
@@ -149,17 +150,17 @@ public class EditItem {
 		Scanner sc = new Scanner(System.in);
 
 		Select.selectItem(5, null); // product_detailの一覧表示
+		System.out.println("\n～以上が現在の商品データです～\n");
 
-		int gyousuu1 = Select.price_history() + 1; // price_historyのデータ件数+1
-
-		System.out.println("更新する商品番号を入力してください。");
+		
+		System.out.print("更新する商品番号を入力してください。：");
 		String code = sc.nextLine();
 
-		System.out.println("更新したい項目を選んでください。");
+		System.out.println("\n更新したい項目を選んでください。");
 		System.out.println("1: 商品の価格");
 		System.out.println("2: 商品名");
 		System.out.println("3: 商品の分類");
-		System.out.println("番号を入力");
+		System.out.print("番号を入力：");
 
 		int choice = Integer.parseInt(sc.nextLine());
 
@@ -170,23 +171,24 @@ public class EditItem {
 
 		if (choice == 1) {
 			columnName = "price";
-			System.out.println("新しい商品の価格を入力してください。");
+			System.out.print("\n新しい商品の価格を入力してください。：");
 			newIntValue = Integer.parseInt(sc.nextLine());
 			isPriceUpdate = true;
 		}
 		else if (choice == 2) {
-			columnName = "product_name";
-            System.out.println("新しい商品名を入力してください。");
+			columnName = "product_detail_name";
+            System.out.print("\n新しい商品名を入力してください。：");
 			newValue = sc.nextLine();
 		}
 		else if (choice == 3) {
+			System.out.println( "" );
 			Select.selectItemGroup();
 			columnName = "product_type_id";
-			System.out.println("新しい商品の分類IDを入力してください。");
+			System.out.print("\n上記を参照して新しい商品の分類番号を入力してください：");
 			newValue = sc.nextLine();
 		}
 		else {
-			System.out.println("無効な番号です。");
+			System.out.println("\n無効な番号です。");
 		}
 
 		String sql = isPriceUpdate ?
@@ -212,7 +214,7 @@ public class EditItem {
 					psUpdate.setString(1, formattedCode);
 					int updateCount = psUpdate.executeUpdate();
 
-					System.out.println("price_historyの終了日を更新した件数: " + updateCount);
+					//System.out.println("price_historyの終了日を更新した件数: " + updateCount);//debug
 				}
 
 				// 2. 新しい価格履歴を追加
@@ -232,10 +234,10 @@ public class EditItem {
 
 				con.commit();
 
-				System.out.println("価格の更新が完了しました。");
+				System.out.println("\n価格の更新が完了しました。");
 
 			} catch (Exception e) {
-				System.out.println("価格更新でエラーが発生しました。");
+				System.out.println("\n価格更新でエラーが発生しました。");
 				e.printStackTrace();
 			}
 		} else {
@@ -250,15 +252,15 @@ public class EditItem {
 				int result = ps.executeUpdate();
 
 				if (result == 1) {
-					System.out.println("1件の書き込みが完了しました。");
+					System.out.println("\n1件の書き込みが完了しました。");
 				}
 				else {
-					System.out.println("書き込みに失敗しました。");
+					System.out.println("\n書き込みに失敗しました。");
 				}
 			}
 
 			catch (Exception e) {
-				System.out.println("エラーが発生しました。");
+				System.out.println(Text.tryCatch);
 				e.printStackTrace();
 			}
 			finally {
@@ -276,8 +278,9 @@ public class EditItem {
 		Scanner sc = new Scanner(System.in);
 
 		Select.selectItem(5, null);
+		System.out.println("\n～以上が現在の商品データです～\n");
 
-		System.out.println("削除するIDを入力してください。");
+		System.out.print("削除するIDを入力してください。：");
 		String code = sc.nextLine();
 
 		try (Connection con = DriverManager.getConnection(url, user_name, password)) {
@@ -301,15 +304,15 @@ public class EditItem {
 				int result = ps2.executeUpdate();
 
 				if (result == 1) {
-					System.out.println("削除しました。");
+					System.out.println("\n削除しました。");
 				} else {
-					System.out.println("削除対象が見つかりませんでした。");
+					System.out.println("\n削除対象が見つかりませんでした。");
 				}
 			}
 			con.commit();
 		}
 		catch (Exception e) {
-			System.out.println("エラーが発生しました。");
+			System.out.println(Text.tryCatch);
 			e.printStackTrace();
 		}
 		finally {

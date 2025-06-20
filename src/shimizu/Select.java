@@ -254,7 +254,7 @@ public class Select {
 		
 		if(m == 4) {
 			//System.out.println("一覧表示");//debug
-			sqlCustomer +=  "limit ?,20";
+			sqlCustomer +=  "order by customer_id asc limit ?,20 ";
 		}
 		
 		try(

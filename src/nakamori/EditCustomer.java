@@ -24,7 +24,7 @@ public class EditCustomer {
 	  	  System.out.println( "1: 追加" ) ;
 	  	  System.out.println( "2: 更新" ) ;
 	  	  System.out.println( "3: 削除" ) ;
-	  	  System.out.println( "番号を入力" ) ;
+	  	  System.out.println( "番号を入力：" ) ;
 	  	
 	        menuEdit = Integer.parseInt( sc.nextLine() ) ;
 	      
@@ -48,26 +48,27 @@ public class EditCustomer {
   	// 顧客情報を追加するメソッド
   	public static void insert ( ) {
   		
+  		int gyousuu = Select.selectCustomer( 4, null ) +1 ;
+  		System.out.println("\n～以上が現在の顧客データです～\n");
   		Scanner sc = new Scanner(System.in) ;
   	
-        System.out.println( "顧客情報を入力してください。" );
+        System.out.println( "顧客情報を入力してください。\n" );
         
-        int gyousuu = Select.selectCustomer( 5, null ) +1 ;
+        System.out.println( "店舗形態番号(下記参照)" );
   		Select.selectCustomerGroup() ; // 店舗形態の表示
-        
-  		System.out.println( "店舗形態" );
+  		System.out.print("：");
   		String group = sc.nextLine() ;
   		
-  		System.out.println( "店舗名" );
+  		System.out.print( "\n店舗名：" );
   		String name = sc.nextLine() ;
   		
-  		System.out.println( "店舗のメールアドレス" );
+  		System.out.print( "\n店舗のメールアドレス：" );
   		String mail = sc.nextLine() ;
   		
-  		System.out.println( "店舗の住所" );
+  		System.out.print( "\n店舗の所在地(都道府県)：" );
   		String address = sc.nextLine() ;
   		
-  		System.out.println( "店舗の電話番号" );
+  		System.out.print( "\n店舗の電話番号：" );
   		String number = sc.nextLine() ;
   		
   		String sql = "INSERT INTO customer (customer_id, customer_name, mail, tel, address, customer_group_id) VALUES ( ?, ?, ?, ?, ?, ?);" ;
@@ -77,10 +78,9 @@ public class EditCustomer {
   	  		PreparedStatement ps = con.prepareStatement( sql ) ;
   	  		) {
   	  		
-  			int num = Select.selectCustomer( 5, null ) +1 ;
   			
   	  		//入力値のセット(？マークの部分の差し替え)
-  	  		ps.setString( 1, String.format("%04d", num) );
+  	  		ps.setString( 1, String.format("%04d", gyousuu) );
   	  		ps.setString( 2, name );
   	  		ps.setString( 3, mail );
   	  	    ps.setString( 4, address );
@@ -91,15 +91,15 @@ public class EditCustomer {
   	  		int result = ps.executeUpdate( );
   	  				
   	  		if ( result == 1 ) {
-  	  			System.out.println( "1件の書き込みが完了しました。" );
+  	  			System.out.println( "\n1件の書き込みが完了しました。" );
   	  		}
   	  		else{
-  	  			System.out.println( "書き込みに失敗しました。" );
+  	  			System.out.println( "\n書き込みに失敗しました。" );
   	  		}
   	  				
   	  	}
   	  	catch ( Exception e ) {
-  	  		System.out.println( "エラーが発生しました。" );
+  	     	System.out.println(Text.tryCatch);
   	  	    e.printStackTrace();
   	  	}
   	  	finally {
@@ -115,50 +115,54 @@ public class EditCustomer {
 		
 		Scanner sc = new Scanner(System.in) ;
 		
-		System.out.println( "更新する顧客番号を入力してください。" );
+		Select.selectCustomer(4, null); 
+		System.out.println("\n～以上が現在の顧客データです～\n");
+		
+		System.out.print( "更新する顧客番号を入力してください。：" );
 		String code = sc.nextLine();
 		
-		System.out.println( "更新したい項目を選んでください。" );
+		System.out.println( "\n更新したい項目を選んでください。" );
 		
 		System.out.println( "1: 店舗形態" );
 		System.out.println( "2: 店舗名" );
 		System.out.println( "3: 店舗のメールアドレス" );
-		System.out.println( "4: 店舗の住所" );
+		System.out.println( "4: 店舗の所在地(都道府県)" );
 		System.out.println( "5: 店舗の電話番号" );
-		System.out.println( "番号を入力" );
+		System.out.print( "番号を入力：" );
 		int choice = Integer.parseInt(sc.nextLine()) ;
 		
 		String columnName = null ;
 		String newValue = null ;
 		
 		if ( choice == 1 ) {
+			System.out.println( "" );
 			Select.selectCustomerGroup() ; // 店舗形態の表示
 			columnName = "customer_group_id" ;
-			System.out.println( "新しい店舗形態を入力してください。" );
+			System.out.println("\n上記を参照して新しい店舗形態番号を入力してください。：");
 			newValue = sc.nextLine();
 		}
 		else if ( choice == 2 ) {
 			columnName = "customer_name" ;
-			System.out.println( "新しい店舗名を入力してください。" );
+			System.out.print( "\n新しい店舗名を入力してください。：" );
 			newValue = sc.nextLine();
 		}
 		else if ( choice == 3 ) {
 			columnName = "mail" ;
-			System.out.println( "新しい店舗のメールアドレスを入力してください。" );
+			System.out.print( "\n新しい店舗のメールアドレスを入力してください。：" );
 			newValue = sc.nextLine();
 		}
 		else if ( choice == 4 ) {
 			columnName = "address" ;
-			System.out.println( "新しい店舗の住所を入力してください。" );
+			System.out.print( "\n新しい店舗の所在地(都道府県)を入力してください。：" );
 			newValue = sc.nextLine();
 		}
 		else if ( choice == 5 ) {
 			columnName = "tel" ;
-			System.out.println( "新しい店舗の電話番号を入力してください。" );
+			System.out.print( "\n新しい店舗の電話番号を入力してください。：" );
 			newValue = sc.nextLine();
 		}
 		else {
-			System.out.println( "無効な番号です。" );
+			System.out.println( "\n無効な番号です。" );
 		}
 			
 		String sql = "UPDATE customer SET `" + columnName + "` = ? WHERE customer_id = ?;" ;
@@ -175,15 +179,15 @@ public class EditCustomer {
 			int result = ps.executeUpdate( );
 				
 			if ( result == 1 ) {
-				System.out.println( "1件の書き込みが完了しました。" );
+				System.out.println( "\n1件の書き込みが完了しました。" );
 			}
 			else{
-				System.out.println( "書き込みに失敗しました。" );
+				System.out.println( "\n書き込みに失敗しました。" );
 			}
 				
 		}
 		catch ( Exception e ) {
-			System.out.println( "エラーが発生しました。" );
+			System.out.println(Text.tryCatch);
 			e.printStackTrace();
 		}
 		finally {
@@ -199,7 +203,10 @@ public class EditCustomer {
   	public static void delete() {
 	Scanner sc = new Scanner(System.in) ;
 	
-	System.out.println( "削除するIDを入力してください。" );
+	Select.selectCustomer(4, null);
+	System.out.println("\n～以上が現在の顧客データです～\n");
+	
+	System.out.print( "削除する番号を入力してください。：" );
 	String code = sc.nextLine();
 		
 	String sql = "DELETE FROM customer WHERE customer_id = ?;" ;
@@ -216,14 +223,14 @@ public class EditCustomer {
 			int result = ps.executeUpdate( );
 				
 			if ( result == 1 ) {
-				System.out.println( "削除しました。" );
+				System.out.println( "\n削除しました。" );
 			}
 			else{
-				System.out.println( "失敗しました。" );
+				System.out.println( "\n失敗しました。" );
 			}
 		}
 		catch ( Exception e ) {
-			System.out.println( "エラーが発生しました。" );
+			System.out.println(Text.tryCatch);
 		}
 		finally {
 			System.out.println( );

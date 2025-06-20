@@ -48,15 +48,14 @@ public class EditMember {
   	public static void insert ( ) {
   		
   		Scanner sc = new Scanner(System.in) ;
-  		
+  		int gyousuu = Select.selectMember( )+1 ;
+  		System.out.println("\n～以上が現在の従業員データです～\n");
   		System.out.println( "従業員情報を入力してください。" );
   		
-  		int gyousuu = Select.selectMember( )+1 ;
-  		
-  		System.out.println( "従業員名" );
+  		System.out.print( "従業員名：" );
   		String eName = sc.nextLine() ;
   		
-  		System.out.println( "従業員ID" );
+  		System.out.print( "\n従業員ID：" );
   		String eID = sc.nextLine() ;
   		
   		String ePass = null ;
@@ -64,7 +63,7 @@ public class EditMember {
   		
   		while( !passCheck ) {
   		
-  		System.out.println( "従業員パスワード" );
+  		System.out.print( "\n従業員パスワード：" );
   		ePass = sc.nextLine() ;
   		
   		passCheck =passrules( ePass );
@@ -89,15 +88,15 @@ public class EditMember {
   			int result = ps.executeUpdate( );
   				
   			if ( result == 1 ) {
-  				System.out.println( "1件の書き込みが完了しました。" );
+  				System.out.println( "\n1件の書き込みが完了しました。" );
   			}
   			else{
-  				System.out.println( "書き込みに失敗しました。" );
+  				System.out.println( "\n書き込みに失敗しました。" );
   			}
   				
   		}
   		catch ( Exception e ) {
-  			System.out.println( "エラーが発生しました。" );
+  			System.out.println(Text.tryCatch );
   			e.printStackTrace();
   		}
   		finally {
@@ -113,28 +112,29 @@ public class EditMember {
     	Select.selectMember( );
 		Scanner sc = new Scanner(System.in) ;
 		
-		System.out.println( "更新する従業員番号を入力してください。" );
+		System.out.println("\n～以上が現在の従業員データです～\n");
+		System.out.print( "更新する従業員番号を入力してください。：" );
 		String code = sc.nextLine();
 		
-		System.out.println( "更新したい項目を選んでください。" );
+		System.out.println( "\n更新したい項目を選んでください。" );
 		
 		System.out.println( "1: 従業員名" );
 		System.out.println( "2: 従業員ID" );
 		System.out.println( "3: 従業員パスワード" );
-		System.out.println( "番号を入力" );
+		System.out.print( "番号を入力：" );
 		int choice = Integer.parseInt(sc.nextLine()) ;
 		
 		String columnName = null ;
 		String newValue = null ;
 		
 		if ( choice == 1 ) {
-			columnName = "eName" ;
-			System.out.println( "新しい従業員名を入力してください。" );
+			columnName = "name" ;
+			System.out.print( "\n新しい従業員名を入力してください。：" );
 			newValue = sc.nextLine();
 		}
 		else if ( choice == 2 ) {
 			columnName = "eID" ;
-			System.out.println( "新しい従業員IDを入力してください。" );
+			System.out.print( "\n新しい従業員IDを入力してください。：" );
 			newValue = sc.nextLine();
 		}
 		else if ( choice == 3 ) {
@@ -142,13 +142,13 @@ public class EditMember {
 			boolean passCheck = false ;
 			
 	  		while( !passCheck ) {
-			System.out.println( "新しい従業員パスワードを入力してください。" );
+			System.out.print( "\n新しい従業員パスワードを入力してください。：" );
 			newValue = sc.nextLine();
 			passCheck = passrules( newValue );
 	  		}
 		}
 		else {
-			System.out.println( "無効な番号です。" );
+			System.out.println( "\n無効な番号です。" );
 		}
 			
 		String sql = "UPDATE member SET " + columnName + " = ? WHERE member_no = ?;" ;
@@ -165,15 +165,15 @@ public class EditMember {
 			int result = ps.executeUpdate( );
 				
 			if ( result == 1 ) {
-				System.out.println( "1件の書き込みが完了しました。" );
+				System.out.println( "\n1件の書き込みが完了しました。" );
 			}
 			else{
-				System.out.println( "書き込みに失敗しました。" );
+				System.out.println( "\n書き込みに失敗しました。" );
 			}
 				
 		}
 		catch ( Exception e ) {
-			System.out.println( "エラーが発生しました。" );
+			System.out.println( Text.tryCatch);
 		}
 		finally {
 			System.out.println( );
@@ -187,8 +187,8 @@ public class EditMember {
   		
   		Select.selectMember( );
   		Scanner sc = new Scanner(System.in) ;
-  		
-  		System.out.println( "削除する従業員番号を入力してください。" );
+  		System.out.println("\n～以上が現在の従業員データです～\n");
+  		System.out.print( "削除する従業員番号を入力してください。：" );
   		String code = sc.nextLine();
   		
   		String sql = "DELETE FROM member WHERE member_no = ?;" ;
@@ -205,14 +205,14 @@ public class EditMember {
   			int result = ps.executeUpdate( );
   					
   			if ( result == 1 ) {
-  				System.out.println( "削除しました。" );
+  				System.out.println( "\n削除しました。" );
   			}
   			else{
-  				System.out.println( "失敗しました。" );
+  				System.out.println( "\n失敗しました。" );
   			}
   		}
   		catch ( Exception e ) {
-  			System.out.println( "エラーが発生しました。" );
+  			System.out.println( Text.tryCatch );
   		}
   		finally {
   			System.out.println( );

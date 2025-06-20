@@ -44,7 +44,7 @@ public class Menu_master extends Menu_employee{
 		
 		EditMember em = new EditMember();
 		
-		System.out.println("実行する操作を選んでください。\n0.ホーム画面へ戻る\n1.注文編集\n2.商品編集\n3.顧客編集\n4.従業員編集\n5.閲覧画面に移動");
+		System.out.println("実行する操作を選んでください。\n0.ホーム画面へ戻る\n1.注文編集\n2.顧客編集\n3.商品編集\n4.従業員編集\n5.閲覧画面に移動");
 		
 		try {//入力された値が数字じゃなかった場合catchにエラーを投げる
 			

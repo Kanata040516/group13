@@ -217,9 +217,10 @@ public class Select {
 				
 				i[0] = count;
 				}//totalwhile
-			System.out.println("\n---------------------------");
-			if(count > 0) {
-			System.out.printf("合計金額：%d円\n",i[1]);}
+			
+			if(count > 0 && m == 6) {
+				System.out.println("\n---------------------------");
+				System.out.printf("合計金額：%d円\n",i[1]);}
 			}//try
 			
 			

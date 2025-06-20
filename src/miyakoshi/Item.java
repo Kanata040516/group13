@@ -23,8 +23,8 @@ public class Item {
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("どの項目を検索しますか？\n "
 						+ "操作したい番号をお選びください。\n");
-				System.out.println("0.ホーム画面\n" + "1. 商品ID \n" + "2.価格\n" + 
-				"3.商品名\n" + "4.分類\n" + "5.一覧表示\n" + "6.メニュー画面\n" );
+				System.out.println("0.ホーム画面\n" + "1. 商品 \n" + "2.価格\n" + 
+				"3.商品名\n" + "4.商品分類番号\n" + "5.一覧表示\n" + "6.メニュー画面\n" );
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");	
 				System.out.print("番号を入力 ： ");
 				menu = sc1.nextInt();
@@ -48,9 +48,9 @@ public class Item {
 			if (menu == 1) { 
 				System.out.println("\n【詳細検索】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
-				System.out.println("検索したい商品IDを入力してください。");
+				System.out.println("検索したい商品番号を入力してください。");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
-				System.out.print("商品ID ： ");
+				System.out.print("商品番号： ");
 				search = sc2.nextLine();
 			}
 			
@@ -76,9 +76,9 @@ public class Item {
 				Select.selectItemGroup();
 				System.out.println("\n【詳細検索】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーーーーーーー");
-				System.out.println("検索したい商品分類を入力してください。");
+				System.out.println("検索したい商品分類番号を入力してください。");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
-				System.out.print("商品分類 ： ");
+				System.out.print("商品分類番号 ： ");
 				search = sc2.nextLine();
 			}
 

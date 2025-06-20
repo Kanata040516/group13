@@ -1,7 +1,7 @@
 package yoshida;
 
 import java.util.Scanner;
-
+//a
 public class Main {
 
 	public static void main(String[] args) {

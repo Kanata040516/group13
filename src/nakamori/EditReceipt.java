@@ -123,8 +123,21 @@ public class EditReceipt {
 		Select.selectReceipt( 6, null );
 		System.out.println("\n～以上が現在の注文データです～\n");
 		Scanner sc = new Scanner(System.in) ;
-		System.out.print( "更新する注文番号を入力してください。：" );
-		String code = sc.nextLine();
+		
+		String code =null;
+		while(true) {
+		System.out.print( "更新する番号を入力してください。：" );
+		code = sc.nextLine();
+		
+		if(Select.object_id_judge(1,code)) {
+			break;
+		}
+		else {
+			System.out.println("\n【エラー：存在しないデータ番号の入力】");
+			System.out.println("データ内に存在する番号を選んでください\n");
+			System.out.println("入力に戻ります");
+		}
+		}//while
 		
 		String columnName = null ;
 		String newValue = null ;

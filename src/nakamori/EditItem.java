@@ -181,11 +181,22 @@ public class EditItem {
 
 		Select.selectItem(5, null); // product_detailの一覧表示
 		System.out.println("\n～以上が現在の商品データです～\n");
-
 		
-		System.out.print("更新する商品番号を入力してください。：");
-		String code = sc.nextLine();
-
+		String code =null;
+		while(true) {
+		System.out.print( "更新する番号を入力してください。：" );
+		code = sc.nextLine();
+		
+		if(Select.object_id_judge(3,code)) {
+			break;
+		}
+		else {
+			System.out.println("\n【エラー：存在しないデータ番号の入力】");
+			System.out.println("データ内に存在する番号を選んでください\n");
+			System.out.println("入力に戻ります");
+		}
+		}//while
+		
 		String columnName = null;
 		String newValue = null;
 		int newIntValue = 0;

@@ -342,12 +342,11 @@ public class Select {
 	
 	
 	public static int selectItem(int menu, String what) {//商品情報を表示するメソッド
-		String sqlItem = "select * from price_history join product_detail "
+		String sqlItem = "select *,count(*) over() as dataCount from price_history join product_detail "
 				+ "on price_history.product_detail_id = product_detail.product_detail_id "
 				+ "join product_type on product_detail.product_type_id = product_type.product_type_id "
 				+ "where last_date is null ";
-		String dataItem = "select count(product_detail_id) from product_detail ";
- 
+		
 		int m = menu;
 		String w = what;
  
@@ -360,20 +359,19 @@ public class Select {
 			//System.out.println("一覧表示");//debug
 			sqlItem += "order by product_detail.product_detail_id asc "
 					+ " limit ?,20 ";
- 
 		} //if
+		else if(m == 6) {
+			//System.out.println("m = 6 SQL");//debug
+			sqlItem += "and price between ? and ? order by product_detail.product_detail_id asc "
+					+ "limit ?,20";
+		}//if
+		
 		try (
 				Connection con = DriverManager.getConnection(url, user_name, password);
-				PreparedStatement psCount = con.prepareStatement(dataItem);
 				PreparedStatement ps = con.prepareStatement(sqlItem);) {
- 
-			if (m == 5) {
-				ResultSet rsCount = psCount.executeQuery();
-				while (rsCount.next()) {
-					count = rsCount.getInt("count(product_detail_id)");
-				} //データ件数を数える
-			} //if
-			else {
+			
+			
+			if(!(m == 5 || m == 6)) {
 				// 検索処理
 				String columnName = null;
 				switch (m) {
@@ -389,24 +387,14 @@ public class Select {
 				case 4:
 					columnName = "product_detail.product_type_id";
 					break;
-				case 6:
-					sqlItem += "and price between ? and ? order by product_detail.product_detail_id asc";
-					break;
 				}
-				if(!(m == 6)) {
 				// SQL再定義
 				sqlItem += "and " + columnName + " = ? order by product_detail.product_detail_id asc";
-				}
+				
 				// psの再準備
 				try (PreparedStatement psSearch = con.prepareStatement(sqlItem)) {
-					if(m == 6) {
-						Item i = new Item();
-						psSearch.setInt(1, i.minPrice());
-						psSearch.setInt(2,i.maxPrice());
-					}
-					else {
-						psSearch.setString(1, w); // 検索条件をセット
-					}
+					
+					psSearch.setString(1, w); // 検索条件をセット
 					
 					ResultSet rs = psSearch.executeQuery();
 					while (rs.next()) {
@@ -421,18 +409,34 @@ public class Select {
  
 					return count; // 見つかった数など
 				}
-			}
- 
+			}//if
+			
+			System.out.println("");
 			total: while (true) {
  
 				if (m == 5) {
 					ps.setInt(1, data);
 				}
- 
+				
+				if(m == 6) {
+					Item i = new Item();
+					ps.setInt(1, i.minPrice());
+					ps.setInt(2,i.maxPrice());
+					ps.setInt(3,data);
+					//System.out.println("PriceBetweenSet");//debug
+				}
+				
+				if (m == 5 || m == 6) {
+					ResultSet rsCount = ps.executeQuery();
+					while (rsCount.next()) {
+						count = rsCount.getInt("dataCount");
+					} //データ件数を数える
+				} //if
+				
 				ResultSet rs = ps.executeQuery();
- 
+				
 				while (rs.next()) {
- 
+					//System.out.println("while");//debug
 					String id = rs.getString("product_detail_id");//商品ID
 					String group = rs.getString("product_type_name");//分類
 					String name = rs.getString("product_detail_name");//商品名
@@ -443,7 +447,7 @@ public class Select {
 					//System.out.println("while");//debug
 					
 				} //while
-				if (m == 5 && data < (count - 20)) {//一覧表示かつデータ件数の残りが20件以上だったら
+				if ((m == 5 || m == 6) && data < (count - 20)) {//一覧表示かつデータ件数の残りが20件以上だったら
 					System.out.println("\n次のページを表示しますか？：Enter");
  
 					while (true) {
@@ -471,7 +475,7 @@ public class Select {
  
 		catch (Exception e) {
 			System.out.println(Text.tryCatch);
-			//System.out.println(e);//debug
+			System.out.println(e);//debug
 		}
  
 		finally {

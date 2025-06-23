@@ -191,10 +191,10 @@ public class Sales {
 			System.exit(move);
 		}
 		else if(move == 1) {
-			menuSales(null,0);
 			startDate = null;
 			lastDate = null;
 			Month = null;
+			menuSales(null,0);
 		}
 		else if(move == 2) {
 			Judge_pass_id j = new Judge_pass_id();

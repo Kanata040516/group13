@@ -3,6 +3,7 @@ package nakamori;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
+import java.sql.ResultSet;
 import java.util.Scanner;
 
 import nanamori.Menu_employee;
@@ -79,11 +80,39 @@ public class EditReceipt {
 	    System.out.println("注文内容を入力してください。\n");
 	    System.out.println("顧客番号(下記参照)");
 	    Select.selectCustomer(4, null);
-	    System.out.println("：");
+	    System.out.print("：");
 	    String customer = sc.nextLine();
-	    System.out.print("\n商品番号：");
-	    String item = sc.nextLine();
+	    
+	    String item = null;
+	    String itemID = null;
+	    String sqlItemData = "select product_detail_id from product_detail where product_detail_name = ?";
+	    while (true) {
+	    	System.out.print("\n商品名：");
+	 	    item = sc.nextLine();
+	 	   
+	        try(
+	    	        Connection con = DriverManager.getConnection(url, user_name, password);
+	    	        PreparedStatement psItem = con.prepareStatement(sqlItemData);
+	    	    ) {
+	            psItem.setString(1, item);
+	            ResultSet rs = psItem.executeQuery();
 
+	            if (rs.next()) {
+	            	itemID = rs.getString("product_detail_id");
+	            	if(!(item == null)) {
+	            		break; // 商品名が存在するのでループ抜ける
+	            	}
+	            	
+	            }
+
+	             else {
+	                System.out.println("その商品名は存在しません。もう一度入力してください。");
+	            }
+	        } catch (Exception e) {
+	            System.out.println(Text.tryCatch);
+	        }
+	    }
+	   
 //	    0以下の数字が入力された場合もう一度入力させるように変更
 	    int amount = 0;
 	    while (true) {
@@ -100,15 +129,17 @@ public class EditReceipt {
 	    String date = sc.nextLine();
 	    System.out.print("\n備考：");
 	    String remark = sc.nextLine();
-	    String sql = "INSERT INTO receipt (customer_id, product_detail_id, amount, date, remark) VALUES (?, ?, ?, ?, ?);";
-
+	    String sql = "INSERT INTO receipt (customer_id, product_detail_id, amount, date, remark) VALUES "
+	    		+ "(?, ?, ?, ?, ?);";
+	    
 	    try (
 	        Connection con = DriverManager.getConnection(url, user_name, password);
 	        PreparedStatement ps = con.prepareStatement(sql);
+	    		
 	    ) {
 	        // 入力値のセット(？マークの部分の差し替え)
 	        ps.setString(1, customer);
-	        ps.setString(2, item);
+	        ps.setString(2, itemID);
 	        ps.setInt(3, amount);
 	        ps.setString(4, date);
 	        ps.setString(5, remark);

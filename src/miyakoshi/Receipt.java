@@ -23,7 +23,7 @@ public class Receipt {
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("どの項目を検索しますか？\n "
 						+ "操作したい番号をお選びください。\n");
-				System.out.println("0.ホーム画面\n" + "1. 注文ID \n" + "2.日付\n" + 
+				System.out.println("0.ホーム画面\n" + "1. 注文番号 \n" + "2.日付\n" + 
 				"3.顧客名\n" + "4.商品名\n" + "5.商品分類\n" + "6.メニュー画面\n");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 				
@@ -49,9 +49,9 @@ public class Receipt {
 			if (menu == 1) { 
 				System.out.println("\n【詳細検索】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
-				System.out.println("検索したい注文IDを入力してください。");
+				System.out.println("検索したい注文番号を入力してください。");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
-				System.out.print("注文ID ： ");
+				System.out.print("注文番号 ： ");
 				search = sc2.nextLine();
 			}	
             else if (menu == 2) { 
@@ -83,9 +83,9 @@ public class Receipt {
 				Select.selectItemGroup();
 				System.out.println("\n【詳細検索】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーーーーーーー");
-				System.out.println("検索したい商品分類を入力してください。");
+				System.out.println("検索したい商品分類番号を入力してください。");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
-				System.out.print("商品分類 ： ");
+				System.out.print("商品分類 番号： ");
 				search = sc2.nextLine();
 			}
 			
@@ -94,24 +94,28 @@ public class Receipt {
 			//結果表示後
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 			System.out.println("移動したい画面の番号をお選びください\n");
-			System.out.println("0.ホーム画面\n" + "1.メニュー画面");
-			Scanner sc = new Scanner(System.in); //顧客
+			System.out.println("1.注文管理画面\n" + "2.メニュー画面(ID、パスワード入力)\n" + "0.終了");
+			Scanner sc = new Scanner(System.in); 
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 			System.out.print("番号： ");
 			int move = sc.nextInt();
 			
 			if(move == 0) {
-				Main.main(null); //ホーム画面移動
-			}else if(move == 1) {
+				System.exit(move);
+			}
+			else if(move == 1) {
+				menuReceipt(0,null);
+			}
+			else if(move == 2) {
 				Judge_pass_id j = new Judge_pass_id();
 			    int pass = j.judge();
 				if ( pass == 1) {
 					Menu_master ma = new Menu_master(); //店長のメニュー画面
 					ma.menu_master();
-	            } else {
-	            	Menu_employee em = new Menu_employee(); //従業員のメニュー画面
-	            	em.menu_employee();
-	            }
+	          } else {
+	          	Menu_employee em = new Menu_employee(); //従業員のメニュー画面
+	          	em.menu_employee();
+	          }
 				sc.close();
 			}
 	}

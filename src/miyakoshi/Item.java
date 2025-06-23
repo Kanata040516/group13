@@ -23,8 +23,8 @@ public class Item {
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("どの項目を検索しますか？\n "
 						+ "操作したい番号をお選びください。\n");
-				System.out.println("0.ホーム画面\n" + "1. 商品ID \n" + "2.価格\n" + 
-				"3.商品名\n" + "4.分類\n" + "5.一覧表示\n" + "6.メニュー画面\n" );
+				System.out.println("0.ホーム画面\n" + "1. 商品 \n" + "2.価格\n" + 
+				"3.商品名\n" + "4.商品分類番号\n" + "5.一覧表示\n" + "6.メニュー画面\n" );
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");	
 				System.out.print("番号を入力 ： ");
 				menu = sc1.nextInt();
@@ -48,9 +48,9 @@ public class Item {
 			if (menu == 1) { 
 				System.out.println("\n【詳細検索】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
-				System.out.println("検索したい商品IDを入力してください。");
+				System.out.println("検索したい商品番号を入力してください。");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
-				System.out.print("商品ID ： ");
+				System.out.print("商品番号： ");
 				search = sc2.nextLine();
 			}
 			
@@ -76,9 +76,9 @@ public class Item {
 				Select.selectItemGroup();
 				System.out.println("\n【詳細検索】");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーーーーーーー");
-				System.out.println("検索したい商品分類を入力してください。");
+				System.out.println("検索したい商品分類番号を入力してください。");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
-				System.out.print("商品分類 ： ");
+				System.out.print("商品分類番号 ： ");
 				search = sc2.nextLine();
 			}
 
@@ -87,24 +87,28 @@ public class Item {
 			//結果表示後
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 			System.out.println("移動したい画面の番号をお選びください\n");
-			System.out.println("0.ホーム画面\n" + "1.メニュー画面");
-			Scanner sc = new Scanner(System.in); //顧客
+			System.out.println("1.商品管理画面\n" + "2.メニュー画面(ID、パスワード入力)\n" + "0.終了");
+			Scanner sc = new Scanner(System.in); 
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 			System.out.print("番号： ");
 			int move = sc.nextInt();
 			
 			if(move == 0) {
-				Main.main(null); //ホーム画面移動
-			}else if(move == 1) {
+				System.exit(move);
+			}
+			else if(move == 1) {
+				menuItem(0,null);
+			}
+			else if(move == 2) {
 				Judge_pass_id j = new Judge_pass_id();
 			    int pass = j.judge();
 				if ( pass == 1) {
 					Menu_master ma = new Menu_master(); //店長のメニュー画面
 					ma.menu_master();
-	            } else {
-	            	Menu_employee em = new Menu_employee(); //従業員のメニュー画面
-	            	em.menu_employee();
-	            }
+	          } else {
+	          	Menu_employee em = new Menu_employee(); //従業員のメニュー画面
+	          	em.menu_employee();
+	          }
 				sc.close();
 			}
 	}

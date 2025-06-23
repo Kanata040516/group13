@@ -127,8 +127,10 @@ public class Sales {
             String month = sales.Month(); // メソッドを呼び出して戻り値を取得
 			System.out.println("\n【月次：合計】");
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
-			System.out.println( month );
-			System.out.println("\n売上合計" + Select.selectReceipt(9,null)[1]  + "円" );
+			System.out.println( month +"\n");
+			int totalprice = Select.selectReceipt(9,null)[1];
+			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
+			System.out.println("\n売上合計：" + totalprice  + "円" );
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 		}  
 		else if(menu == 2) {
@@ -136,8 +138,10 @@ public class Sales {
 			String last = sales.lastDate();
 			System.out.println("\n【日次：合計】");
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
-			System.out.println( start + "～" + last);
-			System.out.println("\n売上合計" + Select.selectReceipt(7,null)[1]  + "円" );
+			System.out.println( start + "～" + last + "\n");
+			int totalprice = Select.selectReceipt(7,null)[1];
+			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
+			System.out.println("\n売上合計：" +  totalprice + "円" );
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 		}
 		else if (menu == 3) {
@@ -146,8 +150,10 @@ public class Sales {
 			System.out.println("\n【月次：合計】");
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 			System.out.println( "顧客名 ： " + customer + "\n");
-			System.out.println( month );
-			System.out.println("\n売上合計" +Select.selectReceipt(10,customer)[1]  + "円" );
+			System.out.println( month + "\n" );
+			int totalprice = Select.selectReceipt(10,customer)[1];
+			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
+			System.out.println("\n売上合計：" +totalprice + "円" );
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 		}  
 		else if(menu == 4) {
@@ -157,32 +163,37 @@ public class Sales {
 			System.out.println("\n【日次：合計】");
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 			System.out.println( "顧客名 ： " + customer + "\n" );
-			System.out.println( start + "～" + last);
-			System.out.println("\n売上合計" + Select.selectReceipt(8,customer)[1]  + "円" );
+			System.out.println( start + "～" + last + "\n");
+			int totalprice =  Select.selectReceipt(8,customer)[1];
+			System.out.println("\n売上合計：" + totalprice + "円" );
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 		}
 		
 		//結果表示後
 		System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 		System.out.println("移動したい画面の番号をお選びください\n");
-		System.out.println("0.ホーム画面\n" + "1.メニュー画面");
-		Scanner sc = new Scanner(System.in); //顧客
+		System.out.println("1.売上管理画面\n" + "2.メニュー画面(ID、パスワード入力)\n\n" + "0.終了");
+		Scanner sc = new Scanner(System.in); 
 		System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 		System.out.print("番号： ");
 		int move = sc.nextInt();
 		
 		if(move == 0) {
-			Main.main(null); //ホーム画面移動
-		}else if(move == 1) {
+			System.exit(move);
+		}
+		else if(move == 1) {
+			menuSales(null,0);
+		}
+		else if(move == 2) {
 			Judge_pass_id j = new Judge_pass_id();
 		    int pass = j.judge();
 			if ( pass == 1) {
 				Menu_master ma = new Menu_master(); //店長のメニュー画面
 				ma.menu_master();
-            } else {
-            	Menu_employee em = new Menu_employee(); //従業員のメニュー画面
-            	em.menu_employee();
-            }
+          } else {
+          	Menu_employee em = new Menu_employee(); //従業員のメニュー画面
+          	em.menu_employee();
+          }
 			sc.close();
 		}
 	}

@@ -5,7 +5,10 @@ import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.util.Scanner;
 
+import nanamori.Menu_employee;
+import nanamori.Menu_master;
 import shimizu.Select;
+import yoshida.Judge_pass_id;
 import yoshida.Text;
 
 public class EditMember {
@@ -20,6 +23,7 @@ public class EditMember {
     Scanner sc = new Scanner(System.in);
 	
     public void startMenu( ) {
+    	while(true) {
   	  System.out.println( "編集メニューを選択してください" ) ;
   	  System.out.println( "1: 追加" ) ;
   	  System.out.println( "2: 更新" ) ;
@@ -30,17 +34,47 @@ public class EditMember {
       
         if ( menuEdit == 1 ) {
       	  insert() ;
+      	  break;
         }
         else if ( menuEdit == 2 ) {
       	  update() ;
+      	  break;
         }
         else if ( menuEdit == 3 ) {
       	  delete() ;
+      	  break;
         } 
         else {
-      	  System.out.println( "無効なメニュー番号です。" );
+      	  System.out.println("\n【エラー：項目以外の内容の入力】");
+  			System.out.println("1〜3の番号を入力してください。\n");
         }
-      
+  	}//while
+
+    	System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
+		System.out.println("移動したい画面の番号をお選びください\n");
+		System.out.println("1.従業員編集画面\n" + "2.メニュー画面(ID、パスワード入力)\n\n" + "0.終了");
+		Scanner sc = new Scanner(System.in); 
+		System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
+		System.out.print("番号： ");
+		int move = sc.nextInt();
+		
+		if(move == 0) {
+			System.exit(move);
+		}
+		else if(move == 1) {
+			startMenu();
+		}
+		else if(move == 2) {
+			Judge_pass_id j = new Judge_pass_id();
+		    int pass = j.judge();
+			if ( pass == 1) {
+				Menu_master ma = new Menu_master(); //店長のメニュー画面
+				ma.menu_master();
+          } else {
+          	Menu_employee em = new Menu_employee(); //従業員のメニュー画面
+          	em.menu_employee();
+          }
+		}
   	} 
     
     //-------------------------------------------
@@ -48,15 +82,14 @@ public class EditMember {
   	public static void insert ( ) {
   		
   		Scanner sc = new Scanner(System.in) ;
-  		
+  		int gyousuu = Select.selectMember( )+1 ;
+  		System.out.println("\n～以上が現在の従業員データです～\n");
   		System.out.println( "従業員情報を入力してください。" );
   		
-  		int gyousuu = Select.selectMember( )+1 ;
-  		
-  		System.out.println( "従業員名" );
+  		System.out.print( "従業員名：" );
   		String eName = sc.nextLine() ;
   		
-  		System.out.println( "従業員ID" );
+  		System.out.print( "\n従業員ID：" );
   		String eID = sc.nextLine() ;
   		
   		String ePass = null ;
@@ -64,7 +97,7 @@ public class EditMember {
   		
   		while( !passCheck ) {
   		
-  		System.out.println( "従業員パスワード" );
+  		System.out.print( "\n従業員パスワード：" );
   		ePass = sc.nextLine() ;
   		
   		passCheck =passrules( ePass );
@@ -89,15 +122,15 @@ public class EditMember {
   			int result = ps.executeUpdate( );
   				
   			if ( result == 1 ) {
-  				System.out.println( "1件の書き込みが完了しました。" );
+  				System.out.println( "\n1件の書き込みが完了しました。" );
   			}
   			else{
-  				System.out.println( "書き込みに失敗しました。" );
+  				System.out.println( "\n書き込みに失敗しました。" );
   			}
   				
   		}
   		catch ( Exception e ) {
-  			System.out.println( "エラーが発生しました。" );
+  			System.out.println(Text.tryCatch );
   			e.printStackTrace();
   		}
   		finally {
@@ -113,43 +146,63 @@ public class EditMember {
     	Select.selectMember( );
 		Scanner sc = new Scanner(System.in) ;
 		
-		System.out.println( "更新する従業員番号を入力してください。" );
-		String code = sc.nextLine();
+		System.out.println("\n～以上が現在の従業員データです～\n");
 		
-		System.out.println( "更新したい項目を選んでください。" );
+		String code =null;
+		while(true) {
+		System.out.print( "更新する番号を入力してください。：" );
+		code = sc.nextLine();
 		
-		System.out.println( "1: 従業員名" );
-		System.out.println( "2: 従業員ID" );
-		System.out.println( "3: 従業員パスワード" );
-		System.out.println( "番号を入力" );
-		int choice = Integer.parseInt(sc.nextLine()) ;
+		if(Select.object_id_judge(4,code)) {
+			break;
+		}
+		else {
+			System.out.println("\n【エラー：存在しないデータ番号の入力】");
+			System.out.println("データ内に存在する番号を選んでください\n");
+			System.out.println("入力に戻ります");
+		}
+		}//while
 		
 		String columnName = null ;
 		String newValue = null ;
 		
+		while(true) {
+		System.out.println( "\n更新したい項目を選んでください。" );
+		
+		System.out.println( "1: 従業員名" );
+		System.out.println( "2: 従業員ID" );
+		System.out.println( "3: 従業員パスワード" );
+		System.out.print( "番号を入力：" );
+		int choice = Integer.parseInt(sc.nextLine()) ;
+		
 		if ( choice == 1 ) {
-			columnName = "eName" ;
-			System.out.println( "新しい従業員名を入力してください。" );
+			columnName = "name" ;
+			System.out.print( "\n新しい従業員名を入力してください。：" );
 			newValue = sc.nextLine();
+			break;
 		}
 		else if ( choice == 2 ) {
 			columnName = "eID" ;
-			System.out.println( "新しい従業員IDを入力してください。" );
+			System.out.print( "\n新しい従業員IDを入力してください。：" );
 			newValue = sc.nextLine();
+			break;
 		}
 		else if ( choice == 3 ) {
 			columnName = "ePass" ;
 			boolean passCheck = false ;
 			
 	  		while( !passCheck ) {
-			System.out.println( "新しい従業員パスワードを入力してください。" );
+			System.out.print( "\n新しい従業員パスワードを入力してください。：" );
 			newValue = sc.nextLine();
 			passCheck = passrules( newValue );
 	  		}
+	  		break;
 		}
 		else {
-			System.out.println( "無効な番号です。" );
+			System.out.println("\n【エラー：項目以外の内容の入力】");
+			System.out.println("1〜3の番号を入力してください。");
 		}
+	}//while
 			
 		String sql = "UPDATE member SET " + columnName + " = ? WHERE member_no = ?;" ;
 		
@@ -165,15 +218,15 @@ public class EditMember {
 			int result = ps.executeUpdate( );
 				
 			if ( result == 1 ) {
-				System.out.println( "1件の書き込みが完了しました。" );
+				System.out.println( "\n1件の書き込みが完了しました。" );
 			}
 			else{
-				System.out.println( "書き込みに失敗しました。" );
+				System.out.println( "\n書き込みに失敗しました。" );
 			}
 				
 		}
 		catch ( Exception e ) {
-			System.out.println( "エラーが発生しました。" );
+			System.out.println( Text.tryCatch);
 		}
 		finally {
 			System.out.println( );
@@ -187,10 +240,23 @@ public class EditMember {
   		
   		Select.selectMember( );
   		Scanner sc = new Scanner(System.in) ;
+  		System.out.println("\n～以上が現在の従業員データです～\n");
   		
-  		System.out.println( "削除する従業員番号を入力してください。" );
-  		String code = sc.nextLine();
-  		
+  		String code =null;
+		while(true) {
+		System.out.print( "削除する番号を入力してください。：" );
+		code = sc.nextLine();
+		
+		if(Select.object_id_judge(4,code)) {
+			break;
+		}
+		else {
+			System.out.println("\n【エラー：存在しないデータ番号の入力】");
+			System.out.println("データ内に存在する番号を選んでください\n");
+			System.out.println("入力に戻ります");
+		}
+		}//while
+		
   		String sql = "DELETE FROM member WHERE member_no = ?;" ;
   		
   		try ( 
@@ -205,14 +271,14 @@ public class EditMember {
   			int result = ps.executeUpdate( );
   					
   			if ( result == 1 ) {
-  				System.out.println( "削除しました。" );
+  				System.out.println( "\n削除しました。" );
   			}
   			else{
-  				System.out.println( "失敗しました。" );
+  				System.out.println( "\n失敗しました。" );
   			}
   		}
   		catch ( Exception e ) {
-  			System.out.println( "エラーが発生しました。" );
+  			System.out.println( Text.tryCatch );
   		}
   		finally {
   			System.out.println( );

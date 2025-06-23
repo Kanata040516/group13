@@ -1,7 +1,7 @@
 package yoshida;
 
 import java.util.Scanner;
-
+//a
 public class Main {
 
 	public static void main(String[] args) {
@@ -10,10 +10,10 @@ public class Main {
 		
 		System.out.println("     【商品管理システム】");
 		
-		System.out.println("----------------");
-		System.out.println("操作したい番号をお選びください");
-		System.out.println(" 1.操作を始める　\n　0.終了　\n");
-		System.out.println("----------------");
+		System.out.println("ーーーーーーーーーーーーーーーーー");
+		System.out.println("操作したい番号をお選びください\n");
+		System.out.println("1.操作を始める　\n0.終了");
+		System.out.println("ーーーーーーーーーーーーーーーーー");
 		
 		int start =new Scanner(System.in).nextInt();
 		

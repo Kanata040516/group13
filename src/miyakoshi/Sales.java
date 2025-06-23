@@ -130,7 +130,9 @@ public class Sales {
 			System.out.println( month +"\n");
 			int totalprice = Select.selectReceipt(9,null)[1];
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
-			System.out.println("\n売上合計：" + totalprice  + "円" );
+			System.out.println("小計：" +totalprice + "円" );
+			System.out.println("合計：" +(int)(totalprice*1.1) + "円" );
+			System.out.println("(うち消費税：" +(int)(totalprice*0.1) + "円)\n" );
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 		}  
 		else if(menu == 2) {
@@ -141,7 +143,9 @@ public class Sales {
 			System.out.println( start + "～" + last + "\n");
 			int totalprice = Select.selectReceipt(7,null)[1];
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
-			System.out.println("\n売上合計：" +  totalprice + "円" );
+			System.out.println("小計：" +totalprice + "円" );
+			System.out.println("合計：" +(int)(totalprice*1.1) + "円" );
+			System.out.println("(うち消費税：" +(int)(totalprice*0.1) + "円)\n" );
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 		}
 		else if (menu == 3) {
@@ -153,7 +157,9 @@ public class Sales {
 			System.out.println( month + "\n" );
 			int totalprice = Select.selectReceipt(10,customer)[1];
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
-			System.out.println("\n売上合計：" +totalprice + "円" );
+			System.out.println("小計：" +totalprice + "円" );
+			System.out.println("合計：" +(int)(totalprice*1.1) + "円" );
+			System.out.println("(うち消費税：" +(int)(totalprice*0.1) + "円)\n" );
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 		}  
 		else if(menu == 4) {
@@ -165,7 +171,10 @@ public class Sales {
 			System.out.println( "顧客名 ： " + customer + "\n" );
 			System.out.println( start + "～" + last + "\n");
 			int totalprice =  Select.selectReceipt(8,customer)[1];
-			System.out.println("\n売上合計：" + totalprice + "円" );
+			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
+			System.out.println("小計：" +totalprice + "円" );
+			System.out.println("合計：" +(int)(totalprice*1.1) + "円" );
+			System.out.println("(うち消費税：" +(int)(totalprice*0.1) + "円)\n" );
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 		}
 		

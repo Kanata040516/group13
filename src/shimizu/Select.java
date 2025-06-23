@@ -195,7 +195,10 @@ public class Select {
 			
 			if(count > 0 && m == 6) {
 				System.out.println("\n---------------------------");
-				System.out.printf("合計金額：%d円\n",i[1]);}
+				System.out.printf("小計：%d円\n",i[1]);
+				System.out.printf("合計：%.0f円\n",i[1]*1.1);
+				System.out.printf("(うち消費税：%.0f円)\n",i[1]*0.1);
+			}
 			}//try
 		
 			catch(Exception e){

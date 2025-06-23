@@ -141,8 +141,8 @@ public class Select {
 						String product = rs.getString("product_detail_name");//商品名
 						int amount =  rs.getInt("amount");
 						int price =rs.getInt("price")*amount;//価格
-						String remark = ("remark");//備考
-						System.out.printf("[%s]     %s\n  %s店\n  取引内容：%s  %d個\n      %d円\n  %s:\n\n",id,date,customer,product,amount,price,remark);
+						String remark = rs.getString("remark");//備考
+						System.out.printf("[%s]     %s\n  %s店\n  取引内容：%s  %d個\n      %d円\n  remark:%s\n\n",id,date,customer,product,amount,price,remark);
 						count++;//データ件数を数える
 						i[1] += price;//合計金額の計算
 						}
@@ -168,8 +168,8 @@ public class Select {
 				String product = rs.getString("product_detail_name");//商品名
 				int amount =  rs.getInt("amount");
 				int price =rs.getInt("price")*amount;//価格
-				String remark = ("remark");//備考
-				System.out.printf("[%s]     %s\n  %s店\n  取引内容：%s  %d個\n      %d円\n  %s:\n\n",id,date,customer,product,amount,price,remark);
+				String remark = rs.getString("remark");//備考
+				System.out.printf("[%s]     %s\n  %s店\n  取引内容：%s  %d個\n      %d円\n  remark:%s\n\n",id,date,customer,product,amount,price,remark);
 				
 				if(!(m == 6)) {
 					count++;

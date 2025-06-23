@@ -682,7 +682,7 @@ public class Select {
 		case 1: sql = "select main_id from receipt";column ="main_id";break;
 		case 2: sql = "select customer_id from customer";column ="customer_id";break;
 		case 3: sql = "select product_detail_id from product_detail";column ="product_detail_id";break;
-		case 4: sql = "select member_id from member";column ="member_id";break;
+		case 4: sql = "select member_no from member";column ="member_no";break;
 		}
 		try(
 				Connection con = DriverManager.getConnection( url , user_name , password ) ;

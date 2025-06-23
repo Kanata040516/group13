@@ -116,9 +116,21 @@ public class EditItem {
 		Scanner sc = new Scanner(System.in);
 		System.out.println("商品情報を入力してください。");
 
-		
-		System.out.print("\n商品の価格：");
-		int price = Integer.parseInt(sc.nextLine());
+		int price=0;
+		while (true) {
+	        System.out.print("\n商品の価格：");
+	        String priceInput = sc.nextLine();
+	        try {
+	            price = Integer.parseInt(priceInput);
+	            if (price < 0) {
+	                System.out.println("【エラー：価格は0以上の整数を入力してください】");
+	            } else {
+	                break; // 正しい値が入力されたらループを抜ける
+	            }
+	        } catch (NumberFormatException e) {
+	            System.out.println("【エラー：数字を入力してください】");
+	        }
+	    }
 		System.out.println("");
 		System.out.println("\n商品の分類番号(下記参照)");
 		Select.selectItemGroup(); // 分類の表示
@@ -215,11 +227,25 @@ public class EditItem {
 		int choice = Integer.parseInt(sc.nextLine());
 		
 		if (choice == 1) {
-			columnName = "price";
-			System.out.print("\n新しい商品の価格を入力してください。：");
-			newIntValue = Integer.parseInt(sc.nextLine());
-			isPriceUpdate = true;
-			break;
+		    columnName = "price";
+		    int newPrice = 0;
+		    while (true) {
+		        System.out.print("\n新しい商品の価格を入力してください：");
+		        String newPriceInput = sc.nextLine();
+		        try {
+		            newPrice = Integer.parseInt(newPriceInput);
+		            if (newPrice <0) {
+		                System.out.println("【エラー：価格は0以上の整数を入力してください】");
+		            } else {
+		                newIntValue = newPrice;
+		                isPriceUpdate = true;
+		                break; // 正しい値が入力されたらループを抜ける
+		            }
+		        } catch (NumberFormatException e) {
+		            System.out.println("【エラー：数字を入力してください】");
+		        }
+		    }
+		    break;
 		}
 		else if (choice == 2) {
 			columnName = "product_detail_name";

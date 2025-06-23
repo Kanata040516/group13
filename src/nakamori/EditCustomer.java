@@ -80,174 +80,179 @@ public class EditCustomer {
 	
 	//-------------------------------------------
   	// 顧客情報を追加するメソッド
-  	public static void insert ( ) {
-  		
-  		int gyousuu = Select.selectCustomer( 4, null ) +1 ;
-  		System.out.println("\n～以上が現在の顧客データです～\n");
-  		Scanner sc = new Scanner(System.in) ;
-  	
-        System.out.println( "顧客情報を入力してください。\n" );
-        
-        System.out.println( "店舗形態番号(下記参照)" );
-  		Select.selectCustomerGroup() ; // 店舗形態の表示
-  		System.out.print("：");
-  		String group = sc.nextLine() ;
-  		
-  		System.out.print( "\n店舗名：" );
-  		String name = sc.nextLine() ;
-  		
-  		System.out.print( "\n店舗のメールアドレス：" );
-  		String mail = sc.nextLine() ;
-  		
-  		System.out.print( "\n店舗の電話番号：" );
-  		String number = sc.nextLine() ;
-  		
-  		System.out.print( "\n店舗の所在地(都道府県)：" );
-  		String address = sc.nextLine() ;
-  		
-  		String sql = "INSERT INTO customer (customer_id, customer_name, mail, tel, address, customer_group_id) VALUES ( ?, ?, ?, ?, ?, ?);" ;
-  		
-  		try ( 
-  	  		Connection con = DriverManager.getConnection( url , user_name , password ) ;
-  	  		PreparedStatement ps = con.prepareStatement( sql ) ;
-  	  		) {
-  	  		
-  			
-  	  		//入力値のセット(？マークの部分の差し替え)
-  	  		ps.setString( 1, String.format("%04d", gyousuu) );
-  	  		ps.setString( 2, name );
-  	  		ps.setString( 3, mail );
-  	  	    ps.setString( 4,number );
-	  		ps.setString( 5, address );
-	  		ps.setString( 6, group );
-  	  				
-  	  		//SQL文の送信。
-  	  		int result = ps.executeUpdate( );
-  	  				
-  	  		if ( result == 1 ) {
-  	  			System.out.println( "\n1件の書き込みが完了しました。" );
-  	  		}
-  	  		else{
-  	  			System.out.println( "\n書き込みに失敗しました。" );
-  	  		}
-  	  				
-  	  	}
-  	  	catch ( Exception e ) {
-  	     	System.out.println(Text.tryCatch);
-  	  	    e.printStackTrace();
-  	  	}
-  	  	finally {
-  	  		System.out.println( );
-  	  	}
-  		
-  	}
+	public static void insert() {
+	    int gyousuu = Select.selectCustomer(4, null) + 1;
+	    System.out.println("\n～以上が現在の顧客データです～\n");
+	    Scanner sc = new Scanner(System.in);
+
+	    System.out.println("顧客情報を入力してください。\n");
+
+	    // 店舗形態の入力部分
+	    String group = null;
+	    while (true) {
+	        System.out.println("店舗形態番号(下記参照)");
+	        Select.selectCustomerGroup(); // 店舗形態の表示
+	        System.out.print("：");
+	        group = sc.nextLine();
+
+	        // 入力値が0001から0006の範囲内かチェック
+	        if (group.matches("^(000[1-6])$")) {
+	            break; // 正しい番号が入力された場合はループを抜ける
+	        } else {
+	            System.out.println("【エラー：店舗形態番号は0001から0006の範囲で入力してください】");
+	        }
+	    }
+
+	    System.out.print("\n店舗名：");
+	    String name = sc.nextLine();
+
+	    System.out.print("\n店舗のメールアドレス：");
+	    String mail = sc.nextLine();
+
+	    System.out.print("\n店舗の電話番号：");
+	    String number = sc.nextLine();
+
+	    System.out.print("\n店舗の所在地(都道府県)：");
+	    String address = sc.nextLine();
+
+	    String sql = "INSERT INTO customer (customer_id, customer_name, mail, tel, address, customer_group_id) VALUES (?, ?, ?, ?, ?, ?);";
+
+	    try (
+	        Connection con = DriverManager.getConnection(url, user_name, password);
+	        PreparedStatement ps = con.prepareStatement(sql);
+	    ) {
+	        // 入力値のセット(？マークの部分の差し替え)
+	        ps.setString(1, String.format("%04d", gyousuu));
+	        ps.setString(2, name);
+	        ps.setString(3, mail);
+	        ps.setString(4, number);
+	        ps.setString(5, address);
+	        ps.setString(6, group);
+
+	        // SQL文の送信。
+	        int result = ps.executeUpdate();
+
+	        if (result == 1) {
+	            System.out.println("\n1件の書き込みが完了しました。");
+	        } else {
+	            System.out.println("\n書き込みに失敗しました。");
+	        }
+
+	    } catch (Exception e) {
+	        System.out.println(Text.tryCatch);
+	        e.printStackTrace();
+	    } finally {
+	        System.out.println();
+	    }
+	}
   	
   	
     //-------------------------------------------
   	// 顧客情報を更新するメソッド
-  	public static void update() {
-		
-		Scanner sc = new Scanner(System.in) ;
-		
-		Select.selectCustomer(4, null); 
-		System.out.println("\n～以上が現在の顧客データです～\n");
-		
-		String code =null;
-		while(true) {
-		System.out.print( "更新する番号を入力してください。：" );
-		code = sc.nextLine();
-		
-		if(Select.object_id_judge(2,code)) {
-			break;
-		}
-		else {
-			System.out.println("\n【エラー：存在しないデータ番号の入力】");
-			System.out.println("データ内に存在する番号を選んでください\n");
-			System.out.println("入力に戻ります");
-		}
-		}//while
-		
-		String columnName = null ;
-		String newValue = null ;
-		
-		while(true) {
-		System.out.println( "\n更新したい項目を選んでください。" );
-		
-		System.out.println( "1: 店舗形態" );
-		System.out.println( "2: 店舗名" );
-		System.out.println( "3: 店舗のメールアドレス" );
-		System.out.println( "4: 店舗の電話番号" );
-		System.out.println( "5: 店舗の所在地(都道府県)" );
-		System.out.print( "番号を入力：" );
-		int choice = Integer.parseInt(sc.nextLine()) ;
-		
-		if ( choice == 1 ) {
-			System.out.println( "" );
-			Select.selectCustomerGroup() ; // 店舗形態の表示
-			columnName = "customer_group_id" ;
-			System.out.println("\n上記を参照して新しい店舗形態番号を入力してください。：");
-			newValue = sc.nextLine();
-			break;
-		}
-		else if ( choice == 2 ) {
-			columnName = "customer_name" ;
-			System.out.print( "\n新しい店舗名を入力してください。：" );
-			newValue = sc.nextLine();
-			break;
-		}
-		else if ( choice == 3 ) {
-			columnName = "mail" ;
-			System.out.print( "\n新しい店舗のメールアドレスを入力してください。：" );
-			newValue = sc.nextLine();
-			break;
-		}
-		else if ( choice == 4 ) {
-			columnName = "tel" ;
-			System.out.print( "\n新しい店舗の電話番号を入力してください。：" );
-			newValue = sc.nextLine();
-			break;
-		}
-		else if ( choice == 5 ) {
-			columnName = "address" ;
-			System.out.print( "\n新しい店舗の所在地(都道府県)を入力してください。：" );
-			newValue = sc.nextLine();
-			break;
-		}
-		else {
-			System.out.println("\n【エラー：項目以外の内容の入力】");
-			System.out.println("1〜5の番号を入力してください。");
-		}
-	}//while
-			
-		String sql = "UPDATE customer SET `" + columnName + "` = ? WHERE customer_id = ?;" ;
-		
-		try ( 
-			Connection con = DriverManager.getConnection( url , user_name , password ) ;
-			PreparedStatement ps = con.prepareStatement( sql ) ;
-			) {
-			
-			ps.setString(1, newValue) ;
-			ps.setString(2, code) ;
-			
-			//SQL文の送信。
-			int result = ps.executeUpdate( );
-				
-			if ( result == 1 ) {
-				System.out.println( "\n1件の書き込みが完了しました。" );
-			}
-			else{
-				System.out.println( "\n書き込みに失敗しました。" );
-			}
-				
-		}
-		catch ( Exception e ) {
-			System.out.println(Text.tryCatch);
-			e.printStackTrace();
-		}
-		finally {
-			System.out.println( );
-		}
-		
+	public static void update() {
+	    Scanner sc = new Scanner(System.in);
+
+	    Select.selectCustomer(4, null);
+	    System.out.println("\n～以上が現在の顧客データです～\n");
+
+	    String code = null;
+	    while (true) {
+	        System.out.print("更新する番号を入力してください。：");
+	        code = sc.nextLine();
+
+	        if (Select.object_id_judge(2, code)) {
+	            break;
+	        } else {
+	            System.out.println("\n【エラー：存在しないデータ番号の入力】");
+	            System.out.println("データ内に存在する番号を選んでください\n");
+	            System.out.println("入力に戻ります");
+	        }
+	    }//while
+
+	    String columnName = null;
+	    String newValue = null;
+
+	    while (true) {
+	        System.out.println("\n更新したい項目を選んでください。");
+
+	        System.out.println("1: 店舗形態");
+	        System.out.println("2: 店舗名");
+	        System.out.println("3: 店舗のメールアドレス");
+	        System.out.println("4: 店舗の電話番号");
+	        System.out.println("5: 店舗の所在地(都道府県)");
+	        System.out.print("番号を入力：");
+	        int choice = Integer.parseInt(sc.nextLine());
+
+	        if (choice == 1) {
+	            System.out.println("");
+	            Select.selectCustomerGroup(); // 店舗形態の表示
+	            columnName = "customer_group_id";
+	            String newGroup = null;
+
+	            while (true) {
+	                System.out.println("\n上記を参照して新しい店舗形態番号を入力してください。：");
+	                newGroup = sc.nextLine();
+
+	                // 入力値が0001から0006の範囲内かチェック
+	                if (newGroup.matches("^(000[1-6])$")) {
+	                    newValue = newGroup;
+	                    break; // 正しい番号が入力された場合はループを抜ける
+	                } else {
+	                    System.out.println("【エラー：店舗形態番号は0001から0006の範囲で入力してください】");
+	                }
+	            }
+	            break;
+	        } else if (choice == 2) {
+	            columnName = "customer_name";
+	            System.out.print("\n新しい店舗名を入力してください。：");
+	            newValue = sc.nextLine();
+	            break;
+	        } else if (choice == 3) {
+	            columnName = "mail";
+	            System.out.print("\n新しい店舗のメールアドレスを入力してください。：");
+	            newValue = sc.nextLine();
+	            break;
+	        } else if (choice == 4) {
+	            columnName = "tel";
+	            System.out.print("\n新しい店舗の電話番号を入力してください。：");
+	            newValue = sc.nextLine();
+	            break;
+	        } else if (choice == 5) {
+	            columnName = "address";
+	            System.out.print("\n新しい店舗の所在地(都道府県)を入力してください。：");
+	            newValue = sc.nextLine();
+	            break;
+	        } else {
+	            System.out.println("\n【エラー：項目以外の内容の入力】");
+	            System.out.println("1〜5の番号を入力してください。");
+	        }
+	    }//while
+
+	    String sql = "UPDATE customer SET `" + columnName + "` = ? WHERE customer_id = ?;";
+
+	    try (
+	        Connection con = DriverManager.getConnection(url, user_name, password);
+	        PreparedStatement ps = con.prepareStatement(sql);
+	    ) {
+
+	        ps.setString(1, newValue);
+	        ps.setString(2, code);
+
+	        // SQL文の送信。
+	        int result = ps.executeUpdate();
+
+	        if (result == 1) {
+	            System.out.println("\n1件の書き込みが完了しました。");
+	        } else {
+	            System.out.println("\n書き込みに失敗しました。");
+	        }
+
+	    } catch (Exception e) {
+	        System.out.println(Text.tryCatch);
+	        e.printStackTrace();
+	    } finally {
+	        System.out.println();
+	    }
 	}
   	
   	

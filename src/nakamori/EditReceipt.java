@@ -72,53 +72,59 @@ public class EditReceipt {
 	}
 	//-------------------------------------------
 	// 注文を追加するメソッド
-	public static void insert ( ) {
-		Select.selectReceipt( 6, null );
-		System.out.println("\n～以上が現在の注文データです～\n");
-		Scanner sc = new Scanner(System.in) ;
-		System.out.println( "注文内容を入力してください。\n" );
-		System.out.println( "顧客番号(下記参照)" );
-		Select.selectCustomer(4,null);
-		System.out.println("：");
-		String customer = sc.nextLine() ;
-		System.out.print( "\n商品番号：" );
-		String item = sc.nextLine() ;
-		System.out.print( "\n数量：" ) ;
-		int amount = Integer.parseInt(sc.nextLine()) ;
-		System.out.print( "\n日付 (YYYY-MM-DD)：" );
-		String date = sc.nextLine() ;
-		System.out.print( "\n備考：" );
-		String remark = sc.nextLine() ;
-		String sql = "INSERT INTO receipt (customer_id, product_detail_id , amount, date, remark) VALUES (?, ?, ?, ?, ?);";
- 
-		
-		try ( 
-			Connection con = DriverManager.getConnection( url , user_name , password ) ;
-			PreparedStatement ps = con.prepareStatement( sql ) ;
-			) {
-			//入力値のセット(？マークの部分の差し替え)
-			//ps.setInt( 1, gyousuu );
-			ps.setString( 1, customer );
-			ps.setString( 2, item );
-			ps.setInt( 3, amount );
-			ps.setString( 4, date );
-			ps.setString( 5, remark );
-			//SQL文の送信。
-			int result = ps.executeUpdate( );
-			if ( result == 1 ) {
-				System.out.println( "\n1件の書き込みが完了しました。" );
-			}
-			else{
-				System.out.println( "\n書き込みに失敗しました。" );
-			}
+	public static void insert() {
+	    Select.selectReceipt(6, null);
+	    System.out.println("\n～以上が現在の注文データです～\n");
+	    Scanner sc = new Scanner(System.in);
+	    System.out.println("注文内容を入力してください。\n");
+	    System.out.println("顧客番号(下記参照)");
+	    Select.selectCustomer(4, null);
+	    System.out.println("：");
+	    String customer = sc.nextLine();
+	    System.out.print("\n商品番号：");
+	    String item = sc.nextLine();
+
+//	    0以下の数字が入力された場合もう一度入力させるように変更
+	    int amount = 0;
+	    while (true) {
+	        System.out.print("\n数量：");
+	        amount = Integer.parseInt(sc.nextLine());
+	        if (amount > 0) {
+	            break; // 0より大きい数値が入力されたらループを抜ける
+	        } else {
+	            System.out.println("\n【エラー：数量は0より大きい値を入力してください】");
+	        }
 	    }
-		catch ( Exception e ) {
-			System.out.println(Text.tryCatch);
-			e.printStackTrace();
-		}
-		finally {
-			System.out.println( );
-		}
+
+	    System.out.print("\n日付 (YYYY-MM-DD)：");
+	    String date = sc.nextLine();
+	    System.out.print("\n備考：");
+	    String remark = sc.nextLine();
+	    String sql = "INSERT INTO receipt (customer_id, product_detail_id, amount, date, remark) VALUES (?, ?, ?, ?, ?);";
+
+	    try (
+	        Connection con = DriverManager.getConnection(url, user_name, password);
+	        PreparedStatement ps = con.prepareStatement(sql);
+	    ) {
+	        // 入力値のセット(？マークの部分の差し替え)
+	        ps.setString(1, customer);
+	        ps.setString(2, item);
+	        ps.setInt(3, amount);
+	        ps.setString(4, date);
+	        ps.setString(5, remark);
+	        // SQL文の送信。
+	        int result = ps.executeUpdate();
+	        if (result == 1) {
+	            System.out.println("\n1件の書き込みが完了しました。");
+	        } else {
+	            System.out.println("\n書き込みに失敗しました。");
+	        }
+	    } catch (Exception e) {
+	        System.out.println(Text.tryCatch);
+	        e.printStackTrace();
+	    } finally {
+	        System.out.println();
+	    }
 	}
 	//-------------------------------------------
 	// 注文を更新するメソッド

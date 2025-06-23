@@ -10,8 +10,9 @@ import yoshida.Main;
 public class Sales {
  
 	static int menu = 0 ;//0-6, 注文検索の項目
-	static String date = null; //売り上げ日の記入
-	static String month = null;//売り上げ月の記入
+	static int year = 0;//売り上げ年の記入
+	static int month = 0;//売り上げ月の記入
+	static int date = 0; //売り上げ日の記入
 	
 	static String startDate = null;
 	static String lastDate = null;
@@ -23,18 +24,60 @@ public class Sales {
 			return startDate;
 		}
 		Scanner sc = new Scanner(System.in); //開始日
-		System.out.print("開始日： ");
-		startDate = sc.nextLine();
+		while(true) {
+		System.out.println("[開始日] ");
+		System.out.print("年：");
+		year = sc.nextInt();
+		System.out.print("月：");
+		month = sc.nextInt();
+		System.out.print("日：");
+		date = sc.nextInt();
+		if (!(String.valueOf(year).length() == 4) || year < 1900 || year > 2500) {
+		    System.out.println("西暦で4桁の正しい年を入力してください");
+		    continue;
+		}
+		if(month > 13 || month < 1) {
+			System.out.println("正しい月を入力してください");
+			continue;
+		}
+		if(date > 32 || month < 1) {
+			System.out.println("正しい日にちを入力してください");
+			continue;
+		}
+		break;
+	    }
+		startDate = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", date);
 		return startDate;
-	}
+	}//while
 	
 	public String lastDate() {
 		if(!(lastDate == null)) {
 			return lastDate;
 		}
 		Scanner sc = new Scanner(System.in); //終了日
-		System.out.print("終了日： ");
-		lastDate = sc.nextLine();
+		while(true) {
+		System.out.println("[終了日] ");
+		System.out.print("年：");
+		year = sc.nextInt();
+		System.out.print("月：");
+		month = sc.nextInt();
+		System.out.print("日：");
+		date = sc.nextInt();
+		if (!(String.valueOf(year).length() == 4) || year < 1900 || year > 2500) {
+		    System.out.println("西暦で4桁の正しい年を入力してください\n");
+		    continue;
+		}
+		if(month > 13 || month < 1) {
+			System.out.println("正しい月を入力してください\n");
+			continue;
+		}
+		if(date > 32 || month < 1) {
+			System.out.println("正しい日にちを入力してください\n");
+			continue;
+		}
+		break;
+	}//while
+		lastDate =  year + "-" + String.format("%02d", month) + "-" + String.format("%02d", date);
 		return lastDate;
 	}
 	
@@ -43,8 +86,22 @@ public class Sales {
 			return Month;
 		}
 		Scanner sc = new Scanner(System.in); //月
-		System.out.print("月： ");
-		Month = sc.nextLine();
+		while(true) {
+		System.out.print("年：");
+		year = sc.nextInt();
+		System.out.print("月：");
+		month = sc.nextInt();
+		if (!(String.valueOf(year).length() == 4) || year < 1900 || year > 2500) {
+		    System.out.println("西暦で4桁の正しい年を入力してください\n");
+		    continue;
+		}
+		if(month > 13 || month < 1) {
+			System.out.println("正しい月を入力してください\n");
+			continue;
+		}
+		break;
+		}//while
+		Month = year + "-" + String.format("%02d", month);
 		return Month;
 	}
 	
@@ -94,7 +151,7 @@ public class Sales {
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 			System.out.println("期間を指定して売上合計を計算します。\n"
 					+ "表示したいデータの年と月を入力してください。");
-			System.out.println("記入例⇒ 2025-06");
+			//System.out.println("記入例⇒ 2025-06");
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 		}  
 		   else if (menu == 2) {
@@ -102,7 +159,7 @@ public class Sales {
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("期間を指定して売上合計を計算します。\n"
 						+ "表示したいデータの年、開始日、終了日を入力してください。\n");
-				System.out.println("記入例⇒ 開始日：2025-06-01 終了日：2025-06-30");
+				//System.out.println("記入例⇒ 開始日：2025-06-01 終了日：2025-06-30");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 		}
 		   else if (menu == 3) {
@@ -110,7 +167,7 @@ public class Sales {
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("顧客名と期間を指定して売上合計を計算します。\n"
 						+ "表示したいデータの顧客名と月を入力してください。\n");
-				System.out.println("記入例⇒ 2025-06\n");
+				//System.out.println("記入例⇒ 2025-06\n");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 		}
 		   else if (menu == 4) {
@@ -118,7 +175,7 @@ public class Sales {
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("顧客名と期間を指定して売上合計を計算します。\n"
 						+ "表示したいデータの顧客名、年、開始日、終了日を選択入力してください。\n");
-				System.out.println("記入例⇒ 開始日：2025-06-01 終了日：2025-06-30");
+				//System.out.println("記入例⇒ 開始日：2025-06-01 終了日：2025-06-30");
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 		}
 		

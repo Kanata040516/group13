@@ -7,6 +7,7 @@ import java.sql.ResultSet;
 import java.util.ArrayList;
 import java.util.Scanner;
 
+import miyakoshi.Item;
 import miyakoshi.Sales;
 import yoshida.Text;
  
@@ -388,23 +389,32 @@ public class Select {
 				case 4:
 					columnName = "product_detail.product_type_id";
 					break;
+				case 6:
+					sqlItem += "and price between ? and ? order by product_detail.product_detail_id asc";
+					break;
 				}
- 
+				if(!(m == 6)) {
 				// SQL再定義
 				sqlItem += "and " + columnName + " = ? order by product_detail.product_detail_id asc";
- 
+				}
 				// psの再準備
 				try (PreparedStatement psSearch = con.prepareStatement(sqlItem)) {
-					psSearch.setString(1, w); // 検索条件をセット
- 
+					if(m == 6) {
+						Item i = new Item();
+						psSearch.setInt(1, i.minPrice());
+						psSearch.setInt(2,i.maxPrice());
+					}
+					else {
+						psSearch.setString(1, w); // 検索条件をセット
+					}
+					
 					ResultSet rs = psSearch.executeQuery();
- 
 					while (rs.next()) {
 						String id = rs.getString("product_detail_id");//商品ID
 						String group = rs.getString("product_type_name");//分類
 						String name = rs.getString("product_detail_name");//商品名
 						int price = rs.getInt("price");//価格
- 
+						
 						System.out.printf("%4s: [%s]  %s  %d円\n", id, group, name, price);
 						count++;//データ件数を数える
 					}

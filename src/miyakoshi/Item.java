@@ -12,7 +12,48 @@ public class Item {
 	
 		static int menu;  //0-6, 注文検索の項目
 		static String search ; //注文検索の内容
-	
+		
+		static int minPrice = -1;//範囲検索の最初の値
+		static int maxPrice =-1;//範囲検索の最後の値
+		
+		public int minPrice() {
+			if(!(minPrice == -1)) {
+				return minPrice;
+			}
+			Scanner sc = new Scanner(System.in); 
+			while(true) {
+				System.out.print("最低価格： ");
+				minPrice = sc.nextInt();
+				if(minPrice >= 0) {
+					break;
+				}
+				else {
+					System.out.println("正しい値を入力してください");
+				}
+			}//while
+			return minPrice;
+		}
+		
+		public int maxPrice() {
+			if(!(maxPrice == -1)) {
+				return maxPrice;
+			}
+			Item i = new Item();
+			Scanner sc = new Scanner(System.in); 
+			while(true) {
+				System.out.print("最高価格： ");
+				maxPrice = sc.nextInt();
+				
+				if(maxPrice > i.minPrice()) {
+					break;
+				}
+				else {
+					System.out.println("正しい値を入力してください");
+				}
+			}//while
+			return maxPrice;
+		}
+		
 		public static void menuItem(int menu, String search) {
 			
 			Scanner sc1 = new Scanner(System.in); //項目を選択
@@ -23,7 +64,7 @@ public class Item {
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("どの項目を検索しますか？\n "
 						+ "操作したい番号をお選びください。\n");
-				System.out.println("0.ホーム画面\n" + "1. 商品 \n" + "2.価格\n" + 
+				System.out.println("0.ホーム画面\n" + "1.商品 \n" + "2.価格\n" + 
 				"3.商品名\n" + "4.商品分類番号\n" + "5.一覧表示\n" + "6.メニュー画面\n" );
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");	
 				System.out.print("番号を入力 ： ");
@@ -56,11 +97,36 @@ public class Item {
 			
 			else if (menu == 2) { 
 				System.out.println("\n【詳細検索】");
+				while(true) {
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
-				System.out.println("検索したい価格を入力してください。");
-				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
-				System.out.print("価格 ： ");
-				search = sc2.nextLine();
+				System.out.println("1.価格検索(例：550円)");
+				System.out.println("2.価格範囲検索(例：450～550円)");
+				int waySearch = new Scanner(System.in).nextInt();
+				
+				if(!(waySearch == 1 || waySearch == 2)) {
+					System.out.println("1、2のどちらかを入力してください");
+					continue;
+				}
+				
+				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
+			    System.out.println("検索したい価格を入力してください。");
+			    System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
+				if(waySearch == 1) {
+				    System.out.print("価格 ： ");
+				    search = sc2.nextLine();
+				    break;
+				}
+				else if(waySearch == 2) {
+					menu = 6; 
+					Item i = new Item();
+					i.minPrice();
+					i.maxPrice();
+					
+					Select.selectItem( menu, null );
+					break;
+				}
+				
+				}//while
 			}
 			
 			else if (menu == 3) { 
@@ -81,8 +147,9 @@ public class Item {
 				System.out.print("商品分類番号 ： ");
 				search = sc2.nextLine();
 			}
-
-			Select.selectItem( menu, search );//結果表示をSelectクラスで
+			if(menu < 6) {
+			    Select.selectItem( menu, search );//結果表示をSelectクラスで
+			}
 			
 			//結果表示後
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");

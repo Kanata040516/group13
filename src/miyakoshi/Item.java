@@ -165,6 +165,8 @@ public class Item {
 			}
 			else if(move == 1) {
 				menuItem(0,null);
+				minPrice = -1;
+				maxPrice = -1;
 			}
 			else if(move == 2) {
 				Judge_pass_id j = new Judge_pass_id();

@@ -192,6 +192,9 @@ public class Sales {
 		}
 		else if(move == 1) {
 			menuSales(null,0);
+			startDate = null;
+			lastDate = null;
+			Month = null;
 		}
 		else if(move == 2) {
 			Judge_pass_id j = new Judge_pass_id();

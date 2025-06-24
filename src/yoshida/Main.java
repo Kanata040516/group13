@@ -15,14 +15,14 @@ public class Main {
 		System.out.println("1.操作を始める　\n0.終了");
 		System.out.println("ーーーーーーーーーーーーーーーーー");
 		
-		int start =new Scanner(System.in).nextInt();
+		String start =new Scanner(System.in).nextLine();
 		
 		
 		
-		if(start==1) {
+		if(start=="1") {
 			Judge_pass_id.judge();
 			
-		}else if(start==0) {
+		}else if(start=="0") {
 			System.out.println("終了します");
 
 		}else {

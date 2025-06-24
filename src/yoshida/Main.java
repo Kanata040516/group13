@@ -19,10 +19,10 @@ public class Main {
 		
 		
 		
-		if(start=="1") {
+		if(start.matches("1")) {
 			Judge_pass_id.judge();
 			
-		}else if(start=="0") {
+		}else if(start.matches("0")) {
 			System.out.println("終了します");
 
 		}else {

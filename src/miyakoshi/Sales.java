@@ -236,22 +236,25 @@ public class Sales {
 		}
 		
 		//結果表示後
+		Scanner sc = new Scanner(System.in); 
+		while(true) {
 		System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 		System.out.println("移動したい画面の番号をお選びください\n");
 		System.out.println("1.売上管理画面\n" + "2.メニュー画面(ID、パスワード入力)\n\n" + "0.終了");
-		Scanner sc = new Scanner(System.in); 
 		System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 		System.out.print("番号： ");
 		int move = sc.nextInt();
 		
 		if(move == 0) {
 			System.exit(move);
+			break;
 		}
 		else if(move == 1) {
 			startDate = null;
 			lastDate = null;
 			Month = null;
 			menuSales(null,0);
+			break;
 		}
 		else if(move == 2) {
 			Judge_pass_id j = new Judge_pass_id();
@@ -263,8 +266,14 @@ public class Sales {
           	Menu_employee em = new Menu_employee(); //従業員のメニュー画面
           	em.menu_employee();
           }
-			sc.close();
+			break;
 		}
+		else {
+			System.out.println("\n【エラー：項目以外の内容の入力】");
+			System.out.println("0〜2の番号を入力してください。\n");
+			}
+		}
+		sc.close();
 	}
 }
  

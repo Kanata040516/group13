@@ -63,7 +63,7 @@ public class Item {
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("どの項目を検索しますか？\n "
 						+ "操作したい番号をお選びください。\n");
-				System.out.println("1.商品 \n" + "2.価格\n" + "3.商品名\n" + 
+				System.out.println("1.商品番号 \n" + "2.価格\n" + "3.商品名\n" + 
 						"4.商品分類番号\n" + "5.一覧表示\n" +  "6.閲覧選択画面\n\n" + "0.メニュー画面(ID、パスワード入力)" );
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");	
 				System.out.print("番号を入力 ： ");

@@ -6,7 +6,6 @@ import nanamori.Menu_employee;
 import nanamori.Menu_master;
 import shimizu.Select;
 import yoshida.Judge_pass_id;
-import yoshida.Main;
 
 public class Item {
 	
@@ -64,8 +63,8 @@ public class Item {
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 				System.out.println("どの項目を検索しますか？\n "
 						+ "操作したい番号をお選びください。\n");
-				System.out.println("0.ホーム画面\n" + "1.商品 \n" + "2.価格\n" + 
-				"3.商品名\n" + "4.商品分類番号\n" + "5.一覧表示\n" + "6.メニュー画面\n" );
+				System.out.println("1.商品 \n" + "2.価格\n" + "3.商品名\n" + 
+						"4.商品分類番号\n" + "5.一覧表示\n" +  "6.閲覧選択画面\n\n" + "0.メニュー画面(ID、パスワード入力)" );
 				System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");	
 				System.out.print("番号を入力 ： ");
 				menu = sc1.nextInt();
@@ -73,13 +72,14 @@ public class Item {
 				if  (menu == 1 ||menu == 2 ||menu == 3 || menu == 4 || menu == 5) {
 					break; //ループを抜けて詳細画面へ
 				} else if (menu == 0) {
-					Main.main(null) ; //ホーム画面へ
+					Judge_pass_id j =new Judge_pass_id(); 
+					j.judge();//パスワード入力画面へ
 				} else if (menu == 6) {
 					Menu_employee employee = new Menu_employee(); 
-					employee.menu_employee(); //メニュー画面へ
+					employee.menu_employee(); //閲覧選択画面へ
 				} else {
 					System.out.println("\n【エラー：項目以外の内容の入力】");
-					System.out.println("0〜5の番号を入力してください。\n");
+					System.out.println("0〜6の番号を入力してください。\n");
 				}
 		}
 			

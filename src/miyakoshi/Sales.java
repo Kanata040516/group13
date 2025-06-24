@@ -5,7 +5,6 @@ import nanamori.Menu_employee;
 import nanamori.Menu_master;
 import shimizu.Select;
 import yoshida.Judge_pass_id;
-import yoshida.Main;
 
 public class Sales {
  
@@ -48,7 +47,7 @@ public class Sales {
 	    }
 		startDate = year + "-" + String.format("%02d", month) + "-" + String.format("%02d", date);
 		return startDate;
-	}//while
+	}//startDate
 	
 	public String lastDate() {
 		if(!(lastDate == null)) {
@@ -123,8 +122,8 @@ public class Sales {
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー");
 			System.out.println("どの項目を検索しますか？\n "
 					+ "操作したい番号をお選びください。\n");
-			System.out.println("0.ホーム画面\n" + "1.月次\n" + "2.日次\n" +
-			"3.顧客名と月次\n" + "4.顧客名と日次\n" + "5.メニュー画面\n");
+			System.out.println("1.月次\n" + "2.日次\n" +"3.顧客名と月次\n" + 
+					"4.顧客名と日次\n" + "5.閲覧選択画面\n\n" + "0.メニュー画面(ID、パスワード入力)");
 			System.out.println("ーーーーーーーーーーーーーーーーーーーーーー\n");
 			
 			System.out.print("番号を入力 ： ");
@@ -133,10 +132,11 @@ public class Sales {
 			if ( menu == 1 ||menu == 2 || menu == 3 || menu == 4 ) {
 				break; //ループを抜けて詳細画面へ
 				} else if (menu == 0) {
-				  Main.main(null) ;//ホーム画面へ
+					Judge_pass_id j = new Judge_pass_id();
+				  j.judge();//パスワード入力画面へ
 				  } else if (menu == 5) {
 					  Menu_employee employee = new Menu_employee();
-						employee.menu_employee(); //メニュー画面へ
+						employee.menu_employee(); //閲覧選択画面へ
 						} else {
 							System.out.println("\n【エラー：項目以外の内容の入力】");
 							System.out.println("0〜5の番号を入力してください。\n");

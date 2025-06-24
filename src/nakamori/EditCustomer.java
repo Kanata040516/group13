@@ -27,7 +27,7 @@ public class EditCustomer {
 	  	  System.out.println( "編集メニューを選択してください" ) ;
 	  	  System.out.println( "1: 追加" ) ;
 	  	  System.out.println( "2: 更新" ) ;
-	  	  System.out.println( "3: 削除" ) ;
+	  	  //System.out.println( "3: 削除" ) ;
 	  	  System.out.println( "番号を入力：" ) ;
 	  	
 	        menuEdit = Integer.parseInt( sc.nextLine() ) ;
@@ -40,13 +40,13 @@ public class EditCustomer {
 	      	  update() ;
 	      	  break;
 	        }
-	        else if ( menuEdit == 3 ) {
-	      	  delete() ;
-	      	  break;
-	        } 
+	      //  else if ( menuEdit == 3 ) {
+	      //	  delete() ;
+	      //	  break;
+	      //  } 
 	        else {
 	      	  System.out.println("\n【エラー：項目以外の内容の入力】");
-	  			System.out.println("1〜3の番号を入力してください。\n");
+	  			System.out.println("1か2の番号を入力してください。\n");
 	        }
 	  	}//while
 
@@ -259,7 +259,7 @@ public class EditCustomer {
 
     //-------------------------------------------
   	// 顧客情報を削除するメソッド
-  	public static void delete() {
+	public static void delete() {
 	Scanner sc = new Scanner(System.in) ;
 	
 	Select.selectCustomer(4, null);
@@ -301,6 +301,7 @@ public class EditCustomer {
 			}
 		}
 		catch ( Exception e ) {
+			//System.out.println(e);//debug
 			System.out.println(Text.tryCatch);
 		}
 		finally {

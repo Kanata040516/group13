@@ -275,7 +275,7 @@ public class Select {
 						String group = rs.getString("customer_group_name");//店舗形態
 						String name = rs.getString("customer_name");//顧客名
 						
-						System.out.printf("%4s: [%s]  %s店\n",id,group,name);
+						System.out.printf("%4s: [%s]  %s\n",id,group,name);
 						count++;//データ件数を数える
 						}
 					return count; // 見つかった数など

@@ -34,22 +34,22 @@ public class Menu_employee {
 			
 			else if(mainmenu == 1) {//注文管理画面に移動
 				System.out.println("注文管理画面に移動します。\n ");
-				Receipt.menuReceipt(0, null);
+				Receipt.menuReceipt();
 			}
 			
 			else if(mainmenu == 2) {//顧客管理画面に移動
 				System.out.println("顧客管理画面に移動します\n 。");
-				Customer.menuCustomer(0,null);
+				Customer.menuCustomer();
 			}
 			
 			else if(mainmenu == 3) {//商品管理画面に移動。
 				System.out.println("商品管理画面に移動します。\n ");
-				Item.menuItem(0,null);
+				Item.menuItem();
 			}
 			
 			else if(mainmenu == 4) {//売上管理画面に移動.
 				System.out.println("売上管理画面に移動します。\n ");
-				Sales.menuSales(null,0);
+				Sales.menuSales();
 			}
 			
 			else if(mainmenu == 5 && mastermove == true){//店長が操作している時＋mainmenuが5の時にもう一度処理を行う。

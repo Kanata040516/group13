@@ -12,7 +12,7 @@ public class Receipt {
 		static int menu ;  //0-6, 注文検索の項目
 		static String  search ;//注文検索の内容
 		
-		public static void menuReceipt (int menu, String Receipt) {
+		public static void menuReceipt () {
 			
 			Scanner sc1 = new Scanner (System.in); //項目を選択
 			
@@ -130,7 +130,7 @@ public class Receipt {
 				break;
 			}
 			else if(move == 1) {
-				menuReceipt(0,null);
+				menuReceipt();
 				break;
 			}
 			else if(move == 2) {

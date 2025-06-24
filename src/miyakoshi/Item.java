@@ -53,7 +53,7 @@ public class Item {
 			return maxPrice;
 		}
 		
-		public static void menuItem(int menu, String search) {
+		public static void menuItem() {
 			
 			Scanner sc1 = new Scanner(System.in); //項目を選択
 			
@@ -168,7 +168,7 @@ public class Item {
 			else if(move == 1) {
 				minPrice = -1;
 				maxPrice = -1;
-				menuItem(0,null);
+				menuItem();
 				break;
 			}
 			else if(move == 2) {

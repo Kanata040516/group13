@@ -301,6 +301,7 @@ public class EditCustomer {
 			}
 		}
 		catch ( Exception e ) {
+			//System.out.println(e);//debug
 			System.out.println(Text.tryCatch);
 		}
 		finally {

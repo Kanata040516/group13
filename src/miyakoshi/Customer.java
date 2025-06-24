@@ -12,7 +12,7 @@ public class Customer {
 	static int menu;  //0-6, 注文検索の項目
 	static String  search ;//注文検索の内容
 
-		public static void menuCustomer(int menu, String search) {
+		public static void menuCustomer() {
 			
 			Scanner sc1 = new Scanner(System.in); //項目を選択
 			
@@ -92,7 +92,7 @@ public class Customer {
 				break;
 			}
 			else if(move == 1) {
-				menuCustomer(0,null);
+				menuCustomer();
 				break;
 			}
 			else if(move == 2) {

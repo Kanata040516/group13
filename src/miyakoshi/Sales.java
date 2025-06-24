@@ -114,7 +114,7 @@ public class Sales {
 		return Customer;
 	}
 	
-	public static void menuSales(String date, int menu) {
+	public static void menuSales() {
 		
 		while(true) {
 			Scanner sc = new Scanner(System.in); //項目を選択
@@ -253,7 +253,7 @@ public class Sales {
 			startDate = null;
 			lastDate = null;
 			Month = null;
-			menuSales(null,0);
+			menuSales();
 			break;
 		}
 		else if(move == 2) {
